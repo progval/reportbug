@@ -749,7 +749,7 @@ def main():
                     editor='', offline=False, verify=True, check_uid=True,
                     testmode=False, attachments=[], keyid='', body=None,
                     bodyfile=None, smtptls=False, smtpuser='', smtppasswd='',
-                    paranoid=False)
+                    paranoid=False, mbox_reader_cmd=None)
 
     # Convention: consider `option.foo' names read-only; they always contain
     # the original value as determined by the cascade of command-line options
@@ -952,6 +952,8 @@ def main():
     parser.add_option('--no-tags-menu', dest="tagsmenu", default=True,
                       action='store_false',
                       help='don\'t show tags menu')
+    parser.add_option('--mbox-reader-cmd', dest='mbox_reader_cmd',
+                      help="Specify the program to open the reports mbox.")
 
     (options, args) = parser.parse_args()
 
@@ -1312,7 +1314,8 @@ class UI(object):
                     exinfo = ui.show_report(report, 'debian', self.options.mirrors,
                                           self.options.http_proxy, self.options.timeout, queryonly=True,
                                           title=VERSION,
-                                          archived=False)
+                                          archived=False,
+                                          mbox_reader_cmd=self.options.mbox_reader_cmd)
                     if foundpackage:
                         package = foundpackage
                     if not exinfo:
@@ -1629,7 +1632,9 @@ class UI(object):
                                              self.options.http_proxy,
                                              source=src,
                                              queryonly=self.options.queryonly,
-                                             version=pkgversion)
+                                             version=pkgversion,
+                                             mbox_reader_cmd=
+                                                 self.options.mbox_reader_cmd)
             except UINotImplemented:
                 exinfo = None
             except NoNetwork:

@@ -866,7 +866,8 @@ class HandleBTSQueryPage (TreePage):
     value_column = 0
 
     def sync_pre_operation (self, package, bts, timeout, mirrors=None, http_proxy="", queryonly=False, screen=None,
-                            archived='no', source=False, title=None, version=None, buglist=None):
+                            archived='no', source=False, title=None,
+                            version=None, buglist=None, mbox_reader_cmd=None):
         self.bts = bts
         self.mirrors = mirrors
         self.http_proxy = http_proxy

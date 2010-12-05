@@ -532,7 +532,8 @@ def show_report(number, system, mirrors,
 
 def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, screen=None, title="", archived='no',
-                     source=False, version=None, mbox=False, buglist=None):
+                     source=False, version=None, mbox=False, buglist=None,
+                     mbox_reader_cmd=None):
     from reportbug import debianbts
 
     sysinfo = debianbts.SYSTEMS[bts]

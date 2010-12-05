@@ -53,12 +53,14 @@ def main():
     defaults = dict(system = 'debian', archived = False,
                     http_proxy = '', interface = 'text',
                     use_browser = False, source = False,
-                    mirrors = None, mbox = False,  buglist = False)
+                    mirrors = None, mbox = False,  buglist = False,
+                    mbox_reader_cmd = None)
 
     # parse config file to update default options
     args = utils.parse_config_files()
     for option, arg in args.items():
-        if option in ('system', 'mirrors', 'interface', 'http_proxy'):
+        if option in ('system', 'mirrors', 'interface', 'http_proxy',
+                      'mbox_reader_cmd'):
             defaults[option] = arg
 
     # define the cli options parser
@@ -90,6 +92,8 @@ def main():
                       help='Specify the user interface to use; available values: %s ' % ', '.join(AVAILABLE_UIS.keys()))
     parser.add_option('-w', '--web', action='store_true', dest='use_browser',
                       help='Use a web browser instead of the internal interface.')
+    parser.add_option('--mbox-reader-cmd', dest='mbox_reader_cmd',
+                      help="Specify the program to open the reports mbox.")
 
 
     # parse cli options
@@ -201,7 +205,8 @@ def main():
                                           options.http_proxy, options.timeout,
                                           queryonly=True,
                                           title=VERSION,
-                                          archived=options.archived)
+                                          archived=options.archived,
+                                          mbox_reader_cmd=options.mbox_reader_cmd)
                     ui.long_message('This option is not available while using querybts alone.\n')
                     x = ui.select_options('What do you want to do now?', 'Qb',
                                           {'q': 'Exit querybts.',
@@ -213,7 +218,8 @@ def main():
         while 1:
             ui.handle_bts_query(package, options.system, options.timeout, options.mirrors, options.http_proxy,
                                 queryonly=True, title=VERSION, archived=options.archived,
-                                source=options.source, buglist=options.buglist)
+                                source=options.source, buglist=options.buglist,
+                                mbox_reader_cmd=options.mbox_reader_cmd)
             ui.long_message('This option is not available while using querybts alone.\n')
             x = ui.select_options('What do you want to do now?', 'Qb',
                                   {'q': 'Exit querybts.',

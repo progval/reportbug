@@ -43,6 +43,7 @@ from reportbug.exceptions import (
     InvalidRegex,
     )
 from reportbug.urlutils import launch_browser
+import reportbug.utils
 
 ISATTY = sys.stdin.isatty()
 charset = 'us-ascii'
@@ -104,6 +105,20 @@ if readline is not None:
         readline.set_completer_delims(' ')
     except:
         pass
+
+def _launch_mbox_reader(mbox_reader_cmd, bts, bugs, number, mirrors, archived,
+                        mbox, http_proxy, timeout):
+    try:
+        number = int(number)
+        if number not in bugs and 1 <= number <= len(bugs):
+            number = bugs[number-1]
+        reportbug.utils.launch_mbox_reader(mbox_reader_cmd,
+            debianbts.get_report_url(
+                bts, number, mirrors, archived, mbox), http_proxy,
+            timeout)
+    except ValueError:
+        ewrite('Invalid report number: %s\n',
+               number)
 
 class our_completer(object):
     def __init__(self, completions=None):
@@ -389,7 +404,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 # Things that are very UI dependent go here
 def show_report(number, system, mirrors,
                 http_proxy, timeout, screen=None, queryonly=False, title='',
-                archived='no'):
+                archived='no', mbox_reader_cmd=None):
     sysinfo = debianbts.SYSTEMS[system]
     ewrite('Retrieving report #%d from %s bug tracking system...\n',
            number, sysinfo['name'])
@@ -445,7 +460,7 @@ def show_report(number, system, mirrors,
                     raise
         skip_pager = False
 
-        options = 'xOrbq'
+        options = 'xOrbeq'
 
         if (current_message+1) < len(messages):
             options = 'N'+options.lower()
@@ -459,6 +474,7 @@ def show_report(number, system, mirrors,
                             'n' : 'Show next message (followup).',
                             'p' : 'Show previous message (followup).',
                             'r' : 'Redisplay this message.',
+                            'e' : 'Launch e-mail client to read full log.',
                             'b' : 'Launch web browser to read '
                             'full log.',
                             'q' : "I'm bored; quit please."},
@@ -471,6 +487,12 @@ def show_report(number, system, mirrors,
             launch_browser(debianbts.get_report_url(
                 system, number, mirrors, archived))
             skip_pager = True
+        elif x == 'e':
+            reportbug.utils.launch_mbox_reader(mbox_reader_cmd,
+                debianbts.get_report_url(
+                    system, number, mirrors, archived, True), http_proxy,
+                    timeout)
+            skip_pager = True
         elif x == 'o':
             break
         elif x == 'n':
@@ -481,7 +503,8 @@ def show_report(number, system, mirrors,
 
 def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
-                     source=False, version=None, mbox=False, buglist=None):
+                     source=False, version=None, mbox=False, buglist=None,
+                     mbox_reader_cmd=None):
     root = debianbts.SYSTEMS[bts].get('btsroot')
     if not root:
         ewrite('%s bug tracking system has no web URL; bypassing query\n',
@@ -574,7 +597,8 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             ewrite('%d bug reports found:\n\n', count)
 
         return browse_bugs(hierarchy, count, bugs, bts, queryonly,
-                           mirrors, http_proxy, timeout, screen, title, package)
+                           mirrors, http_proxy, timeout, screen, title, package,
+                           mbox_reader_cmd)
 
     except (IOError, NoNetwork):
         ewrite('Unable to connect to %s BTS; ', debianbts.SYSTEMS[bts]['name'])
@@ -585,7 +609,7 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             raise NoNetwork
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
-                http_proxy, timeout, screen, title, package):
+                http_proxy, timeout, screen, title, package, mbox_reader_cmd):
     try:
         output_encoding = locale.getpreferredencoding()
     except locale.Error, msg:
@@ -630,8 +654,8 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                 if endcount == count:
                     skipmsg = ''
 
-                options = 'yNbmrqsf'
-                if queryonly: options = 'Nbmrqf'
+                options = 'yNbmrqsfe'
+                if queryonly: options = 'Nbmrqfe'
 
                 rstr = "(%d-%d/%d) " % (startcount, endcount, count)
                 pstr = rstr + "Is the bug you found listed above"
@@ -651,6 +675,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                     'q' : "I'm bored; quit please.",
                     's' : 'Skip remaining problems; file a new '
                     'report immediately.',
+                    'e' : 'Open the report using an e-mail client.',
                     'f' : 'Filter bug list using a pattern.'}
                 if skipmsg:
                     helptext['n'] = helptext['n'][:-1]+' (skip to Next page).'
@@ -699,11 +724,19 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
 		    elif x == 'f':
 			# Do filter. Recursive done.
 			retval = search_bugs(hierarchy,bts, queryonly, mirrors,
-                                             http_proxy, timeout, screen, title, package)
+                                             http_proxy, timeout, screen, title,
+                                             package, mbox_reader_cmd)
 			if retval in ["FilterEnd", "Top"]:
 			    continue
 			else:
 			    return retval
+                    elif x == 'e':
+                        number = our_raw_input('Please enter the number of the '
+                            'bug you would like to view: #',
+                            allowed)
+                        _launch_mbox_reader(mbox_reader_cmd, bts, bugs, number,
+                                            mirrors, 'no', True, http_proxy,
+                                            timeout)
                     else:
                         if x == 'm' or x == 'i':
                             if len(bugs) == 1:
@@ -728,7 +761,8 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                                                   http_proxy, timeout,
                                                   queryonly=queryonly,
                                                   screen=screen,
-                                                  title=title)
+                                                  title=title,
+                                                  mbox_reader_cmd=mbox_reader_cmd)
                                 if res:
                                     return res
                             except ValueError:
@@ -768,7 +802,7 @@ def proc_hierarchy(hierarchy):
     return count, bugs
 
 def search_bugs(hierarchyfull, bts, queryonly, mirrors,
-                http_proxy, timeout, screen, title, package):
+                http_proxy, timeout, screen, title, package, mbox_reader_cmd):
     """Search for the bug list using a pattern."""
     """Return string "FilterEnd" when we are done with search."""
 
@@ -838,8 +872,8 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                 if endcount == count:
                     skipmsg = ''
 
-                options = 'yNbmrqsfut'
-                if queryonly: options = 'Nmbrqfut'
+                options = 'yNbmrqsfute'
+                if queryonly: options = 'Nmbrqfute'
 
                 rstr = "(%d-%d/%d) " % (startcount, endcount, count)
                 pstr = rstr + "Is the bug you found listed above"
@@ -861,6 +895,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                     'report immediately.',
 		    'f' : 'Filter (search) bug list using a pattern.',
 		    'u' : 'Up one level of filter.',
+                    'e' : 'Open the report using an e-mail client.',
 		    't' : 'Top of the bug list (remove all filters).'}
                 if skipmsg:
                     helptext['n'] = helptext['n'][:-1]+' (skip to Next page).'
@@ -905,7 +940,8 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 		    elif x == 'f':
 			# Do filter. Recursive done.
 			retval = search_bugs(hierarchy, bts, queryonly, mirrors,
-			    http_proxy, timeout, screen, title, package)
+			    http_proxy, timeout, screen, title, package,
+                            mbox_reader_cmd)
 			if retval == "FilterEnd":
 			    continue
 			else:
@@ -916,6 +952,13 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 		    elif x == 't':
 			# go back to the Top level.
 			return "Top"
+                    elif x == 'e':
+                        number = our_raw_input('Please enter the number of the '
+                            'bug you would like to view: #',
+                            allowed)
+                        _launch_mbox_reader(mbox_reader_cmd, bts, bugs, number,
+                                            mirrors, 'no', True, http_proxy,
+                                            timeout)
                     else:
                         if x == 'm' or x == 'i':
                             number = our_raw_input(

@@ -43,6 +43,7 @@ import rfc822
 import socket
 import subprocess
 
+from urlutils import open_url
 from string import ascii_letters, digits
 
 # Paths for dpkg
@@ -784,7 +785,7 @@ CONFIG_ARGS = (
     'sign', 'nocc', 'nocompress', 'dontquery', 'noconf', 'mirrors', 'keyid',
     'headers', 'interface', 'template', 'mode', 'check_available', 'query_src',
     'printonly', 'offline', 'check_uid', 'smtptls', 'smtpuser', 'smtppasswd',
-    'paranoid')
+    'paranoid', 'mbox_reader_cmd')
 
 class Mua:
     command = ""
@@ -919,7 +920,8 @@ def parse_config_files():
                     args[token] = True
                 elif token in ('email', 'realname', 'replyto', 'http_proxy',
                                'smtphost', 'editor', 'mua', 'mta', 'smtpuser',
-                               'smtppasswd', 'justification', 'keyid'):
+                               'smtppasswd', 'justification', 'keyid',
+                               'mbox_reader_cmd'):
                     bit = lex.get_token()
                     args[token] = bit.decode('utf-8', 'replace')
                 elif token in ('no-smtptls', 'smtptls'):
@@ -1079,3 +1081,28 @@ def cleanup_msg(dmessage, headers, pseudos, type):
                 ph += ['%s: %s' % (header, ph2[header])]
 
     return message, newheaders, ph
+
+def launch_mbox_reader(cmd, url, http_proxy, timeout):
+    """Runs the command specified by cmd passing the mbox file
+    downloaded from url as a parameter. If cmd is None or fails, then
+    fallback to mail program."""
+    mbox = open_url(url, http_proxy, timeout)
+    if mbox is None:
+        return
+    (fd, fname) = TempFile()
+    try:
+        for line in mbox:
+            fd.write(line)
+        fd.close()
+        if cmd is not None:
+            try:
+                cmd = cmd % fname
+            except TypeError:
+                cmd = "%s %s" % (cmd, fname)
+            error = os.system(cmd)
+            if not error:
+                return
+        #fallback
+        os.system('mail -f ' + fname)
+    finally:
+        os.unlink(fname)
