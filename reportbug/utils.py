@@ -760,7 +760,7 @@ def get_cpu_cores():
     for line in fob:
         if line.startswith('processor'):
             cpucount += 1
-	#Alpha plateform
+	#Alpha platform
 	if line.startswith('cpus detected'):
 	    cpucount = int(line.split()[-1])
     fob.close()

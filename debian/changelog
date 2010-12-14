@@ -10,8 +10,11 @@ reportbug (4.99.0) UNRELEASED; urgency=low
       'Section' information, reorganized ftp.d.o code to support 'override'
       along with normal RM requests; thanks to Emilio Pozuelo Monfort for the
       report; Closes: #568980
+  * reportbug/utils.py
+    - fixed a typo; thanks to Jakub Wilk for the report and patch;
+      Closes: #599363
 
- -- Sandro Tosi <morph@debian.org>  Thu, 02 Dec 2010 01:16:32 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 15 Dec 2010 00:01:44 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 
