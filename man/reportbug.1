@@ -131,6 +131,12 @@ name or comment part, like \fBfoo@example.com\fP).  This setting will
 override the \fBEMAIL\fP and \fBDEBEMAIL\fP environment variables, but
 not \fBREPORTBUGEMAIL\fP.
 .TP
+.B \-\-mbox\-reader\-cmd=MBOX_READER_CMD
+Specify a command to open the bug reports mbox file. You can use
+\fB%s\fP to substitute the mbox file to be used, and \fB%%\fP to insert
+a literal percent sign. If no \fB%s\fP is specified, the mbox file name
+is supplied at the end of the argument list.
+.TP
 .B \-\-exit\-prompt
 Display a prompt before exiting; this is useful if \fBreportbug\fP is
 run in a transient terminal (i.e. from its Debian menu entry).

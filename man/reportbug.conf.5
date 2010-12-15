@@ -93,6 +93,15 @@ variables, see \fBreportbug(1)\fP). Example:
 \fBemail\fP \fI"humberto@example.com"\fP
 
 .TP
+.B mbox_reader_cmd
+Specify a command to open the bug reports mbox file. You can use
+\fB%s\fP to substitute the mbox file to be used, and \fB%%\fP to insert
+a literal percent sign. If no \fB%s\fP is specified, the mbox file name
+is supplied at the end of the argument list. Example:
+
+\fBmbox_reader_cmd\fP \fI"mutt -f %s"\fP
+
+.TP
 .B header
 Additional headers to add to the bug email.  Like:
 
