@@ -47,3 +47,22 @@ class TestDebianbts(unittest2.TestCase):
         self.assertItemsEqual(debianbts.get_tags('non-critical', utils.MODE_EXPERT).keys(), ['sid', 'lenny', 'l10n', 'd-i', 'ipv6', 'patch', 'lfs', 'upstream', 'squeeze', 'experimental'])
         self.assertItemsEqual(debianbts.get_tags('minor', utils.MODE_EXPERT).keys(), ['sid', 'lenny', 'l10n', 'd-i', 'ipv6', 'patch', 'lfs', 'upstream', 'squeeze', 'experimental'])
         self.assertItemsEqual(debianbts.get_tags('wishlist', utils.MODE_EXPERT).keys(), ['sid', 'lenny', 'l10n', 'd-i', 'ipv6', 'patch', 'lfs', 'upstream', 'squeeze', 'experimental'])
+
+
+class TestInfofunc(unittest2.TestCase):
+
+    def test_dpkg_infofunc(self):
+        info = debianbts.dpkg_infofunc()
+        self.assertIn('Architecture:', info)
+
+    def test_debian_infofunc(self):
+        info = debianbts.debian_infofunc()
+        self.assertIn('Architecture:', info)
+
+    def test_ubuntu_infofunc(self):
+        info = debianbts.ubuntu_infofunc()
+        self.assertIn('Architecture:', info)
+
+    def test_generic_infofunc(self):
+        info = debianbts.generic_infofunc()
+        self.assertIn('Architecture:', info)
