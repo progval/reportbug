@@ -1080,7 +1080,10 @@ class DisplayReportPage (Page):
         return scrolled
 
     def execute (self, message, *args):
-        self.view.get_buffer().set_text (message % args)
+        # 'use' args only if it's passed
+        if args:
+            message = message % args
+        self.view.get_buffer().set_text(message)
 
 class LongMessagePage (Page):
     default_complete = True
