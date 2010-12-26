@@ -13,6 +13,8 @@ reportbug (4.99.0) UNRELEASED; urgency=low
   * reportbug/utils.py
     - fixed a typo; thanks to Jakub Wilk for the report and patch;
       Closes: #599363
+    - call dpkg with '--print-architecture' option to get the arch; thanks to
+      Jakub Wilk for the report; Closes: #599362
   * reportbug/debianbts.py, test/test_debianbts.py
     - fix os.uname() call in generic_infofunc() method, also adding unit tests
       for it; thanks to Yaroslav Halchenko for report and patch; Closes: #607849
@@ -20,7 +22,7 @@ reportbug (4.99.0) UNRELEASED; urgency=low
     - commands.getoutput() strips tailing new line, so adding one to
       lsb_release_info; thanks to Yaroslav Halchenko for (partial) patch
 
- -- Sandro Tosi <morph@debian.org>  Sun, 26 Dec 2010 12:09:03 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 26 Dec 2010 15:56:52 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 

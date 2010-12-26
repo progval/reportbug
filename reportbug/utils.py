@@ -721,7 +721,7 @@ def lsb_release_info():
     return commands.getoutput('lsb_release -a 2>/dev/null') + '\n'
 
 def get_arch():
-    arch = commands.getoutput('COLUMNS=79 dpkg --print-installation-architecture 2>/dev/null')
+    arch = commands.getoutput('COLUMNS=79 dpkg --print-architecture 2>/dev/null')
     if not arch:
         un = os.uname()
         arch = un[4]
