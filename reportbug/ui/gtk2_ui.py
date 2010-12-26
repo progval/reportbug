@@ -601,7 +601,9 @@ class IntroPage (Page):
         label = gtk.Label ("""
 <b>Reportbug</b> is a tool designed to make the reporting of bugs in Debian and derived distributions relatively painless.
 
-This wizard will guide you through the bug reporting process step by step.""")
+This wizard will guide you through the bug reporting process step by step.
+
+<b>Note:</b> bug reports are publicly archived (including the email address of the submitter).""")
         label.set_use_markup (True)
         label.set_line_wrap (True)
         label.set_justify (gtk.JUSTIFY_FILL)

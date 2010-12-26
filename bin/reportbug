@@ -1235,6 +1235,9 @@ class UI(object):
         tfprefix = tempfile_prefix(package)
         if self.options.interface == 'text':
             ewrite('*** Welcome to reportbug.  Use ? for help at prompts. ***\n')
+        # we show this for the 2 "textual" UIs
+        if self.options.interface in ('text', 'urwid'):
+            ewrite('Note: bug reports are publicly archived (including the email address of the submitter).\n')
 
         try:
             blah = u'hello'.encode(charset)

@@ -21,8 +21,11 @@ reportbug (4.99.0) UNRELEASED; urgency=low
   * reportbug/utils.py
     - commands.getoutput() strips tailing new line, so adding one to
       lsb_release_info; thanks to Yaroslav Halchenko for (partial) patch
+  * bin/reportbug, reportbug/ui/gtk2_ui.py
+    - warn that bug reports are publicly archive (email address included);
+      thanks to Holger Levsen for the report; Closes: #605892
 
- -- Sandro Tosi <morph@debian.org>  Sun, 26 Dec 2010 15:56:52 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 26 Dec 2010 18:39:43 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 
