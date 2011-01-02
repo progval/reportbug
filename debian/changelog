@@ -27,8 +27,11 @@ reportbug (4.99.0) UNRELEASED; urgency=low
     - fix a crash in case when the pre-subject text contains '%', that got
       interpreted as special sequences; thanks to Mike Miller for the report and
       patch; Closes: #594354
+  * add feature to retrieve a mbox of a bug report and open it in a MUA; thanks
+    to Josh Triplett for the report and to Rafael Cunha de Almeida for the
+    patch; Closes: #458735
 
- -- Sandro Tosi <morph@debian.org>  Mon, 27 Dec 2010 00:02:20 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 02 Jan 2011 18:09:18 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 
