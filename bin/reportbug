@@ -211,7 +211,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                 if itp_line in message and itp_line != '':
                     ewrite("Wrong line: %s\n", itp_line)
                     menuopts = "Eq"
-                    prompt = 'ERROR: you have composed an ITP with fields unchanged from the template; this will NOT be submitted. You should edit all fields so they contain correct values for your ITP (e to edit)'
+                    prompt = 'ERROR: you have composed a WNPP bug report with fields unchanged from the template; this will NOT be submitted. Please edit all fields so they contain correct values (e to edit)'
 
         if options.outfile:
             yesmessage = 'Save the report into %s .' % options.outfile
