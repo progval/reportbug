@@ -569,7 +569,10 @@ def get_package_info(packages, skip_notfound=False):
                 stat = statob.search(p).group('stat')
                 sinfo = stat.split()
                 stat = sinfo[0][0] + sinfo[2][0]
-                if stat[1] != 'i':
+                # check if the package is installed, and in that case, retrieve
+                # its information; if the first char is not 'i' (installed),
+                # then skip data retrieval
+                if stat[0] != 'i':
                     continue
 
                 if m.group('hdr') == 'Provides':
