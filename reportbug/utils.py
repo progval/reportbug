@@ -741,10 +741,12 @@ def generate_blank_report(package, pkgversion, severity, justification,
 
     sysinfo = (package not in ('wnpp', 'ftp.debian.org'))
 
+    # followup is where bugreport expects the notification of the bug reportbug
+    # to follow-up, but reportbug pass this information with 'exinfo'
     rep = bugreport.bugreport(package, version=pkgversion, severity=severity,
                               justification=justification, filename=foundfile,
                               mode=mode, subject=subject, tags=tags, body=body,
-                              pseudoheaders=pseudos, exinfo=exinfo, type=type,
+                              pseudoheaders=pseudos, followup=exinfo, type=type,
                               system=system, depinfo=depinfo, sysinfo=sysinfo,
                               confinfo=confinfo, incfiles=incfiles,
                               debsumsoutput=debsumsoutput, issource=issource)
