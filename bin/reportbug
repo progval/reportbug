@@ -265,7 +265,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         elif x == 'd':
             skip_editing = True
             if not attachments:
-                ewrite('No attachment file to detached.\n')
+                ewrite('No attachment file to detach.\n')
             else:
                 detachprompt = 'Choose an attachment file to detach (an empty line will exit): '
                 myattachments = []
