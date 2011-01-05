@@ -242,9 +242,14 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                 else:
                     attachfile = ui.get_filename('Choose a file to attach: ')
                 if attachfile:
+                    # expand vars & glob the input string
                     attachfile = os.path.expanduser(attachfile)
+                    attachfglob = glob(attachfile)
+                    # check if the globbing returns any result
+                    if not attachfglob:
+                        ui.display_failure("Can't find %s to include!\n", attachfile)
                     # loop over the globbed 'attachfile', you can specify wildcards now
-                    for attachf in glob(attachfile):
+                    for attachf in attachfglob:
                         if os.access(attachf, os.R_OK) and os.path.isfile(attachf):
                             invalid = False
                             inline = (x == 'i')
@@ -254,7 +259,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                             if not inline:
                                 skip_editing = True
                         else:
-                            ui.display_failure("Can't find %s to include!\n", attachf)
+                            ui.display_failure("Cannot include %s!\n", attachf)
                 else:
                     break
         elif x == 'd':
