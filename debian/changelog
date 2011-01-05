@@ -33,6 +33,9 @@ reportbug (4.99.0) UNRELEASED; urgency=low
     - fix a crash in case when the pre-subject text contains '%', that got
       interpreted as special sequences; thanks to Mike Miller for the report and
       patch; Closes: #594354
+    - some text is already "wrapped" in the code, so let's recompose it on a
+      single-line so that GTK+ widgets wrap&fill shows a nice output; thanks to
+      Éric Araujo for the report; Closes: #564449
   * add feature to retrieve a mbox of a bug report and open it in a MUA; thanks
     to Josh Triplett for the report and to Rafael Cunha de Almeida for the
     patch; Closes: #458735
@@ -51,7 +54,7 @@ reportbug (4.99.0) UNRELEASED; urgency=low
     - after filtering thru bugs, don't ask to choose one when there is only one
       bug left; thanks to Braun Gábor for the report; Closes: #600270
 
- -- Sandro Tosi <morph@debian.org>  Wed, 05 Jan 2011 02:13:11 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 05 Jan 2011 10:46:29 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 

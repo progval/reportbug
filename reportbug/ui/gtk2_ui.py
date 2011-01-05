@@ -840,21 +840,26 @@ class MenuPage (TreePage):
         self.view.append_column (gtk.TreeViewColumn ('Description', rend, text=1))
 
         default_iter = None
+        # here below, 'text' is the value of the description of the item, but
+        # writen all on a single-line, it will be wrapped by the list settings
         if isinstance (options, dict):
             if order:
                 for option in order:
                     if option in options:
-                        iter = self.model.append ((highlight (option), options[option]))
+                        text = ' '.join(options[option].split())
+                        iter = self.model.append ((highlight (option), text))
                         if option == default:
                             default_iter = iter
             for option, desc in options.iteritems ():
                 if not order or option not in order:
-                    iter = self.model.append ((highlight (option), desc))
+                    text = ' '.join(desc.split())
+                    iter = self.model.append ((highlight (option), text))
                     if option == default:
                         default_iter = iter
         else:
             for row in options:
-                iter = self.model.append ((highlight (row[0]), row[1]))
+                text = ' '.join(row[1].split())
+                iter = self.model.append ((highlight (row[0]), text))
                 if row[0] == default:
                     default_iter = iter
 
@@ -1101,6 +1106,8 @@ class LongMessagePage (Page):
 
     def execute (self, message, *args):
         message = message % args
+        # make it all on one line, it will be wrapped at display-time
+        message = ' '.join(message.split())
         self.label.set_text (message)
         # Reportbug should use final_message, so emulate it
         if ('999999' in message):
