@@ -1691,13 +1691,26 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                        utils.get_dependency_info(package, suggests, "suggests"))
 
         if reportwith and not self.options.kudos:
+            # retrieve information for the packages listed in 'report-with' bug
+            # control file field
             for extrapackage in reportwith:
                 ewrite("Getting status for related package %s...\n", extrapackage)
                 extrastatus = utils.get_package_status(extrapackage)
+                # depends
                 if extrastatus[2]:
                     extradepends = [x for x in extrastatus[2] if package not in x]
-                    ewrite("Looking up dependencies of related package %s...\n", extrapackage)
+                    ewrite("Looking up 'depends' of related package %s...\n", extrapackage)
                     depinfo += utils.get_dependency_info(extrapackage, extradepends)
+                # recommends
+                if extrastatus[3]:
+                    extrarecommends = [x for x in extrastatus[3] if package not in x]
+                    ewrite("Looking up 'recommends' of related package %s...\n", extrapackage)
+                    depinfo += utils.get_dependency_info(extrapackage, extrarecommends, "recommends")
+                # suggests
+                if extrastatus[15]:
+                    extrasuggests = [x for x in extrastatus[15] if package not in x]
+                    ewrite("Looking up 'suggests' of related package %s...\n", extrapackage)
+                    depinfo += utils.get_dependency_info(extrapackage, extrasuggests, "suggests")
 
         if supplemental and not self.options.kudos:
             ewrite("Looking up status of additional packages...\n")
