@@ -49,8 +49,6 @@ reportbug (4.99.0) UNRELEASED; urgency=low
       Closes: #570939
     - decode subject (if present) using the current charset; thanks to Jakub
       Wilk for the report; Closes: #539736
-    - updated with Russian translations; thanks to Alexander Sashanov for the
-      report and patch; Closes: #608889
     - restore the notification of missing files when including attachement, it
       was lost when globbing was introduced
   * reportbug/ui/text_ui.py
@@ -59,8 +57,11 @@ reportbug (4.99.0) UNRELEASED; urgency=low
   * reportbug/ui/urwid_ui.py
     - errors are now reported as a message dialog (no more hidden in the console
       behind UI); thanks to Brett Nash for the report; Closes: #488071
+  * debian/desktop
+    - updated with Russian translations; thanks to Alexander Sashanov for the
+      report and patch; Closes: #608889
 
- -- Sandro Tosi <morph@debian.org>  Wed, 05 Jan 2011 15:36:45 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 05 Jan 2011 15:39:23 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 
