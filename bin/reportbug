@@ -1086,6 +1086,9 @@ class UI(object):
         severity = self.options.severity
         smtphost = self.options.smtphost
         subject = self.options.subject
+        # decode subject (if present) using the current charset
+        if subject:
+            subject = subject.decode(charset, 'replace')
         bts = self.options.bts or 'debian'
         sysinfo = debianbts.SYSTEMS[bts]
         rtype = self.options.type or sysinfo.get('type')
