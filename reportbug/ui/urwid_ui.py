@@ -49,7 +49,6 @@ except ImportError:
 ISATTY = sys.stdin.isatty()
 
 log_message = ewrite
-display_failure = ewrite
 
 # Start a urwid session
 def initialize_urwid_ui():
@@ -323,6 +322,7 @@ def long_message(message, *args, **kwargs):
 
 final_message = long_message
 display_report = long_message
+display_failure = long_message
 
 def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
                    ui=None, title=None):

@@ -56,8 +56,11 @@ reportbug (4.99.0) UNRELEASED; urgency=low
   * reportbug/ui/text_ui.py
     - after filtering thru bugs, don't ask to choose one when there is only one
       bug left; thanks to Braun Gábor for the report; Closes: #600270
+  * reportbug/ui/urwid_ui.py
+    - errors are now reported as a message dialog (no more hidden in the console
+      behind UI); thanks to Brett Nash for the report; Closes: #488071
 
- -- Sandro Tosi <morph@debian.org>  Wed, 05 Jan 2011 15:29:25 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 05 Jan 2011 15:36:45 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 
