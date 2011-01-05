@@ -920,10 +920,13 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                         if queryonly:
                             return
 
-                        number = our_raw_input(
-                            'Enter the number of the bug report '
-                            'you want to give more info on,\n'
-                            'or press ENTER to exit: #', allowed)
+                        if len(bugs) == 1:
+                            number = '1'
+                        else:
+                            number = our_raw_input(
+                                'Enter the number of the bug report '
+                                'you want to give more info on,\n'
+                                'or press ENTER to exit: #', allowed)
                         while number and number[0] == '#':
                             number=number[1:]
                         if number:
