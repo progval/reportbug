@@ -68,8 +68,9 @@ reportbug (4.99.0) UNRELEASED; urgency=low
     - if BTS type is not 'debbugs' or 'launchpad', issue a warning and default
       to 'debbugs' instead of raising an exception; thanks to Paul Menzel for
       the report; Closes: #609423
+  * extending my copyright information to 2011
 
- -- Sandro Tosi <morph@debian.org>  Tue, 18 Jan 2011 00:58:14 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 18 Jan 2011 22:33:44 +0100
 
 reportbug (4.12.6) unstable; urgency=low
 
