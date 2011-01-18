@@ -30,6 +30,9 @@ import commands
 
 from exceptions import *
 
+# to print errors
+import ui.text_ui as ui
+
 class bugreport(object):
     "Encapsulates a bug report into a convenient object we can pass around."
 
@@ -56,9 +59,11 @@ class bugreport(object):
 
     def tset(self, value):
         if value not in ('debbugs', 'launchpad'):
-            raise AttributeError, 'invalid report type'
-        
-        self.__type = value
+            ui.long_message('invalid report type %s, defaulting to debbugs' %
+                            value)
+            self.__type = 'debbugs'
+        else:
+            self.__type = value
 
     def tget(self):
         return self.__type
