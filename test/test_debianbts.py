@@ -66,3 +66,19 @@ class TestInfofunc(unittest2.TestCase):
     def test_generic_infofunc(self):
         info = debianbts.generic_infofunc()
         self.assertIn('Architecture:', info)
+
+class TestMiscFunctions(unittest2.TestCase):
+
+    def test_yn_bool(self):
+        self.assertEqual(debianbts.yn_bool(None), 'no')
+        self.assertEqual(debianbts.yn_bool('no'), 'no')
+        self.assertEqual(debianbts.yn_bool('yes'), 'yes')
+        self.assertEqual(debianbts.yn_bool('dummy string'), 'yes')
+
+
+#class TestNetwork(unittest2.TestCase):
+#
+#    def test_get_cgi_reports(self):
+#
+#        data = debianbts.get_cgi_reports('reportbug', timeout=60)
+#        self.assertGreater(len(data), 0)

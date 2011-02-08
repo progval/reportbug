@@ -1245,8 +1245,3 @@ def get_report(number, timeout, system='debian', mirrors=None,
 class NullParser(sgmllib.SGMLParser):
     def __init__(self):
         sgmllib.SGMLParser.__init__(self)
-
-if __name__ == '__main__':
-    data = get_cgi_reports('reportbug', timeout=60)
-    pprint.pprint(data)
-    time.sleep(1000)

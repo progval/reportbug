@@ -500,16 +500,3 @@ within an hour; if you haven't received a confirmation, then the bug reporting p
         # Message is misleading if an MUA is used.
         ewrite("A copy of the report is stored as: %s\n" % filename)
     return
-
-def main():
-    'o'
-
-if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        ewrite("\nreportbug: exiting due to user interrupt.\n")
-    except debianbts.Error, x:
-        ewrite('error accessing BTS: %s\n' % x)
-
-# vim:ts=8:sw=4:expandtab

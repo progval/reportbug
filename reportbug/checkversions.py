@@ -269,13 +269,3 @@ def check_available(package, version, timeout, dists=None,
             newer += 1
     too_new = (newer and newer == len(avail))
     return new, too_new
-
-if __name__=='__main__':
-    gc.set_debug(gc.DEBUG_LEAK)
-    print get_newqueue_available('reportbug', timeout=60)
-    print gc.garbage
-    #print check_available('reportbug', timeout=60, '3.7', arch='s390')
-    #print check_available('openssh-server', '1:4.2p1-8', arch='i386')
-    #print check_available('openssh-server', '1:4.2p1-8', arch='kfreebsd-i386')
-    time.sleep(1000)
-    #print check_available('dpkg', '1.10.2', arch='sparc')

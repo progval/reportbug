@@ -182,8 +182,3 @@ def launch_browser(url):
         cmd = "%s %s" % (CONSOLEBROWSER, commands.mkarg(url))
 
     os.system(cmd)
-
-if __name__ == '__main__':
-    page = open_url('http://bugs.debian.org/reportbug')
-    content = page.read()
-    print page.info().headers
