@@ -39,7 +39,7 @@ Description: reports bugs in the Debian distribution
 Package: python-reportbug
 Section: python
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, apt
+Depends: ${misc:Depends}, ${python:Depends}, apt, python-debian
 Suggests: reportbug
 XB-Python-Version: ${python:Versions}
 Description: Python modules for interacting with bug tracking systems

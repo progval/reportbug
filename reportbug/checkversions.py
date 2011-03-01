@@ -39,9 +39,12 @@ from reportbug.exceptions import (
     NoNetwork,
     )
 
+# needed to parse new.822
+from debian.deb822 import Deb822
+
 PACKAGES_URL = 'http://packages.debian.org/%s'
 INCOMING_URL = 'http://incoming.debian.org/'
-NEWQUEUE_URL = 'http://ftp-master.debian.org/new.html'
+NEWQUEUE_URL = 'http://ftp-master.debian.org/new.822'
 
 # The format is an unordered list
 
@@ -122,54 +125,6 @@ class IncomingParser(sgmllib.SGMLParser):
             if mob:
                 self.found.append(mob.group(1))
 
-class NewQueueParser(BaseParser):
-    def __init__(self, package, arch='i386'):
-        BaseParser.__init__(self)
-        self.package = package
-        self.row = None
-        arch = r'\s(all|'+re.escape(arch)+r')\b'
-        self.arch = re.compile(arch)
-        self.versions = {}
-
-    def start_tr (self, attrs):
-        for name, value in attrs:
-            if name == 'class' and value in ("odd", "even"):
-                self.row = []
-
-    def end_tr (self):
-        if self.row is not None:
-            # row (name, versions, architectures, distribution)
-            dist = "%s (new queue)" % self.row[3]
-            for version in self.row[1].split():
-                self.versions[dist] = version
-            self.row = None
-
-    def start_td (self, attrs):
-        if self.row is None:
-            return
-        self.save_bgn()
-
-    def end_td (self):
-        if self.row is None:
-            return
-        data = self.save_end()
-        l = len(self.row)
-        if l == 0:
-            # package name
-            if self.package == data:
-                # found package name
-                self.row.append(data)
-            else:
-                self.row = None
-        elif l == 2:
-            # architecture
-            if self.arch.search(data):
-                self.row.append(data)
-            else:
-                self.row = None
-        else:
-            self.row.append(data)
-
 def compare_versions(current, upstream):
     """Return 1 if upstream is newer than current, -1 if current is
     newer than upstream, and 0 if the same."""
@@ -237,26 +192,15 @@ def get_newqueue_available(package, timeout, dists=None, http_proxy=None, arch='
         return {}
     if not page:
         return {}
-    parser = NewQueueParser(package, arch)
-    for line in page:
-        parser.feed(line)
-    parser.close()
-    try:
-        page.fp._sock.recv = None
-    except:
-        pass
-    page.close()
-
-    #print repr(page)
 
     versions = {}
-    for dist in dists:
-        if dist in parser.versions:
-            versions[dist] = parser.versions[dist]
 
-    del parser
-    del page
-    #print 'HERE', gc.garbage
+    # iter over the entries, one paragraph at a time
+    for para in Deb822.iter_paragraphs(page):
+        if para['Source'] == package:
+            k = para['Distribution'] + ' (' + para['Queue']  + ')'
+            versions[k] = para['Version']
+
     return versions
 
 def get_incoming_version(package, timeout, http_proxy=None, arch='i386'):
