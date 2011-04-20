@@ -5,8 +5,11 @@ reportbug (5.1) UNRELEASED; urgency=low
   * reportbug/checkversions.py, debian/control
     - use new.822 to get information about NEW packages; Closes: #510171
     - added python-debian to python-reportbug Depends, needed to parse new.822
+  * reportbug/debianbts.py
+    - add support for 'wheezy' tag; thanks to Mehdi Dogguy for the report;
+      Closes: #623375
 
- -- Sandro Tosi <morph@debian.org>  Thu, 03 Mar 2011 22:03:14 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 21 Apr 2011 00:14:41 +0200
 
 reportbug (5.0) unstable; urgency=low
 
