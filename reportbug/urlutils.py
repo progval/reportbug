@@ -163,7 +163,7 @@ def open_url(url, http_proxy=None, timeout=60):
     return page
 
 def launch_browser(url):
-    if not os.system('command -v xdg-open &> /dev/null'):
+    if not os.system('command -v xdg-open >/dev/null 2>&1'):
         cmd = 'xdg-open' + commands.mkarg(url)
         os.system(cmd)
         return

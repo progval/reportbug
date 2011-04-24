@@ -16,8 +16,11 @@ reportbug (5.1) UNRELEASED; urgency=low
     - the followup information must be an integer: try to convert it or raise an
       exception; prevents a crash when following-up to an existing report using
       GTK+ UI; thanks to all the reporters; Closes: #619801
+  * reportbug/urlutils.py
+    - make the 'xdg-open' existance check be silent also when sh=dash; thanks to
+      RjY for the report and patch; Closes: #616523
 
- -- Sandro Tosi <morph@debian.org>  Mon, 25 Apr 2011 01:17:51 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 25 Apr 2011 01:40:44 +0200
 
 reportbug (5.0) unstable; urgency=low
 
