@@ -24,3 +24,15 @@ class TestBugreport(unittest2.TestCase):
 
         self.assertIn('Followup-For: Bug #123456', self.text)
         self.assertNotIn('Severity: ', self.text)
+
+        # test also a string as followup, and a datatype unconvertible to int
+        self.report = bugreport(package=self.package, body=self.body,
+                                followup='123456')
+        self.text = self.report.__unicode__()
+
+        self.assertIn('Followup-For: Bug #123456', self.text)
+        self.assertNotIn('Severity: ', self.text)
+
+        with self.assertRaises(TypeError):
+            self.report = bugreport(package=self.package, body=self.body,
+                                    followup={'123456': 654321})

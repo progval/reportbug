@@ -48,7 +48,16 @@ class bugreport(object):
             setattr(self, k, v)
         self.package = package
         self.subject = subject
-        self.followup = followup
+        # try to convert followup to int (if it's not already), TypeError if
+        # the conversion is impossible
+        if not isinstance(followup, int):
+            try:
+                self.followup = int(followup)
+            except TypeError:
+                ui.long_message('Invalid value for followup, it must be an integer')
+                raise TypeError
+        else:
+            self.followup = followup
         self.body = body
         self.mode = mode
         self.system = system

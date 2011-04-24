@@ -12,8 +12,12 @@ reportbug (5.1) UNRELEASED; urgency=low
     - check if there are no reports (or a problem occurred), than don't try to
       parse the bugs list; thanks to Erik de Castro Lopo for the report;
       Closes: #622338
+  * reportbug/bugreport.py + unittests
+    - the followup information must be an integer: try to convert it or raise an
+      exception; prevents a crash when following-up to an existing report using
+      GTK+ UI; thanks to all the reporters; Closes: #619801
 
- -- Sandro Tosi <morph@debian.org>  Sun, 24 Apr 2011 10:59:22 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 25 Apr 2011 01:17:51 +0200
 
 reportbug (5.0) unstable; urgency=low
 

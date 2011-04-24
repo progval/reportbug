@@ -353,6 +353,22 @@ Shell: /bin/sh linked to /bin/bash"""
         self.assertIn('Version: 1.2.3', report)
         self.assertIn('Severity: normal', report)
 
+        # test with exinfo (represents the bug number if this is a followup):
+        # int, string, unconvertible (to int) datatype
+        report = utils.generate_blank_report('reportbug', '1.2.3', 'normal',
+                                             '', '', '', type='debbugs',
+                                             exinfo=123456)
+        self.assertIn('Followup-For: Bug #123456', report)
+
+        report = utils.generate_blank_report('reportbug', '1.2.3', 'normal',
+                                             '', '', '', type='debbugs',
+                                             exinfo='123456')
+        self.assertIn('Followup-For: Bug #123456', report)
+
+        with self.assertRaises(TypeError):
+            report = utils.generate_blank_report('reportbug', '1.2.3', 'normal',
+                                                 '', '', '', type='debbugs',
+                                                 exinfo={'123456': ''})
 
 class TestConfig(unittest2.TestCase):
 
