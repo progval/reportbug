@@ -91,9 +91,6 @@ class bugreport(object):
 
         locinfo = ', '.join(locinfo)
 
-        if debianbts.SYSTEMS[self.system].has_key('namefmt'):
-            package = debianbts.SYSTEMS[self.system]['namefmt'] % self.package
-
         ph = getattr(self, 'pseudoheaders', None)
         if ph:
             headers = u'\n'.join(ph)+u'\n'
