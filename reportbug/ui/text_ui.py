@@ -529,16 +529,13 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             package, timeout, bts, mirrors=mirrors, version=version,
             source=source, http_proxy=http_proxy, archived=archived)
 
-        if debianbts.SYSTEMS[bts].has_key('namefmt'):
-            package2 = debianbts.SYSTEMS[bts]['namefmt'] % package
-            (count2, title2, hierarchy2) = \
-                     debianbts.get_reports(package2, timeout, bts,
-                                           mirrors=mirrors, source=source,
-                                           http_proxy=http_proxy,
-                                           version=version)
-            count = count+count2
-            for entry in hierarchy2:
-                hierarchy.append( (package2+' '+entry[0], entry[1]) )
+        # If there's no report, then skip all the rest
+        if not count:
+            ui.run_wrapper(nullfunc)
+            if hierarchy == None:
+                raise NoPackage
+            else:
+                raise NoBugs
 
         # remove unneeded info from bugs hierarchy, we leave only bug number and subject
         # format "#<bug no> [???] [pkg name] subject <all the rest>
@@ -607,6 +604,9 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                               'n': 'Abort.'})
         if res == 'n':
             raise NoNetwork
+    except NoPackage:
+        long_message('No record of this package found.', title=title)
+        raise NoPackage
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                 http_proxy, timeout, screen, title, package, mbox_reader_cmd):

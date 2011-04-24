@@ -8,8 +8,12 @@ reportbug (5.1) UNRELEASED; urgency=low
   * reportbug/debianbts.py
     - add support for 'wheezy' tag; thanks to Mehdi Dogguy for the report;
       Closes: #623375
+  * reportbug/ui/text_ui.py
+    - check if there are no reports (or a problem occurred), than don't try to
+      parse the bugs list; thanks to Erik de Castro Lopo for the report;
+      Closes: #622338
 
- -- Sandro Tosi <morph@debian.org>  Thu, 21 Apr 2011 00:14:41 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 24 Apr 2011 10:59:22 +0200
 
 reportbug (5.0) unstable; urgency=low
 
