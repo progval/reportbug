@@ -50,7 +50,7 @@ class bugreport(object):
         self.subject = subject
         # try to convert followup to int (if it's not already), TypeError if
         # the conversion is impossible
-        if not isinstance(followup, int):
+        if followup and not isinstance(followup, int):
             try:
                 self.followup = int(followup)
             except TypeError:
