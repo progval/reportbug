@@ -21,8 +21,13 @@ reportbug (5.1) UNRELEASED; urgency=low
   * reportbug/urlutils.py
     - make the 'xdg-open' existance check be silent also when sh=dash; thanks to
       RjY for the report and patch; Closes: #616523
+  * bin/reportbug, reportbug/utils.py, man/reportbug.*
+    - added a new cli options, --max-attachment-size (also available in the
+      config file), to limit the size of any attachment (or --body-file) to the
+      specified value, in byte; thanks to Lionel Elie Mamane for the report and
+      to Carl Chanet for the initial patch; Closes: #528720
 
- -- Sandro Tosi <morph@debian.org>  Mon, 25 Apr 2011 11:25:15 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 26 Apr 2011 01:13:24 +0200
 
 reportbug (5.0) unstable; urgency=low
 

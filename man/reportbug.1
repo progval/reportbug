@@ -222,6 +222,9 @@ intended with \fBdebbugs\fP systems.
 Only send the bug to the package maintainer; the bug tracking system
 will not send a copy to the bug report distribution lists.
 .TP
+.B \-\-max-attachment-size=MAX_ATTACHMENT_SIZE
+Specity the maximum size any attachment file can have (this also include the file for \-\-body-file option). If an attachment file is too big, there could be problems in delivering the email (and also to compose it), so we set a limit to attachment size. By default this is 10 megabytes.
+.TP
 .B \-\-mirror=MIRRORS
 Add a BTS mirror.
 .TP

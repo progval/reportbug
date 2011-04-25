@@ -104,6 +104,12 @@ def stopmsg(filename):
         'submit@bugs.debian.org, editing the subject and bug text as needed '
         '(but not altering the other information).\n', filename)
 
+def check_attachment_size(attachfile, maxsize):
+    """Check if the attachment size is bigger than max allowed"""
+    statinfo = os.stat(attachfile)
+    attachsize = statinfo[6]
+    return attachsize >= maxsize
+
 def include_file_in_report(message, message_filename,
                            attachment_filenames, package_name,
                            include_filename, charset, inline=False, draftpath=None):
@@ -251,13 +257,18 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     # loop over the globbed 'attachfile', you can specify wildcards now
                     for attachf in attachfglob:
                         if os.access(attachf, os.R_OK) and os.path.isfile(attachf):
-                            invalid = False
-                            inline = (x == 'i')
-                            (message, filename, attachments) = include_file_in_report(
-                                message, filename, attachments, package,
-                                attachf, charset, inline=inline, draftpath=options.draftpath)
-                            if not inline:
-                                skip_editing = True
+                            if check_attachment_size(attachf, options.max_attachment_size):
+                                ewrite('The attachment file %s size is bigger than the maximum of %d bytes: '
+                                       'reduce its size else the report cannot be sent\n' %
+                                       (attachf, options.max_attachment_size))
+                            else:
+                                invalid = False
+                                inline = (x == 'i')
+                                (message, filename, attachments) = include_file_in_report(
+                                    message, filename, attachments, package,
+                                    attachf, charset, inline=inline, draftpath=options.draftpath)
+                                if not inline:
+                                    skip_editing = True
                         else:
                             ui.display_failure("Cannot include %s!\n", attachf)
                 else:
@@ -959,11 +970,16 @@ def main():
                       help='don\'t show tags menu')
     parser.add_option('--mbox-reader-cmd', dest='mbox_reader_cmd',
                       help="Specify the program to open the reports mbox.")
+    parser.add_option('--max-attachment-size', type="int", dest='max_attachment_size', help="Specify the maximum size in byte for an attachment [default: 10485760].")
 
     (options, args) = parser.parse_args()
 
     # Load the interface, *before* the configuration step.
     sys.argv = sys.argv[:1] + list(args)
+
+    # if not set in config file or on cli, then set 10M as default
+    if not options.max_attachment_size:
+        options.max_attachment_size = 10485760
 
     # check if attachment files exist, else exiting
     # all are checked, and it doesn't exit at the first missing
@@ -985,8 +1001,12 @@ def main():
             if not os.path.exists(os.path.expanduser(attachment)):
                 print 'The attachment file %s does not exist.' % attachment
                 any_missing = True
+            elif check_attachment_size(attachment, options.max_attachment_size):
+                print 'The attachment file %s size is bigger than the maximum of %d bytes: reduce ' \
+                'its size else the report cannot be sent' % (attachment, options.max_attachment_size)
+                any_missing = True
         if any_missing:
-            print "The above files are missing, so can't be attached; exiting"
+            print "The above files can't be attached; exiting"
             sys.exit(1)
 
     if options.keyid and not options.sign:
@@ -1109,6 +1129,10 @@ class UI(object):
             body = textwrap.fill(self.options.body)
         elif self.options.bodyfile:
             try:
+                if check_attachment_size(self.options.bodyfile, self.options.max_attachment_size):
+                    print 'Body file %s size bigger than the maximum of %d bytes: ' \
+                    'reduce its size else the report cannot be sent'% (self.options.bodyfile, self.options.max_attachment_size)
+                    raise Exception
                 body = open(self.options.bodyfile).read()
             except:
                 efail('Unable to read body from file %s.\n', self.options.bodyfile)

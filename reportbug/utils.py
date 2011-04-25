@@ -790,7 +790,7 @@ CONFIG_ARGS = (
     'sign', 'nocc', 'nocompress', 'dontquery', 'noconf', 'mirrors', 'keyid',
     'headers', 'interface', 'template', 'mode', 'check_available', 'query_src',
     'printonly', 'offline', 'check_uid', 'smtptls', 'smtpuser', 'smtppasswd',
-    'paranoid', 'mbox_reader_cmd')
+    'paranoid', 'mbox_reader_cmd', 'max_attachment_size')
 
 class Mua:
     command = ""
@@ -972,6 +972,9 @@ def parse_config_files():
                     args['check_uid'] = (token == 'check-uid')
                 elif token in ('paranoid', 'no-paranoid'):
                     args['paranoid'] = (token == 'paranoid')
+                elif token == 'max_attachment_size':
+                    arg = lex.get_token()
+                    args['max_attachment_size'] = int(arg)
                 else:
                     sys.stderr.write('Unrecognized token: %s\n' % token)
 
