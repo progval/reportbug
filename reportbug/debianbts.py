@@ -700,6 +700,7 @@ CRITICAL_TAGS = {
 }
 
 EXPERT_TAGS = {
+    'security' : 'This problem is a security vulnerability in Debian.',
     'lenny' : 'This bug only applies to the lenny release (Debian 5.0).',
     'squeeze' : 'This bug only applies to the squeeze release (Debian 6.0).',
     'wheezy' : 'This bug only applies to the wheezy release',
