@@ -8,8 +8,8 @@ reportbug (5.1) UNRELEASED; urgency=low
   * reportbug/debianbts.py
     - add support for 'wheezy' tag; thanks to Mehdi Dogguy for the report;
       Closes: #623375
-    - offer 'security' tag also for users with mode >= ADVANCED; thanks to Moritz
-      Muehlenhoff for the report; Closes: #617605
+    - offer 'security' tag also for users with mode >= ADVANCED; thanks to
+      Moritz Muehlenhoff for the report; Closes: #617605
   * reportbug/ui/text_ui.py
     - check if there are no reports (or a problem occurred), than don't try to
       parse the bugs list; thanks to Erik de Castro Lopo for the report;
