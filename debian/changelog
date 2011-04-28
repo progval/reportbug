@@ -26,8 +26,11 @@ reportbug (5.1) UNRELEASED; urgency=low
       config file), to limit the size of any attachment (or --body-file) to the
       specified value, in byte; thanks to Lionel Elie Mamane for the report and
       to Carl Chanet for the initial patch; Closes: #528720
+  * reportbug/utils.py
+    - filter out packages in "installed ok not-installed" state before trying to
+      retrieve their information; thanks to all the reporters; Closes: #616455
 
- -- Sandro Tosi <morph@debian.org>  Tue, 26 Apr 2011 01:13:24 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 28 Apr 2011 23:00:05 +0200
 
 reportbug (5.0) unstable; urgency=low
 
