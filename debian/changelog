@@ -1,4 +1,4 @@
-reportbug (5.1) UNRELEASED; urgency=low
+reportbug (5.1) unstable; urgency=low
 
   * Makefile
     - add 'codechecks' target to run tools to check source code
@@ -34,7 +34,7 @@ reportbug (5.1) UNRELEASED; urgency=low
     - removed Conflicts, no more needed (versions are lower than stable)
     - removed XB-P-V, it was never useful
 
- -- Sandro Tosi <morph@debian.org>  Thu, 28 Apr 2011 23:40:55 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 28 Apr 2011 23:54:51 +0200
 
 reportbug (5.0) unstable; urgency=low
 
