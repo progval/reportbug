@@ -32,8 +32,9 @@ reportbug (5.1) UNRELEASED; urgency=low
   * debian/control
     - bump Standards-Version to 3.9.2 (no changes needed)
     - removed Conflicts, no more needed (versions are lower than stable)
+    - removed XB-P-V, it was never useful
 
- -- Sandro Tosi <morph@debian.org>  Thu, 28 Apr 2011 23:38:46 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 28 Apr 2011 23:40:55 +0200
 
 reportbug (5.0) unstable; urgency=low
 
