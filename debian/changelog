@@ -29,8 +29,9 @@ reportbug (5.1) UNRELEASED; urgency=low
   * reportbug/utils.py
     - filter out packages in "installed ok not-installed" state before trying to
       retrieve their information; thanks to all the reporters; Closes: #616455
-
- -- Sandro Tosi <morph@debian.org>  Thu, 28 Apr 2011 23:00:05 +0200
+  * debian/control
+    - bump Standards-Version to 3.9.2 (no changes needed)
+ -- Sandro Tosi <morph@debian.org>  Thu, 28 Apr 2011 23:25:56 +0200
 
 reportbug (5.0) unstable; urgency=low
 
