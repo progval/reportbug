@@ -1,3 +1,11 @@
+reportbug (5.2) UNRELEASED; urgency=low
+
+  * reportbug/ui/text_ui.py
+    - remove spurious function call in text UI when there are no bug report;
+      Thanks to Kan-Ru Chen for the report and patch; Closes: #624563
+
+ -- Sandro Tosi <morph@debian.org>  Fri, 29 Apr 2011 18:58:06 +0200
+
 reportbug (5.1) unstable; urgency=low
 
   * Makefile

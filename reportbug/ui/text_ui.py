@@ -531,7 +531,6 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
 
         # If there's no report, then skip all the rest
         if not count:
-            ui.run_wrapper(nullfunc)
             if hierarchy == None:
                 raise NoPackage
             else:
