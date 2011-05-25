@@ -1,3 +1,12 @@
+reportbug (5.1.2) UNRELEASED; urgency=low
+
+  * reportbug/debianbts.py
+    - don't try to convert the package to a source one if we are in 'override'
+      selection of 'ftp.debian.org'; thanks to Luk Claes for the report;
+      Closes: #620849
+
+ -- Sandro Tosi <morph@debian.org>  Wed, 11 May 2011 22:56:39 +0200
+
 reportbug (5.1.1) unstable; urgency=low
 
   * reportbug/ui/text_ui.py

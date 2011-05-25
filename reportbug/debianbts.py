@@ -260,7 +260,9 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
             if cont == 'n':
                 sys.exit(1)
         else:
-            package = info[12] or package
+            # don't try to convert it to source if it's an 'override'
+            if tag != 'override':
+                package = info[12] or package
             # get package section and priority, for override
             section, priority = info[16], info[10]
 
