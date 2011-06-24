@@ -771,12 +771,14 @@ def cgi_package_url(system, package, archived=False, source=False,
     #print qstr
     return '%spkgreport.cgi?%s' % (root, qstr)
 
+# TODO: to be removed
 def package_url(system, package, mirrors=None, source=False,
                 repeatmerged=True):
     btsroot=get_btsroot(system, mirrors)
     package = urllib.quote_plus(package.lower())
     return btsroot+('db/pa/l%s.html' % package)
 
+# TODO: to be removed
 def report_url(system, number, mirrors=None):
     number = str(number)
     if len(number) < 2: return None
@@ -1018,6 +1020,7 @@ class BTSParser(sgmllib.SGMLParser):
         if fixed:
             self.hierarchy = [('Bugs fixed in subsequent releases (%d bugs)' % len(fixed), fixed)] + newhierarchy
 
+# TODO: to be removed
 def parse_html_report(number, url, http_proxy, timeout, followups=False, cgi=True):
     page = open_url(url, http_proxy, timeout)
     if not page:
