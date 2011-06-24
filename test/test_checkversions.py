@@ -26,4 +26,4 @@ class TestCheckversions(unittest2.TestCase):
         self.assertEqual(checkversions.later_version('1.2.3', '1.2.3'), '1.2.3')
         self.assertIsNone(checkversions.later_version(None, None))
 
-        self.assertEqual(checkversions.compare_versions('1.2.4', '1.2.3'), '1.2.4')
+        self.assertEqual(checkversions.later_version('1.2.4', '1.2.3'), '1.2.4')
