@@ -3,10 +3,6 @@
 NOSETESTS = nosetests test -v --stop
 nosetests_cmd = $(NOSETESTS) ${NOSETESTS_OPTS}
 
-.PHONY: checks
-checks:
-	PYTHONPATH=. $(PYTHON) checks/compare_pseudo-pkgs_lists.py
-
 .PHONY: tests
 tests:
 	$(nosetests_cmd)

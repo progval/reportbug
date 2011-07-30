@@ -5,6 +5,9 @@ from nose.plugins.attrib import attr
 from reportbug import utils
 from reportbug import debianbts
 
+import urllib
+import re
+
 class TestDebianbts(unittest2.TestCase):
 
     def test_get_tags(self):
@@ -88,6 +91,21 @@ class TestMiscFunctions(unittest2.TestCase):
 
         for type, severity, value in sevs:
             self.assertEqual(debianbts.convert_severity(severity, type), value)
+
+    @attr('network') #marking the test as using network
+    @unittest2.skip("Need to talk with dondelelcaro about make them sync")
+    def test_pseudopackages_in_sync(self):
+
+        dictparse = re.compile(r'([^\s]+)\s+(.+)',re.IGNORECASE)
+
+        bdo_list = {}
+        pseudo = urllib.urlopen('http://bugs.debian.org/pseudopackages/pseudo-packages.description')
+        for l in pseudo:
+            m = dictparse.search(l)
+            bdo_list[m.group(1)] = m.group(2)
+
+        self.maxDiff = None
+        self.assertEqual(debianbts.debother, bdo_list)
 
 
 class TestGetReports(unittest2.TestCase):
