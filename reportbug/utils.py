@@ -71,8 +71,8 @@ for mode in MODELIST:
 del mode
 
 # moved here since it needs the MODE_* vars to be defined
-import debianbts
-# it needs to be imported after debianbts
+import debbugs
+# it needs to be imported after debbugs
 import ui.text_ui as ui
 
 from reportbug.ui import AVAILABLE_UIS
@@ -398,12 +398,12 @@ def get_package_status(package, avail=False):
 
     reportinfo = None
     if bugs:
-        reportinfo = debianbts.parse_bts_url(bugs)
+        reportinfo = debbugs.parse_bts_url(bugs)
     elif origin:
-        if debianbts.SYSTEMS.has_key(origin):
-            vendor = debianbts.SYSTEMS[origin]['name']
-            reportinfo = (debianbts.SYSTEMS[origin].get('type', 'debbugs'),
-                          debianbts.SYSTEMS[origin]['btsroot'])
+        if debbugs.SYSTEMS.has_key(origin):
+            vendor = debbugs.SYSTEMS[origin]['name']
+            reportinfo = (debbugs.SYSTEMS[origin].get('type', 'debbugs'),
+                          debbugs.SYSTEMS[origin]['btsroot'])
         else:
             vendor = origin.capitalize()
     else:
@@ -908,7 +908,7 @@ def parse_config_files():
                     args['sendto'] = token
                 elif token == 'severity':
                     token = lex.get_token().lower()
-                    if token in debianbts.SEVERITIES.keys():
+                    if token in debbugs.SEVERITIES.keys():
                         args['severity'] = token
                 elif token == 'header':
                     args['headers'] = args.get('headers', []) + \
@@ -949,7 +949,7 @@ def parse_config_files():
                         args[token] = arg
                 elif token == 'bts':
                     token = lex.get_token().lower()
-                    if token in debianbts.SYSTEMS.keys():
+                    if token in debbugs.SYSTEMS.keys():
                         args['bts'] = token
                 elif token == 'mirror':
                     args['mirrors'] = args.get('mirrors', []) + \

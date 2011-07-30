@@ -1,5 +1,5 @@
 #
-# debianbts.py - Routines to deal with BTS web pages
+# debbugs.py - Routines to deal with BTS web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 1999-2008 Chris Lawrence
@@ -23,7 +23,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.15 2008-04-18 05:38:27 lawrencc Exp $
+# $Id: debbugs.py,v 1.24.2.15 2008-04-18 05:38:27 lawrencc Exp $
 
 import utils
 import sys

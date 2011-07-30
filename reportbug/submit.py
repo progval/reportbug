@@ -42,7 +42,6 @@ from email.Header import Header
 import mimetypes
 
 from __init__ import VERSION, VERSION_NUMBER
-import debianbts
 from tempfiles import TempFile, open_write_safe, tempfile_prefix
 from exceptions import (
     NoMessage,

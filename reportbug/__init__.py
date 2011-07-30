@@ -23,7 +23,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 
 __all__ = ['bugreport', 'utils', 'urlutils', 'checkbuildd', 'checkversions',
-           'debianbts', 'exceptions', 'submit', 'tempfile']
+           'debbugs', 'exceptions', 'submit', 'tempfile']
 
 VERSION_NUMBER = "5.1.1"
 

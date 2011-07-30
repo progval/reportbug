@@ -60,7 +60,7 @@ from reportbug.exceptions import (
     )
 from reportbug import submit
 from reportbug import checkversions
-from reportbug import debianbts
+from reportbug import debbugs
 from reportbug import checkbuildd
 import reportbug.ui.text_ui as ui
 
@@ -212,7 +212,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
 
         # cfr Debian BTS #293361
         if package == 'wnpp':
-            for itp_line in debianbts.itp_template.rsplit('\n'):
+            for itp_line in debbugs.itp_template.rsplit('\n'):
                 # if the line is not empty and it's in the message the user wrote
                 if itp_line in message and itp_line != '':
                     ewrite("Wrong line: %s\n", itp_line)
@@ -336,7 +336,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         elif x == 't':
             newtaglist = []
             skip_editing = True
-            ntags = debianbts.get_tags(severity, mode)
+            ntags = debbugs.get_tags(severity, mode)
             newtaglist = ui.select_multiple(
                 'Do any of the following apply to this report?', ntags,
                 'Please select tags: ')
@@ -435,7 +435,7 @@ def get_other_package_name(others):
         return None
 
 def get_package_name(bts='debian', mode=MODE_EXPERT):
-    others = debianbts.SYSTEMS[bts].get('otherpkgs')
+    others = debbugs.SYSTEMS[bts].get('otherpkgs')
     prompt = "Please enter the name of the package in which you have found "\
              "a problem"
     if others:
@@ -509,7 +509,7 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
     return package
 
 def special_prompts(package, bts, ui, fromaddr, timeout):
-    prompts = debianbts.SYSTEMS[bts].get('specials')
+    prompts = debbugs.SYSTEMS[bts].get('specials')
     if prompts:
         pkgprompts = prompts.get(package)
         if pkgprompts:
@@ -788,7 +788,7 @@ def main():
     parser.add_option('-C', '--class', action='callback', type='string',
                       callback=verify_option, dest="klass", metavar='CLASS',
                       callback_args=('Permitted report classes:',
-                                     debianbts.CLASSLIST),
+                                     debbugs.CLASSLIST),
                       help='specify report class for GNATS BTSes')
     parser.add_option('-d', '--debug', action='store_true', default=False,
                       dest='debugmode', help='send report only to yourself')
@@ -867,7 +867,7 @@ def main():
     parser.add_option('-T', '--tag', action='callback', dest='tags',
                       callback=verify_append_option,  type='string',
                       callback_args=('Permitted tags:',
-                                     sorted(debianbts.get_tags().keys())+['none']),
+                                     sorted(debbugs.get_tags().keys())+['none']),
                       help='add the specified tag to the report')
     parser.add_option('--http_proxy', '--proxy', help='use this proxy for '
                       'HTTP accesses')
@@ -910,11 +910,11 @@ def main():
     parser.add_option('-B', '--bts', action='callback', dest='bts',
                       callback=verify_option, type='string',
                       callback_args=('Valid bug tracking systems',
-                                     debianbts.SYSTEMS.keys()),
+                                     debbugs.SYSTEMS.keys()),
                       help='choose BTS to file the report with')
     parser.add_option('-S', '--severity', action='callback',
                       callback=verify_option, type='string', dest='severity',
-                      callback_args=('Valid severities', debianbts.SEVLIST),
+                      callback_args=('Valid severities', debbugs.SEVLIST),
                       help='identify the severity of the report')
     parser.add_option('--template', action='store_true',
                       help='output a template report only')
@@ -1115,7 +1115,7 @@ class UI(object):
         if subject:
             subject = subject.decode(charset, 'replace')
         bts = self.options.bts or 'debian'
-        sysinfo = debianbts.SYSTEMS[bts]
+        sysinfo = debbugs.SYSTEMS[bts]
         rtype = self.options.type or sysinfo.get('type')
         attachments = self.options.attachments
         pgp_addr = self.options.keyid
@@ -1255,7 +1255,7 @@ class UI(object):
                 # convert it to the source package if we are reporting for src
                 package = utils.get_source_name(package)
 
-        others = debianbts.SYSTEMS[bts].get('otherpkgs')
+        others = debbugs.SYSTEMS[bts].get('otherpkgs')
         if package == 'other' and others:
             package = get_other_package_name(others)
 
@@ -1604,16 +1604,16 @@ class UI(object):
         if self.options.bts:
             bts = self.options.bts
             ewrite("Will send report to %s (per request).\n",
-                   debianbts.SYSTEMS[bts].get('name', bts))
+                   debbugs.SYSTEMS[bts].get('name', bts))
         elif origin:
             if origin.lower() == bts:
                 ewrite("Package originates from %s.\n", vendor or origin)
                 reportinfo = None
-            elif origin.lower() in debianbts.SYSTEMS.keys():
+            elif origin.lower() in debbugs.SYSTEMS.keys():
                 ewrite("Package originates from %s; overriding your system "
                        "selection.\n", vendor or origin)
                 bts = origin.lower()
-                sysinfo = debianbts.SYSTEMS[bts]
+                sysinfo = debbugs.SYSTEMS[bts]
             elif reportinfo:
                 ewrite("Unknown origin %s; will send to %s.\n", origin,
                        reportinfo[1])
@@ -1630,10 +1630,10 @@ class UI(object):
             lsbr = commands.getoutput('lsb_release -si 2>/dev/null')
             if lsbr:
                 distro = lsbr.strip().lower()
-                if distro in debianbts.SYSTEMS:
+                if distro in debbugs.SYSTEMS:
                     bts = distro
                     ewrite("Will send report to %s (per lsb_release).\n",
-                           debianbts.SYSTEMS[bts].get('name', bts))
+                           debbugs.SYSTEMS[bts].get('name', bts))
 
         if rtype == 'mailto':
             rtype = 'debbugs'
@@ -1874,32 +1874,32 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             listcc += ui.get_multiline('Enter any additional addresses this report should be sent to; press ENTER after each address.')
 
         if severity and rtype:
-            severity = debianbts.convert_severity(severity, rtype)
+            severity = debbugs.convert_severity(severity, rtype)
 
         klass = self.options.klass
         if not notatty and not (exinfo or self.options.kudos):
             if not severity:
                 if rtype == 'gnats':
-                    severities = debianbts.SEVERITIES_gnats
+                    severities = debbugs.SEVERITIES_gnats
                     default = 'non-critical'
                 else:
-                    severities = debianbts.SEVERITIES
+                    severities = debbugs.SEVERITIES
                     if mode < MODE_STANDARD:
                         ewrite("Removing release critical severities, since running in \'%s\' mode.\n" % utils.MODELIST[mode])
                         for sev in ['critical', 'grave', 'serious', 'does-not-build']:
                             del severities[sev]
                     default = 'normal'
-                while not severity or severity not in debianbts.SEVLIST:
+                while not severity or severity not in debbugs.SEVLIST:
                     severity = ui.menu("How would you rate the severity of this "
                                        "problem or report?", severities,
                                        'Please select a severity level: ',
-                                       default=default, order=debianbts.SEVLIST)
+                                       default=default, order=debbugs.SEVLIST)
 
             if rtype == 'gnats':
                 # Class of report
                 klass = ui.menu("What sort of problem are you reporting?",
-                                debianbts.CLASSES, 'Please select a class: ',
-                                default='sw-bug', order=debianbts.CLASSLIST)
+                                debbugs.CLASSES, 'Please select a class: ',
+                                default='sw-bug', order=debbugs.CLASSLIST)
 
         severity = severity or 'normal'
 
@@ -1909,7 +1909,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                 justification = ui.menu(
                     'You are reporting a ' +severity+' bug; which of the '
                     'following criteria does it meet?',
-                    debianbts.JUSTIFICATIONS[severity],
+                    debbugs.JUSTIFICATIONS[severity],
                     'Please select the impact of the bug: ', default='unknown')
             elif severity == 'serious':
                 justification = ui.get_string(
@@ -1962,7 +1962,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             not (notatty or self.options.kudos or exinfo) and
             package not in ('wnpp', 'ftp.debian.org', 'release.debian.org') and
             mode > MODE_NOVICE and self.options.tagsmenu):
-            tags = debianbts.get_tags(severity, mode)
+            tags = debbugs.get_tags(severity, mode)
 
             taglist = ui.select_multiple(
                 'Do any of the following apply to this report?', tags,
@@ -2151,5 +2151,5 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         ewrite("\nreportbug: exiting due to user interrupt.\n")
-    except debianbts.Error, x:
+    except debbugs.Error, x:
         ewrite('error accessing BTS: %s\n' % x)

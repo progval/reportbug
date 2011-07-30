@@ -37,7 +37,7 @@ try:
 except ImportError:
     readline = None
 
-from reportbug import debianbts, hiermatch
+from reportbug import debbugs, hiermatch
 from reportbug.exceptions import (
     NoReport, NoPackage, NoBugs, NoNetwork,
     InvalidRegex,
@@ -113,7 +113,7 @@ def _launch_mbox_reader(mbox_reader_cmd, bts, bugs, number, mirrors, archived,
         if number not in bugs and 1 <= number <= len(bugs):
             number = bugs[number-1]
         reportbug.utils.launch_mbox_reader(mbox_reader_cmd,
-            debianbts.get_report_url(
+            debbugs.get_report_url(
                 bts, number, mirrors, archived, mbox), http_proxy,
             timeout)
     except ValueError:
@@ -405,12 +405,12 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 def show_report(number, system, mirrors,
                 http_proxy, timeout, screen=None, queryonly=False, title='',
                 archived='no', mbox_reader_cmd=None):
-    sysinfo = debianbts.SYSTEMS[system]
+    sysinfo = debbugs.SYSTEMS[system]
     ewrite('Retrieving report #%d from %s bug tracking system...\n',
            number, sysinfo['name'])
 
     try:
-        info = debianbts.get_report(number, timeout, system, mirrors=mirrors,
+        info = debbugs.get_report(number, timeout, system, mirrors=mirrors,
                                     followups=1,
                                     http_proxy=http_proxy, archived=archived)
     except:
@@ -484,12 +484,12 @@ def show_report(number, system, mirrors,
         elif x == 'q':
             raise NoReport
         elif x == 'b':
-            launch_browser(debianbts.get_report_url(
+            launch_browser(debbugs.get_report_url(
                 system, number, mirrors, archived))
             skip_pager = True
         elif x == 'e':
             reportbug.utils.launch_mbox_reader(mbox_reader_cmd,
-                debianbts.get_report_url(
+                debbugs.get_report_url(
                     system, number, mirrors, archived, True), http_proxy,
                     timeout)
             skip_pager = True
@@ -505,10 +505,10 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
                      source=False, version=None, mbox=False, buglist=None,
                      mbox_reader_cmd=None):
-    root = debianbts.SYSTEMS[bts].get('btsroot')
+    root = debbugs.SYSTEMS[bts].get('btsroot')
     if not root:
         ewrite('%s bug tracking system has no web URL; bypassing query\n',
-               debianbts.SYSTEMS[bts]['name'])
+               debbugs.SYSTEMS[bts]['name'])
         return
 
     srcstr = ""
@@ -517,15 +517,15 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
 
     if isinstance(package, basestring):
         long_message('Querying %s BTS for reports on %s%s...\n',
-                     debianbts.SYSTEMS[bts]['name'], package, srcstr)
+                     debbugs.SYSTEMS[bts]['name'], package, srcstr)
     else:
         long_message('Querying %s BTS for reports on %s%s...\n',
-                     debianbts.SYSTEMS[bts]['name'],
+                     debbugs.SYSTEMS[bts]['name'],
                      ' '.join([str(x) for x in package]), srcstr)
 
     bugs = []
     try:
-        (count, title, hierarchy)=debianbts.get_reports(
+        (count, title, hierarchy)=debbugs.get_reports(
             package, timeout, bts, mirrors=mirrors, version=version,
             source=source, http_proxy=http_proxy, archived=archived)
 
@@ -597,7 +597,7 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                            mbox_reader_cmd)
 
     except (IOError, NoNetwork):
-        ewrite('Unable to connect to %s BTS; ', debianbts.SYSTEMS[bts]['name'])
+        ewrite('Unable to connect to %s BTS; ', debbugs.SYSTEMS[bts]['name'])
         res = select_options('continue', 'yN',
                              {'y': 'Keep going.',
                               'n': 'Abort.'})

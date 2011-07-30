@@ -25,7 +25,7 @@
 import os
 
 import utils
-import debianbts
+import debbugs
 import commands
 
 from exceptions import *
@@ -136,7 +136,7 @@ class bugreport(object):
             report = "Followup-For: Bug #%d\n%s: %s\n%s\n" % (
                 self.followup, reportto, self.package, headers)
 
-        infofunc = debianbts.SYSTEMS[self.system].get('infofunc', debianbts.generic_infofunc)
+        infofunc = debbugs.SYSTEMS[self.system].get('infofunc', debbugs.generic_infofunc)
         if infofunc:
             debinfo += infofunc()
 

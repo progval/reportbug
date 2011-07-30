@@ -35,7 +35,7 @@ from reportbug.exceptions import (
     UINotImportable,
     NoPackage, NoBugs, NoReport, NoNetwork,
     )
-from reportbug import debianbts
+from reportbug import debbugs
 from reportbug import urlutils
 
 from reportbug.ui import AVAILABLE_UIS
@@ -79,7 +79,7 @@ def main():
                       help='Display a bugs list for the given package.')
     parser.add_option('-B', '--bts', dest='system',
                       help='Specify an alternate debbugs BTS; available values:  %s ' %
-                      ', '.join([k for k in debianbts.SYSTEMS if debianbts.SYSTEMS[k].get('btsroot')]))
+                      ', '.join([k for k in debbugs.SYSTEMS if debbugs.SYSTEMS[k].get('btsroot')]))
     parser.add_option('-m', '--mbox', action='store_true', dest='mbox',
                       help='generate mbox')
     parser.add_option('--proxy', '--http_proxy', dest='http_proxy',
@@ -123,12 +123,12 @@ def main():
     ui.initialize ()
 
     # system must be one of those supported
-    if options.system not in [k for k in debianbts.SYSTEMS if debianbts.SYSTEMS[k].get('btsroot')]:
+    if options.system not in [k for k in debbugs.SYSTEMS if debbugs.SYSTEMS[k].get('btsroot')]:
         parser.error('Allowed arguments to --bts: \n' +
-                     '\n'.join(['  %s  (%s)' % (k, debianbts.SYSTEMS[k]['name']) for k in debianbts.SYSTEMS if debianbts.SYSTEMS[k].get('btsroot')]))
+                     '\n'.join(['  %s  (%s)' % (k, debbugs.SYSTEMS[k]['name']) for k in debbugs.SYSTEMS if debbugs.SYSTEMS[k].get('btsroot')]))
     else:
         # set the system info to those of the one selected
-        sysinfo = debianbts.SYSTEMS[options.system]
+        sysinfo = debbugs.SYSTEMS[options.system]
 
     # there should be at least one argument
     if len(args) == 0:
@@ -145,9 +145,9 @@ def main():
         m = re.match('^#?(\d+)$', package)
         if m:
             num = int(m.group(1))
-            url = debianbts.get_report_url(options.system, num, options.mirrors, options.archived)
+            url = debbugs.get_report_url(options.system, num, options.mirrors, options.archived)
         else:
-            url = debianbts.get_package_url(options.system, package, options.mirrors, options.source, options.archived)
+            url = debbugs.get_package_url(options.system, package, options.mirrors, options.source, options.archived)
 
         # launch the browser and exit
         urlutils.launch_browser(url)
@@ -166,7 +166,7 @@ def main():
                                     queryonly=True, title=VERSION, archived=options.archived,
                                     source=options.source, mbox=options.mbox)
                 for num in mboxbuglist:
-                    url = debianbts.get_report_url(options.system, num, options.archived, mbox=True)
+                    url = debbugs.get_report_url(options.system, num, options.archived, mbox=True)
                     try:
                         report = urlutils.open_url(url, timeout=options.timeout)
                         sys.stdout.write(report.read())
@@ -174,7 +174,7 @@ def main():
                         print >> sys.stderr, "Error while accessing mbox report (%s)." % ex
             else:
                 num = int(m.group(1))
-                url = debianbts.get_report_url(options.system, num, options.archived, mbox=True)
+                url = debbugs.get_report_url(options.system, num, options.archived, mbox=True)
                 try:
                     report = urlutils.open_url(url, timeout=options.timeout)
                     sys.stdout.write(report.read())
@@ -242,7 +242,7 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print "querybts: exiting due to user interrupt."
-    except debianbts.Error, x:
+    except debbugs.Error, x:
         print 'error accessing BTS: '+str(x)
     except SystemExit:
         pass

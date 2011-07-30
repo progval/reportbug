@@ -48,7 +48,7 @@ import threading
 import textwrap
 
 from reportbug.exceptions import NoPackage, NoBugs, NoNetwork, NoReport
-from reportbug import debianbts
+from reportbug import debbugs
 from reportbug.urlutils import launch_browser
 
 ISATTY = True
@@ -368,7 +368,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         # Start the progress bar
         gobject.timeout_add (10, self.pulse)
 
-        info = debianbts.get_report (int (self.number), self.timeout,
+        info = debbugs.get_report (int (self.number), self.timeout,
                                      self.bts, mirrors=self.mirrors,
                                      http_proxy=self.http_proxy, archived=self.archived)
         if not info:
@@ -430,7 +430,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         self.show_all ()
             
     def on_open_browser (self, button):
-        launch_browser (debianbts.get_report_url (self.bts, int (self.number), self.archived))
+        launch_browser (debbugs.get_report_url (self.bts, int (self.number), self.archived))
 
     def on_reply (self, button):
         # Return the bug number to reportbug
@@ -883,7 +883,7 @@ class HandleBTSQueryPage (TreePage):
         if queryonly:
             self.page_type = gtk.ASSISTANT_PAGE_CONFIRM
 
-        sysinfo = debianbts.SYSTEMS[bts]
+        sysinfo = debbugs.SYSTEMS[bts]
         root = sysinfo.get('btsroot')
         if not root:
             # do we need to make a dialog for this?
@@ -894,15 +894,15 @@ class HandleBTSQueryPage (TreePage):
             if source:
                 pkgname += ' (source)'
 
-            progress_label = 'Querying %s bug tracking system for reports on %s' % (debianbts.SYSTEMS[bts]['name'], pkgname)
+            progress_label = 'Querying %s bug tracking system for reports on %s' % (debbugs.SYSTEMS[bts]['name'], pkgname)
         else:
-            progress_label = 'Querying %s bug tracking system for reports %s' % (debianbts.SYSTEMS[bts]['name'], ' '.join([str(x) for x in package]))
+            progress_label = 'Querying %s bug tracking system for reports %s' % (debbugs.SYSTEMS[bts]['name'], ' '.join([str(x) for x in package]))
 
 
         self.application.run_once_in_main_thread (self.assistant.set_progress_label, progress_label)
 
         try:
-            (count, sectitle, hierarchy) = debianbts.get_reports (
+            (count, sectitle, hierarchy) = debbugs.get_reports (
                 package, timeout, bts, mirrors=mirrors, version=version,
                 http_proxy=http_proxy, archived=archived, source=source)
 

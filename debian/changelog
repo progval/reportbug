@@ -4,8 +4,10 @@ reportbug (5.1.2) UNRELEASED; urgency=low
     - don't try to convert the package to a source one if we are in 'override'
       selection of 'ftp.debian.org'; thanks to Luk Claes for the report;
       Closes: #620849
+  * Rename reportbug/debianbts.py to reportbug/debbugs.py, pre-requisite to use
+    python-debianbts to access BTS via SOAP
 
- -- Sandro Tosi <morph@debian.org>  Wed, 11 May 2011 22:56:39 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 30 Jul 2011 23:10:50 +0200
 
 reportbug (5.1.1) unstable; urgency=low
 

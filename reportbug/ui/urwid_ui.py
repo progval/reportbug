@@ -494,17 +494,17 @@ def select_multiple(par, options, prompt, title=None, order=None, extras=None):
 def show_report(number, system, mirrors,
                 http_proxy, timeout, screen=None, queryonly=False, title='',
                 archived='no'):
-    from reportbug import debianbts
+    from reportbug import debbugs
 
     ui = screen
     if not ui:
         ui = initialize_urwid_ui()
 
-    sysinfo = debianbts.SYSTEMS[system]
+    sysinfo = debbugs.SYSTEMS[system]
     display_message('Retrieving report #%d from %s bug tracking system...',
         number, sysinfo['name'], title=title, ui=ui)
 
-    info = debianbts.get_report(number, timeout, system, mirrors=mirrors,
+    info = debbugs.get_report(number, timeout, system, mirrors=mirrors,
                                 http_proxy=http_proxy, archived=archived)
     if not info:
         long_message('Bug report #%d not found.', number, title=title, ui=ui)
@@ -527,16 +527,16 @@ def show_report(number, system, mirrors,
         elif r == 'm':
             return number
 
-        launch_browser(debianbts.get_report_url(system, number, archived))
+        launch_browser(debbugs.get_report_url(system, number, archived))
     return
 
 def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, screen=None, title="", archived='no',
                      source=False, version=None, mbox=False, buglist=None,
                      mbox_reader_cmd=None):
-    from reportbug import debianbts
+    from reportbug import debbugs
 
-    sysinfo = debianbts.SYSTEMS[bts]
+    sysinfo = debbugs.SYSTEMS[bts]
     root = sysinfo.get('btsroot')
     if not root:
         ewrite("%s bug tracking system has no web URL; bypassing query.\n",
@@ -553,16 +553,16 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             pkgname += ' (source)'
 
         display_message('Querying %s bug tracking system for reports on %s',
-                        debianbts.SYSTEMS[bts]['name'], pkgname,
+                        debbugs.SYSTEMS[bts]['name'], pkgname,
                         ui=ui, title=title)
     else:
         display_message('Querying %s bug tracking system for reports %s',
-                        debianbts.SYSTEMS[bts]['name'],
+                        debbugs.SYSTEMS[bts]['name'],
                         ' '.join([str(x) for x in package]), ui=ui,title=title)
 
     result = None
     try:
-        (count, sectitle, hierarchy) = debianbts.get_reports(
+        (count, sectitle, hierarchy) = debbugs.get_reports(
             package, timeout, bts, mirrors=mirrors, version=version,
             http_proxy=http_proxy, archived=archived, source=source)
 
@@ -681,9 +681,9 @@ def test():
                   'Select mailer: ', default='mutt', empty_ok=True)
     print >> fp, mailer
 
-    import debianbts
+    import debbugs
 
-    tags = debianbts.get_tags()
+    tags = debbugs.get_tags()
 
     taglist = select_multiple(
         'Do any of the following apply to this report?', tags,
