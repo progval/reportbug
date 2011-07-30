@@ -19,10 +19,6 @@
 ##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
-#
-# Version ##VERSION##; see changelog for revision history
-#
-# $Id: rbtempfile.py,v 1.5 2004-09-13 01:13:10 lawrencc Exp $
 
 import os
 import tempfile

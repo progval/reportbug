@@ -20,10 +20,6 @@
 ##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
-#
-# $Id: checkversions.py,v 1.6.2.3 2006-10-16 18:52:41 lawrencc Exp $
-#
-# Version ##VERSION##; see changelog for revision history
 
 import sys
 import os

@@ -18,8 +18,6 @@
 ##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
-#
-# $Id: reportbug_exceptions.py,v 1.3.2.1 2006-08-26 01:57:29 lawrencc Exp $
 
 class reportbug_exception(Exception):
     pass

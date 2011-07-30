@@ -20,10 +20,6 @@
 ##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
-#
-# Version ##VERSION##; see changelog for revision history
-#
-# $Id: debbugs.py,v 1.24.2.15 2008-04-18 05:38:27 lawrencc Exp $
 
 import utils
 import sys

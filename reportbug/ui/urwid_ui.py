@@ -22,8 +22,6 @@
 # Portions of this file are licensed under the Lesser GNU Public License
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
-#
-# $Id: reportbug_ui_urwid.py,v 1.3.2.19 2007-04-17 20:02:41 lawrencc Exp $
 
 import sys
 import re

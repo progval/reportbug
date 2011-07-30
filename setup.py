@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-#
-# $Id: setup.py,v 1.8 2005/03/04 04:45:44 lordsutch Exp $
 
 from setuptools import setup
 import reportbug
