@@ -37,7 +37,7 @@ Description: reports bugs in the Debian distribution
 Package: python-reportbug
 Section: python
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, apt, python-debian
+Depends: ${misc:Depends}, ${python:Depends}, apt, python-debian, python-debianbts
 Suggests: reportbug
 Description: Python modules for interacting with bug tracking systems
  reportbug is a tool designed to make the reporting of bugs in Debian
