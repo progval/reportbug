@@ -25,6 +25,7 @@ import utils
 import sys
 import mailbox
 import email
+import email.parser
 import email.Errors
 import cStringIO
 import sgmllib
@@ -35,6 +36,8 @@ import time
 import urllib
 import textwrap
 import pprint
+# SOAP interface to Debian BTS
+import debianbts
 
 import checkversions
 from exceptions import (
@@ -1231,6 +1234,28 @@ def get_reports(package, timeout, system='debian', mirrors=None, version=None,
 def get_report(number, timeout, system='debian', mirrors=None,
                http_proxy='', archived=False, followups=False):
     number = int(number)
+
+    if system == 'debian':
+        status = debianbts.get_status(number)
+        log = debianbts.get_bug_log(number)
+
+        # add Date/Subject/From headers to the msg bodies
+        bodies = []
+        for l in log:
+            f = email.parser.FeedParser()
+            f.feed(l['header'])
+            h = f.close()
+            hdrs = []
+            for i in ['Date', 'Subject', 'From']:
+                hdrs.append(i + ': ' + h.get(i))
+            bodies.append('\n'.join(sorted(hdrs)) + '\n\n' + l['body'])
+
+        # subject, in a more nice format
+        subject = '#%d: %s' %(number, status[0].subject)
+
+        # returns the subject and a list of mail bodies
+        return (subject, bodies)
+
     if SYSTEMS[system].get('cgiroot'):
         result = get_cgi_report(number, timeout, system, http_proxy,
                                 archived, followups)
