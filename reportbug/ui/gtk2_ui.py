@@ -208,6 +208,7 @@ class ReportViewerDialog (gtk.Dialog):
 # BTS
 
 class Bug (object):
+    """Encapsulate a bug report for the GTK+ UI"""
     def __init__ (self, bug):
         self.id = bug.bug_num
         self.tag = u', '.join(bug.tags)
