@@ -534,6 +534,8 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             else:
                 raise NoBugs
 
+        hierarchy_new = []
+
         if mbox:
             mboxbuglist = []
             for entry in hierarchy:
