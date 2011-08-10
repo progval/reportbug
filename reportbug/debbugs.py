@@ -849,6 +849,9 @@ for origin in glob.glob('/etc/dpkg/origins/*'):
 
 class BTSParser(sgmllib.SGMLParser):
     def __init__(self, mode='summary', cgi=False, followups=False):
+        import warnings
+        warnings.warn('BTSParse is Deprecated, report a bug if you see this',
+                      DeprecationWarning)
         sgmllib.SGMLParser.__init__(self)
         self.hierarchy = []
         self.lidata = None
@@ -1299,7 +1302,3 @@ def get_report(number, timeout, system='debian', mirrors=None,
     if not url: return None
 
     return parse_html_report(number, url, http_proxy, timeout, followups, cgi=False)
-
-class NullParser(sgmllib.SGMLParser):
-    def __init__(self):
-        sgmllib.SGMLParser.__init__(self)
