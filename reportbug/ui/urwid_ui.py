@@ -580,20 +580,11 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             for (t, bugs) in hierarchy:
                 bcount = len(bugs)
                 buglist.append( ('---', t) )
+                buglist_tmp = []
                 for bug in bugs:
-                    # encode the bug summary line, to avoid crashes due to
-                    # unparsable UTF8 characters
-                    bug = bug.encode('us-ascii', 'replace')
-                    bits = re.split(r'[: ]', bug[1:], 1)
-                    if len(bits) > 1:
-                        tag, info = bits
-                        info = info.strip()
-                        if not info:
-                            info = '(no subject)'
-                    else:
-                        tag = bug[1:]
-                        info = '(no subject)'
-                    buglist.append( (tag, info) )
+                    buglist_tmp.append( (str(bug.bug_num), bug.subject) )
+                # append the sorted list of bugs for this severity
+                map(buglist.append, sorted(buglist_tmp))
 
             p = buglist[1][0]
             #scr.popWindow()

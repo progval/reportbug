@@ -38,6 +38,7 @@ import textwrap
 import pprint
 # SOAP interface to Debian BTS
 import debianbts
+from collections import defaultdict
 
 import checkversions
 from exceptions import (
@@ -1181,6 +1182,39 @@ def get_btsroot(system, mirrors=None):
 
 def get_reports(package, timeout, system='debian', mirrors=None, version=None,
                 http_proxy='', archived=False, source=False):
+
+    if system == 'debian':
+        if isinstance(package, basestring):
+            if source:
+                pkg_filter = 'src'
+            else:
+                pkg_filter = 'package'
+            bugs = debianbts.get_bugs(pkg_filter, package)
+        else:
+            bugs = map(int, package)
+
+        # retrieve bugs and generate the hierarchy
+        stats = debianbts.get_status(bugs)
+
+        d = defaultdict(list)
+        for s in stats:
+            # We now return debianbts.Bugreport objects, containing all the info
+            # for a bug, so UIs can extract them as needed
+            d[s.severity].append(s)
+
+        # keep the bugs ordered per severity
+        # XXX: shouldn't it be something UI-related?
+        #
+        # The hierarchy is a list of tuples:
+        #     (description of the severity, list of bugs for that severity)
+        hier = []
+        for sev in SEVLIST:
+            if sev in d:
+                hier.append(('Bugs with severity %s' % sev, d[sev]))
+
+        return (len(bugs), 'Bug reports for %s' % package, hier)
+
+    # XXX: is the code below used at all now? can we remove it?
     if isinstance(package, basestring):
         if SYSTEMS[system].get('cgiroot'):
             try:

@@ -534,33 +534,20 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             else:
                 raise NoBugs
 
-        # remove unneeded info from bugs hierarchy, we leave only bug number and subject
-        # format "#<bug no> [???] [pkg name] subject <all the rest>
-        bug_re = re.compile(r'#(\d+) \[[^]]+\] \[[^]]+\] (.*) Reported by.*')
-        hierarchy_new = []
-
         if mbox:
             mboxbuglist = []
             for entry in hierarchy:
                 for bug in entry[1]:
-                    match = bug_re.match(bug)
-                    if match:
-                        mboxbuglist.append(int(match.group(1)))
+                    mboxbuglist.append(bug.bug_num)
             return mboxbuglist
 
         if buglist:
             for entry in hierarchy:
                 # second item is a list of bugs report
                 for bug in entry[1]:
-                    match = bug_re.match(bug)
-                    if match:
-                        # we take the info we need (bug number and subject)
-                        #bugs_new.append("#" + match.group(1) + "  " + match.group(2))
-                        # and at the same time create a list of bug number
-                        #bugs.append(int(match.group(1)))
-                        msg = "#" + match.group(1) + "  " + match.group(2)
-                        msg = msg.encode(charset, 'replace')
-                        print msg
+                    msg = "#%d  %s" %(bug.bug_num, bug.subject)
+                    msg = msg.encode(charset, 'replace')
+                    print msg
             sys.exit(0)
 
         for entry in hierarchy:
@@ -569,13 +556,11 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             bugs_new = []
             # second item is a list of bugs report
             for bug in entry[1]:
-                match = bug_re.match(bug)
-                if match:
-                    # we take the info we need (bug number and subject)
-                    bugs_new.append("#" + match.group(1) + "  " + match.group(2))
-                    # and at the same time create a list of bug number
-                    bugs.append(int(match.group(1)))
-            hierarchy_new.append( (entry_new,bugs_new))
+                # we take the info we need (bug number and subject)
+                bugs_new.append("#%d  %s" %(bug.bug_num, bug.subject))
+                # and at the same time create a list of bug number
+                bugs.append(bug.bug_num)
+            hierarchy_new.append((entry_new, sorted(bugs_new)))
 
         # replace old hierarchy with hierarchy_new
         hierarchy = hierarchy_new

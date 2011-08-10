@@ -208,44 +208,17 @@ class ReportViewerDialog (gtk.Dialog):
 # BTS
 
 class Bug (object):
-    def __init__ (self, raw):
-        # Skip the '#'
-        raw = raw[1:]
-        bits = re.split(r'[: ]', raw, 2)
-        self.id, self.tag, self.data = bits
-        # Remove [ and ]
-        self.tag = self.tag[1:-1]
-        self.data = self.data.strip ()
-        self.package = self.data.split(']', 1)[0][1:]
-
-        self.reporter = self.get_data ("Reported by:")
-        self.date = self.get_data ("Date:")
-        self.severity = self.get_data("Severity:").capitalize ()
-        self.version = self.get_data ("Found in version")
-        self.filed_date = self.get_data ("Filed")
-        self.modified_date = self.get_data ("Modified")
-
-        # Get rid of [package] which has been stored in self.package
-        self.info = self.data.split(']', 1)[1]
-        self.info = self.info[:self.info.lower().index ("reported by:")].strip ()
-        if not self.info:
-            self.info = '(no subject)'   
-
-    def get_data (self, token):
-        info = ''
-        try:
-            index = self.data.lower().index (token.lower ())
-        except:
-            return '(unknown)'
-
-        i = index + len(token)
-        while True:
-            c = self.data[i]
-            if c == ';':
-                break
-            info += c
-            i += 1
-        return info.strip ()
+    def __init__ (self, bug):
+        self.id = bug.bug_num
+        self.tag = u', '.join(bug.tags)
+        self.package = bug.package
+        self.reporter = bug.originator
+        self.date = bug.date
+        self.severity = bug.severity
+        self.version = u', '.join(bug.found_versions)
+        self.filed_date = bug.date
+        self.modified_date = bug.log_modified
+        self.info = bug.subject
 
     def __iter__ (self):
         yield self.id
