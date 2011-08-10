@@ -1,4 +1,4 @@
-reportbug (5.1.2) UNRELEASED; urgency=low
+reportbug (6.0) unstable; urgency=low
 
   * reportbug/debianbts.py
     - don't try to convert the package to a source one if we are in 'override'
@@ -10,7 +10,7 @@ reportbug (5.1.2) UNRELEASED; urgency=low
   * Use SOAP to retrive bugs information from Debian BTS; Closes: #415801
   * Use python-debianbts to interact with the Debian BTS; Closes: #490548
 
- -- Sandro Tosi <morph@debian.org>  Wed, 10 Aug 2011 23:59:15 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 11 Aug 2011 01:33:11 +0200
 
 reportbug (5.1.1) unstable; urgency=low
 
