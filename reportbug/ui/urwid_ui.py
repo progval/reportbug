@@ -491,7 +491,7 @@ def select_multiple(par, options, prompt, title=None, order=None, extras=None):
 # Things that are very UI dependent go here
 def show_report(number, system, mirrors,
                 http_proxy, timeout, screen=None, queryonly=False, title='',
-                archived='no'):
+                archived='no', mbox_reader_cmd=None):
     from reportbug import debbugs
 
     ui = screen

@@ -1037,7 +1037,7 @@ class ShowReportPage (Page):
             self.page_type = gtk.ASSISTANT_PAGE_CONFIRM
         return args, kwargs
 
-    def execute (self, number, system, mirrors, http_proxy, timeout, queryonly=False, title='', archived='no'):
+    def execute (self, number, system, mirrors, http_proxy, timeout, queryonly=False, title='', archived='no', mbox_reader_cmd=None):
         self.page.number = number
         self.page.bts = system
         self.page.mirrors = mirrors
