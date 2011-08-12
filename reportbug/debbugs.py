@@ -187,7 +187,7 @@ debother = {
     'upgrade-reports' : 'Reports of successful and unsucessful upgrades',
     'wiki.debian.org' : 'Problems with the Debian wiki',
     'wnpp' : 'Work-Needing and Prospective Packages list',
-    'www.debian.org' : 'Problems with the WWW site (including other *.debian.org sites)'
+    'www.debian.org' : 'Problems with the WWW site (including other *.debian.org sites, except alioth)'
     }
 
 progenyother = {
