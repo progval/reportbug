@@ -395,7 +395,7 @@ def handle_debian_release(package, bts, ui, fromaddr, timeout, online=True, http
         'opu':              "oldstable proposed updates requests",
         'pu':               "stable proposed updates requests",
         'rm':               "Stable/Testing removal requests",
-        'other' :           "None of the above",
+        'other' :           "None of the other options",
         }, 'Choose the request type: ', empty_ok=True)
     if not tag:
         ui.long_message('To report a bug in a package, use the name of the package, not release.debian.org.\n')

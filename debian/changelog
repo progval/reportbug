@@ -3,8 +3,10 @@ reportbug (6.1) UNRELEASED; urgency=low
   * reportbug/debbugs.py
     - mention that 'www.debian.org' pseudo-package is not to be used for alioth;
       thanks to Nelson A. de Oliveira for the report; Closes: #631165
+    - clarify msg for 'other' option in release.d.o special package; thanks to
+      Niels Thykier for teh report; Closes: #635071
 
- -- Sandro Tosi <morph@debian.org>  Fri, 12 Aug 2011 21:30:02 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 12 Aug 2011 22:24:41 +0200
 
 reportbug (6.0) unstable; urgency=low
 
