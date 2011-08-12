@@ -11,3 +11,4 @@ debian/reportbug.substvars
 debian/reportbug/
 man/querybts.fr.1
 man/reportbug.fr.1
+.todo
