@@ -5,10 +5,12 @@ reportbug (6.1) UNRELEASED; urgency=low
       thanks to Nelson A. de Oliveira for the report; Closes: #631165
     - clarify msg for 'other' option in release.d.o special package; thanks to
       Niels Thykier for teh report; Closes: #635071
+    - added http://release.debian.org/wheezy/rc_policy.txt to 'serious'
+      description; thanks to Daniel Dickinson for the report; Closes: #637053
   * Use debian-swirl.svg (copied from gnome-icon-theme to avoid the dep) in the
     desktop file; thanks to Sérgio Cipolla for the report; Closes: #632383
 
- -- Sandro Tosi <morph@debian.org>  Fri, 12 Aug 2011 22:53:56 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 01:25:20 +0200
 
 reportbug (6.0) unstable; urgency=low
 
