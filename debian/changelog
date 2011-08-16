@@ -10,6 +10,8 @@ reportbug (6.1) UNRELEASED; urgency=low
     - in ftp.d.o override menu, if section and priority are not changed, allow
       to send the bug anyhow, because it's the override file outdated; thanks to
       Niels Thykier for the report; Closes: #628769
+    - get_report(): add headers to the bug messages only if they are preset, fix
+      a crash; thanks to Andrey Rahmatullin for the report; Closes: #637994
   * Use debian-swirl.svg (copied from gnome-icon-theme to avoid the dep) in the
     desktop file; thanks to Sérgio Cipolla for the report; Closes: #632383
   * bin/reportbug
@@ -17,7 +19,7 @@ reportbug (6.1) UNRELEASED; urgency=low
       saves all the emails headers and attachment, not only the report body;
       thanks to Ian Zimmerman for the report; Closes: #626656
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 17:21:57 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 18:07:58 +0200
 
 reportbug (6.0) unstable; urgency=low
 

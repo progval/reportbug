@@ -1293,7 +1293,8 @@ def get_report(number, timeout, system='debian', mirrors=None,
             h = f.close()
             hdrs = []
             for i in ['Date', 'Subject', 'From']:
-                hdrs.append(i + ': ' + h.get(i))
+                if i in h:
+                    hdrs.append(i + ': ' + h.get(i))
             bodies.append('\n'.join(sorted(hdrs)) + '\n\n' + l['body'])
 
         # subject, in a more nice format
