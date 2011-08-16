@@ -299,8 +299,15 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
             new_priority = priority
 
         if new_section == section and new_priority == priority:
-            ui.long_message("You didn't change section nor priority, exiting...")
-            sys.exit(1)
+            cont = ui.select_options(
+                "You didn't change section nor priority: is this because it's "
+                "ftp.debian.org override file that needs updating?",
+                'Yn', {'y': 'ftp.debian.org override file needs updating',
+                       'n': 'No, it\'s not the override file' })
+            if cont == 'n':
+                ui.long_message("There's nothing we can do for you, then; "
+                                "exiting...")
+                sys.exit(1)
 
         arch_section = ui.menu('Is this request for an archive section other than "main"?', {
             'main' : "",

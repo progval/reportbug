@@ -7,10 +7,13 @@ reportbug (6.1) UNRELEASED; urgency=low
       Niels Thykier for teh report; Closes: #635071
     - added http://release.debian.org/wheezy/rc_policy.txt to 'serious'
       description; thanks to Daniel Dickinson for the report; Closes: #637053
+    - in ftp.d.o override menu, if section and priority are not changed, allow
+      to send the bug anyhow, because it's the override file outdated; thanks to
+      Niels Thykier for the report; Closes: #628769
   * Use debian-swirl.svg (copied from gnome-icon-theme to avoid the dep) in the
     desktop file; thanks to Sérgio Cipolla for the report; Closes: #632383
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 01:25:20 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 02:49:10 +0200
 
 reportbug (6.0) unstable; urgency=low
 
