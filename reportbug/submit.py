@@ -427,7 +427,8 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
             fh.write(message)
             fh.close()
-            ewrite('Original write failed, wrote bug report to %s\n', msgname)
+            ui.long_message('Error: send/write operation failed, bug report '
+                            'saved to %s\n', msgname)
 
     if mua:
         ewrite("Spawning %s...\n", mua.name)

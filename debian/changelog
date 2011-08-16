@@ -22,8 +22,12 @@ reportbug (6.1) UNRELEASED; urgency=low
       the report; Closes: #632377
     - more verbose message when we can't find a package; thanks to Lionel Elie
       Mamane for the report; Closes: #628463
+  * reportbug/submit.py
+    - when sending/writing the report fails, output the message in the UI, so
+      also GTK+ and urwid users can see the failure and where the report is
+      saved; thanks to Stefan Monnier for the report; Closes: #626930
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 19:43:24 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 22:05:27 +0200
 
 reportbug (6.0) unstable; urgency=low
 
