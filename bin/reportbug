@@ -2069,6 +2069,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
 
         mailing = not (mua or self.options.printonly or self.options.template)
         message = u"Subject: %s\n%s" % (subject, message)
+        justsave = False
 
         if mailing:
             fh, filename = TempFile(prefix=tfprefix, dir=self.options.draftpath)
