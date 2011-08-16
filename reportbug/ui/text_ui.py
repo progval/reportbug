@@ -589,7 +589,7 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
         if res == 'n':
             raise NoNetwork
     except NoPackage:
-        long_message('No record of this package found.', title=title)
+        long_message('No record of this package found.')
         raise NoPackage
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
