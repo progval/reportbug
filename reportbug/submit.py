@@ -448,7 +448,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                     fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
                     fh.write(message)
                     fh.close()
-                    ewrite('Original write failed, wrote bug report to %s\n', msgname)
+                    ewrite('Draft saved into %s\n', msgname)
                     succeeded = True
             else:
                 succeeded = True
