@@ -1262,7 +1262,8 @@ class UI(object):
             package = 'linux-2.6'
 
         if not package:
-            efail("No package specified; stopping.\n")
+            efail("No package specified or we were unable to find it in the apt"
+                  " cache; stopping.\n")
 
         tfprefix = tempfile_prefix(package)
         if self.options.interface == 'text':

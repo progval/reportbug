@@ -20,8 +20,10 @@ reportbug (6.1) UNRELEASED; urgency=low
       thanks to Ian Zimmerman for the report; Closes: #626656
     - ignore mua settings when running for --template; thanks to Jakub Wilk for
       the report; Closes: #632377
+    - more verbose message when we can't find a package; thanks to Lionel Elie
+      Mamane for the report; Closes: #628463
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 18:51:49 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 19:43:24 +0200
 
 reportbug (6.0) unstable; urgency=low
 
