@@ -12,8 +12,12 @@ reportbug (6.1) UNRELEASED; urgency=low
       Niels Thykier for the report; Closes: #628769
   * Use debian-swirl.svg (copied from gnome-icon-theme to avoid the dep) in the
     desktop file; thanks to Sérgio Cipolla for the report; Closes: #632383
+  * bin/reportbug
+    - at the last menu, saving the report to a file (instead of sending it) now
+      saves all the emails headers and attachment, not only the report body;
+      thanks to Ian Zimmerman for the report; Closes: #626656
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 02:49:10 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 17:21:57 +0200
 
 reportbug (6.0) unstable; urgency=low
 

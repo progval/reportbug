@@ -163,6 +163,8 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
     message = None
     patch = False
     skip_editing = False
+    # is this report just to be saved on a file ?
+    justsave = False
     while True:
         if not skip_editing:
             (message, changed) = ui.spawn_editor(message or dmessage, filename,
@@ -320,8 +322,8 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                         break
             skip_editing = True
         elif x in ('n', 'q'):
-            stopmsg(filename)
-            sys.exit(1)
+            justsave = True
+            break
         elif x in ('l', 'p'):
             skip_editing = True
             if x == 'l':
@@ -377,7 +379,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             else:
                 break
 
-    return open(filename).read(), patch
+    return open(filename).read(), patch, justsave
 
 def find_package_for(filename, notatty=False, pathonly=False):
     ewrite("Finding package for '%s'...\n", filename)
@@ -2074,9 +2076,9 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             fh.close()
             oldmua = mua or self.options.mua
             if not self.options.body and not self.options.bodyfile:
-                message, haspatch = handle_editing(filename, message, self.options,
-                                         sendto, attachments, package,
-                                         severity, mode, charset=charset, tags=tags)
+                message, haspatch, justsave = handle_editing(
+                    filename, message, self.options, sendto, attachments,
+                    package, severity, mode, charset=charset, tags=tags)
                 if haspatch:
                     patch = True
 
@@ -2130,13 +2132,27 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         # newline in the message.  See #234963.
         body = body.rstrip('\n')+'\n'
 
-        submit.send_report(
-            body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
-            headers, package, charset, mailing, sysinfo, rtype, exinfo,
-            self.options.replyto, self.options.printonly, self.options.template,
-            self.options.outfile, self.options.mta, self.options.kudos, self.options.smtptls,
-            smtphost, self.options.smtpuser, self.options.smtppasswd, self.options.paranoid,
-            self.options.draftpath)
+        if justsave:
+            fh, outputfile = TempFile(prefix=tfprefix,
+                                      dir=self.options.draftpath)
+            fh.close()
+            mua = mailing = False
+            # fake sending the report, it actually saves it in a tempfile
+            # but with all the email headers and stuff
+            submit.send_report(
+                body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
+                headers, package, charset, mailing, sysinfo, rtype, exinfo,
+                outfile=self.options.outfile or outputfile, mta=None,
+                smtphost=None)
+        else:
+            submit.send_report(
+                body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
+                headers, package, charset, mailing, sysinfo, rtype, exinfo,
+                self.options.replyto, self.options.printonly,
+                self.options.template, self.options.outfile, self.options.mta,
+                self.options.kudos, self.options.smtptls, smtphost,
+                self.options.smtpuser, self.options.smtppasswd,
+                self.options.paranoid, self.options.draftpath)
 
         if self.options.exitprompt:
             ui.get_string('Please press ENTER to exit reportbug: ')
