@@ -1017,7 +1017,7 @@ def main():
             print "The directory % does not exist; exiting." % options.draftpath
             sys.exit(1)
 
-    if options.mua:
+    if options.mua and not options.template:
         if not utils.mua_is_supported(options.mua):
             ewrite("Specified mail user agent is not supported; exiting.\n")
             sys.exit(1)

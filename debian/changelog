@@ -18,8 +18,10 @@ reportbug (6.1) UNRELEASED; urgency=low
     - at the last menu, saving the report to a file (instead of sending it) now
       saves all the emails headers and attachment, not only the report body;
       thanks to Ian Zimmerman for the report; Closes: #626656
+    - ignore mua settings when running for --template; thanks to Jakub Wilk for
+      the report; Closes: #632377
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 18:07:58 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 18:51:49 +0200
 
 reportbug (6.0) unstable; urgency=low
 
