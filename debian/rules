@@ -7,7 +7,9 @@ VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | sed 's/^Version: \(
 DISTRO := $(shell dpkg-parsechangelog | egrep '^Distribution:' | sed 's/^Distribution: \([^+]*\).*/\1/')
 REPORTBUG_VERSION := $(shell python -c "import reportbug; print reportbug.VERSION_NUMBER")
 
-build: build-stamp
+build: build-arch build-indep
+build-arch: build-stamp
+build-indep: build-stamp
 build-stamp:
 	dh_testdir
 

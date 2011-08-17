@@ -30,8 +30,10 @@ reportbug (6.1) UNRELEASED; urgency=low
     - automatically select the package for the running kernel if selecting
       'kernel' or 'linux-image' packages; thanks to Ben Hutchings for the
       report; Closes: #619870
+  * debian/rules
+    - fix build* targets
 
- -- Sandro Tosi <morph@debian.org>  Wed, 17 Aug 2011 15:51:57 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 17 Aug 2011 16:09:28 +0200
 
 reportbug (6.0) unstable; urgency=low
 
