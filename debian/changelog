@@ -26,8 +26,12 @@ reportbug (6.1) UNRELEASED; urgency=low
     - when sending/writing the report fails, output the message in the UI, so
       also GTK+ and urwid users can see the failure and where the report is
       saved; thanks to Stefan Monnier for the report; Closes: #626930
+  * bin/reportbug, reportbug/utils.py
+    - automatically select the package for the running kernel if selecting
+      'kernel' or 'linux-image' packages; thanks to Ben Hutchings for the
+      report; Closes: #619870
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Aug 2011 22:05:27 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 17 Aug 2011 15:51:57 +0200
 
 reportbug (6.0) unstable; urgency=low
 

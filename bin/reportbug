@@ -460,8 +460,9 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
         package = validate_package_name(package)
 
     if package in ('kernel', 'linux-image'):
-        ui.long_message("%s package has been removed, use linux-2.6 instead (replaced here automatically).", package)
-        package = 'linux-2.6'
+        ui.long_message(
+            "Automatically selecting the package for the running kernel")
+        package = utils.get_running_kernel_pkg()
 
     if mode < MODE_STANDARD:
         if package == 'reportbug':
@@ -1258,8 +1259,9 @@ class UI(object):
             package = get_other_package_name(others)
 
         if package in ('kernel', 'linux-image'):
-            ui.long_message("%s package has been removed, use linux-2.6 instead (replaced here automatically).", package)
-            package = 'linux-2.6'
+            ui.long_message(
+                "Automatically selecting the package for the running kernel")
+            package = utils.get_running_kernel_pkg()
 
         if not package:
             efail("No package specified or we were unable to find it in the apt"

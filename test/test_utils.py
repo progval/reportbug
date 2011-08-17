@@ -2,6 +2,7 @@ import unittest2
 
 from reportbug import utils
 import os.path
+import platform
 
 class TestUtils(unittest2.TestCase):
 
@@ -254,6 +255,12 @@ class TestSystemInformation(unittest2.TestCase):
 
         res = utils.lsb_release_info()
         self.assertIn('Debian', res)
+
+    def test_get_running_kernel_pkg(self):
+
+        package = utils.get_running_kernel_pkg()
+
+        self.assertIn(platform.release(), package)
 
 class TestMua(unittest2.TestCase):
 

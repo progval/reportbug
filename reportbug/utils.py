@@ -1110,3 +1110,17 @@ def launch_mbox_reader(cmd, url, http_proxy, timeout):
         os.system('mail -f ' + fname)
     finally:
         os.unlink(fname)
+
+def get_running_kernel_pkg():
+    """Return the package of the currently running kernel, needed to force
+    assignment for 'kernel' package to a real one"""
+
+    system = platform.system()
+    release = platform.release()
+
+    if system == 'Linux':
+        return 'linux-image-' + release
+    elif system == 'GNU/kFreeBSD':
+        return 'kfreebsd-image-' + release
+    else:
+        return None
