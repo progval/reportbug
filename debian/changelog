@@ -3,8 +3,11 @@ reportbug (6.2) UNRELEASED; urgency=low
   * reportbug/debbugs.py
     - remove release tags; thanks to Kurt Roeckx for the report and to Julien
       Cristau for the confirmation; Closes: #613716
+  * reportbug/utils.py
+    - support "Debian Ports" in apt policy info section; thanks to Aurelien
+      Jarno for the report and patch; Closes: #638357
 
- -- Sandro Tosi <morph@debian.org>  Thu, 18 Aug 2011 12:42:50 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 18 Aug 2011 22:15:08 +0200
 
 reportbug (6.1) unstable; urgency=low
 

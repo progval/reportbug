@@ -677,7 +677,7 @@ def get_debian_release_info():
     dists = []
     output = commands.getoutput('apt-cache policy 2>/dev/null')
     if output:
-        mre = re.compile('\s+(\d+)\s+.*$\s+release\s.*o=(Ubuntu|Debian),a=([^,]+),', re.MULTILINE)
+        mre = re.compile('\s+(\d+)\s+.*$\s+release\s.*o=(Ubuntu|Debian|Debian Ports),a=([^,]+),', re.MULTILINE)
         found = {}
         ## XXX: When Python 2.4 rolls around, rewrite this
         for match in mre.finditer(output):
