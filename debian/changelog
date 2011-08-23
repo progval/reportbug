@@ -6,8 +6,11 @@ reportbug (6.2) UNRELEASED; urgency=low
   * reportbug/utils.py
     - support "Debian Ports" in apt policy info section; thanks to Aurelien
       Jarno for the report and patch; Closes: #638357
+  * debian/desktop
+    - remove deprecated 'Application' category + add GenericName; thanks to Pino
+      Toscano for the report and patch; Closes: #638964
 
- -- Sandro Tosi <morph@debian.org>  Thu, 18 Aug 2011 22:15:08 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 23 Aug 2011 22:14:40 +0200
 
 reportbug (6.1) unstable; urgency=low
 
