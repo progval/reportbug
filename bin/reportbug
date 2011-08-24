@@ -1402,7 +1402,18 @@ class UI(object):
             if not pkgavail and not isvirtual:
                 # Look for a matching source package
                 packages = utils.get_source_package(package)
-                if len(packages) > 0:
+                if self.options.source:
+                    issource = True
+                    # package is already ok here, just need the version
+                    # so we loop over the bin pkgs looking for one installed
+                    # and then get its version
+                    if len(packages) > 0:
+                        for p in packages:
+                            v = utils.get_package_status(p[0])[0]
+                            if v:
+                                pkgversion = v
+                                break
+                elif len(packages) > 0:
                     src = package
                     if len(packages) and not notatty:
                         packages.sort()
@@ -1492,9 +1503,11 @@ class UI(object):
                     efail("Package does not exist; stopping.\n")
                     sys.exit(1)
 
-            (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
-             installed, origin, vendor, reportinfo, priority, desc, src_name,
-             fulldesc, state, suggests, section) = status
+            # we can use status only if it's not a source pkg
+            if not issource:
+                (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
+                 installed, origin, vendor, reportinfo, priority, desc, src_name,
+                 fulldesc, state, suggests, section) = status
 
         buginfo = '/usr/share/bug/' + package
         bugexec = submitas = submitto = presubj = None
@@ -1554,7 +1567,8 @@ class UI(object):
                     efail("Package integrity check failed; stopping.\n")
 
         if not pkgversion or usedavail or (not pkgavail and
-                                           not self.options.pkgversion):
+                                           not self.options.pkgversion and
+                                           not self.options.source):
             if not bugnumber and not (isvirtual or notatty):
                 pkgversion = ui.get_string('Please enter the version of the '
                                            'package this report applies to '
