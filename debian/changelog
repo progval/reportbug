@@ -9,8 +9,11 @@ reportbug (6.2) UNRELEASED; urgency=low
   * debian/desktop
     - remove deprecated 'Application' category + add GenericName; thanks to Pino
       Toscano for the report and patch; Closes: #638964
+  * reportbug/checkversions.py
+    - ignore if we can't compare the version of a currently installed package;
+      thanks to Josh Triplett for the report; Closes: #638575
 
- -- Sandro Tosi <morph@debian.org>  Tue, 23 Aug 2011 22:14:40 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 24 Aug 2011 19:08:30 +0200
 
 reportbug (6.1) unstable; urgency=low
 

@@ -124,7 +124,7 @@ class IncomingParser(sgmllib.SGMLParser):
 def compare_versions(current, upstream):
     """Return 1 if upstream is newer than current, -1 if current is
     newer than upstream, and 0 if the same."""
-    if not upstream: return 0
+    if not current or not upstream: return 0
     rc = os.system('dpkg --compare-versions %s lt %s' % (current, upstream))
     rc2 = os.system('dpkg --compare-versions %s gt %s' % (current, upstream))
     if not rc:
