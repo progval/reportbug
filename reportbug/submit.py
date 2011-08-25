@@ -339,8 +339,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 
         faddr = rfc822.parseaddr(fromaddr)[1]
         ewrite("Sending message via %s...\n", mta)
-        pipe = os.popen('%s -f %s -oi -oem %s' % (
-            mta, commands.mkarg(faddr), jalist), 'w')
+        pipe = os.popen('%s -oi -oem %s' % (mta, jalist), 'w')
         using_sendmail = True
 
     if smtphost:
