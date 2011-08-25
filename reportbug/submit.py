@@ -322,12 +322,14 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         try:
             pipe = open_write_safe(msgname, 'w')
         except OSError:
+            # we can't write to the selected file, use a temp file instead
             fh, newmsgname = TempFile(prefix=tfprefix, dir=draftpath)
-            fh.write(message.as_string())
-            fh.close()
             ewrite('Writing to %s failed; '
-                   'wrote bug report to %s\n', msgname, newmsgname)
+                   'using instead %s\n', msgname, newmsgname)
             msgname = newmsgname
+            # we just need a place where to write() and a file handler
+            # is here just for that
+            pipe = fh
     elif mta and not smtphost:
         try:
             x = os.getcwd()
