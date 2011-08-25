@@ -254,7 +254,7 @@ def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=Fa
             response = our_raw_input('> ', options, completer)
 
     # Translate the response into a Unicode string
-    if response is not None:
+    if response is not None and not isinstance(response, unicode):
         response = unicode(response, charset, 'replace')
 
     return response
