@@ -1362,7 +1362,8 @@ class UI(object):
             efail('Exiting.\n')
 
         if not pkgversion and self.options.querydpkg and \
-               sysinfo.get('query-dpkg', True):
+               sysinfo.get('query-dpkg', True) and \
+               package not in debbugs.SYSTEMS[bts].get('otherpkgs').keys():
             ewrite("Getting status for %s...\n", package)
             status = utils.get_package_status(package)
 

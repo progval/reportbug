@@ -16,6 +16,9 @@ reportbug (6.2) UNRELEASED; urgency=low
     - when using --src don't present the menu with possible binary packages (and
       also try to be smart and infer the version from the bin pkgs list); thanks
       to Vincent Lefevre for the report; Closes: #638616
+    - don't gather information for "other" packages (like wnpp, ftp.d.o, etc),
+      so actions like following up on one of their bugs skip that check; thanks
+      to Adrian Glaubitz for the report; #614366
   * reportbug/submit.py
     - don't force the Envelope-From header to the From value; thanks to
       Francesco Poli for the report; Closes: #614880
@@ -26,7 +29,7 @@ reportbug (6.2) UNRELEASED; urgency=low
     - don't try to decode a unicode string; thanks to Vincent Bernat for the
       report; Closes: #638429
 
- -- Sandro Tosi <morph@debian.org>  Fri, 26 Aug 2011 00:03:48 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 26 Aug 2011 18:36:59 +0200
 
 reportbug (6.1) unstable; urgency=low
 
