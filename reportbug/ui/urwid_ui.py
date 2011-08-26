@@ -513,17 +513,17 @@ def show_report(number, system, mirrors,
     valid = 'Odmq'
 
     while 1:
-        (bugtitle, bodies) = info
+        (buginfo, bodies) = info
         body = bodies[0]
 
-        r = select_options(body, valid, title=bugtitle, ui=ui, help=options)
+        r = select_options(body, valid, title=buginfo.subject, ui=ui, help=options)
         ui = None
         if not r or (r == 'o'):
             break
         elif r == 'q':
             return -1
         elif r == 'm':
-            return number
+            return buginfo
 
         launch_browser(debbugs.get_report_url(system, number, archived))
     return

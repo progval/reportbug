@@ -28,8 +28,13 @@ reportbug (6.2) UNRELEASED; urgency=low
   * reportbug/ui/text_ui.py
     - don't try to decode a unicode string; thanks to Vincent Bernat for the
       report; Closes: #638429
+  * reportbug/debbugs.py + dependeciens
+    - make get_report() return the Bugreport instance, containing all the bug
+      information; now the UI does the visualization part, and we just pass
+      objects around storing the info the UI will extract and display;
+      implicitly Closes: #571983
 
- -- Sandro Tosi <morph@debian.org>  Fri, 26 Aug 2011 18:36:59 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 01:42:04 +0200
 
 reportbug (6.1) unstable; urgency=low
 

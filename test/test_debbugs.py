@@ -126,12 +126,13 @@ class TestGetReports(unittest2.TestCase):
     @attr('network') #marking the test as using network
     def test_get_report(self):
 
-        data = debbugs.get_report(415801, 120)
-        self.assertEqual(data[0],
-               '#415801: reportbug: add support for SOAP interface to BTS')
+        buginfo, bodies = debbugs.get_report(415801, 120)
+        self.assertEqual(buginfo.bug_num, 415801)
+        self.assertEqual(buginfo.subject,
+                         'reportbug: add support for SOAP interface to BTS')
 
         # relative to bts#637994, report with messages without a header
-        subject, bodies = debbugs.get_report(503300, 120)
+        buginfo, bodies = debbugs.get_report(503300, 120)
         self.assertGreater(len(bodies), 0)
 
 class TestUrlFunctions(unittest2.TestCase):

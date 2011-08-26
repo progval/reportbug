@@ -365,7 +365,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         
     def found (self, info):
         self.drop_progressbar ()
-        desc = info[0].split(':', 1)[1].strip ()
+        desc = info[0].subject
         bodies = info[1]
         vbox = gtk.VBox (spacing=12)
         vbox.set_border_width (12)

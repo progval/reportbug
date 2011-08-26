@@ -732,7 +732,7 @@ def get_arch():
 
 def generate_blank_report(package, pkgversion, severity, justification,
                           depinfo, confinfo, foundfile='', incfiles='',
-                          system='debian', exinfo=0, type=None, klass='',
+                          system='debian', exinfo=None, type=None, klass='',
                           subject='', tags='', body='', mode=MODE_EXPERT,
                           pseudos=None, debsumsoutput=None, issource=False):
     # For now...

@@ -50,9 +50,9 @@ class bugreport(object):
         # the conversion is impossible
         if followup and not isinstance(followup, int):
             try:
-                self.followup = int(followup)
-            except TypeError:
-                ui.long_message('Invalid value for followup, it must be an integer')
+                self.followup = followup.bug_num
+            except:
+                ui.long_message('Invalid value for followup, it must be a debianbts.Bugreport instance or an integer')
                 raise TypeError
         else:
             self.followup = followup

@@ -1277,7 +1277,7 @@ def get_report(number, timeout, system='debian', mirrors=None,
     number = int(number)
 
     if system == 'debian':
-        status = debianbts.get_status(number)
+        status = debianbts.get_status(number)[0]
         log = debianbts.get_bug_log(number)
 
         # add Date/Subject/From headers to the msg bodies
@@ -1292,11 +1292,8 @@ def get_report(number, timeout, system='debian', mirrors=None,
                     hdrs.append(i + ': ' + h.get(i))
             bodies.append('\n'.join(sorted(hdrs)) + '\n\n' + l['body'])
 
-        # subject, in a more nice format
-        subject = '#%d: %s' %(number, status[0].subject)
-
-        # returns the subject and a list of mail bodies
-        return (subject, bodies)
+        # returns the bug status and a list of mail bodies
+        return (status, bodies)
 
     if SYSTEMS[system].get('cgiroot'):
         result = get_cgi_report(number, timeout, system, http_proxy,

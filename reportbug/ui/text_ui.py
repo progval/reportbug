@@ -418,33 +418,22 @@ def show_report(number, system, mirrors,
         ewrite('No report available: #%s\n', number)
         raise NoBugs
 
-    # extract the package name, either it's reported against
-    # the binary package or the source one
-    foundpackage = info[1][0].lower()
-    try:
-        foundpackage = foundpackage.split('package: ')[1].split('\n')[0]
-    except IndexError:
-        try:
-            foundpackage = foundpackage.split('source: ')[1].split('\n')[0]
-        except:
-            ewrite('Cannot retrieve bug\'s package, exiting...\n')
-            sys.exit(-1)
+    buginfo, messages = info
 
-    (title, messages) = info
-    # save report subject in main
-    m = sys.modules['__main__']
-    m.reporttitle = ' '.join(title.split()[2:])
-    m.foundpackage = foundpackage
+    # XXX: could this be ever possible?
+    if not (buginfo.package or not buginfo.source):
+        ewrite('Cannot retrieve bug\'s package, exiting...\n')
+        sys.exit(-1)
 
     current_message = 0
     skip_pager = False
 
     while 1:
         if current_message:
-            text = 'Followup %d - %s\n\n%s' % (current_message, title,
+            text = 'Followup %d - %s\n\n%s' % (current_message, buginfo.subject,
                                                  messages[current_message])
         else:
-            text = 'Original report - %s\n\n%s' % (title, messages[0])
+            text = 'Original report - %s\n\n%s' % (buginfo.subject, messages[0])
 
         if not skip_pager:
             fd = os.popen('sensible-pager', 'w')
@@ -478,7 +467,7 @@ def show_report(number, system, mirrors,
                             'q' : "I'm bored; quit please."},
                            allow_numbers = range(1, len(messages)+1))
         if x == 'x':
-            return number
+            return buginfo
         elif x == 'q':
             raise NoReport
         elif x == 'b':

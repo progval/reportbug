@@ -3,6 +3,8 @@ import unittest2
 from reportbug import utils
 import os.path
 import platform
+from nose.plugins.attrib import attr
+import debianbts
 
 class TestUtils(unittest2.TestCase):
 
@@ -351,6 +353,7 @@ Shell: /bin/sh linked to /bin/bash"""
         self.assertIn('Morph', p)
 
 
+    @attr('network') #marking the test as using network
     def test_generate_blank_report(self):
 
         report = utils.generate_blank_report('reportbug', '1.2.3', 'normal',
@@ -367,9 +370,10 @@ Shell: /bin/sh linked to /bin/bash"""
                                              exinfo=123456)
         self.assertIn('Followup-For: Bug #123456', report)
 
+        bug = debianbts.get_status(123456)[0]
         report = utils.generate_blank_report('reportbug', '1.2.3', 'normal',
                                              '', '', '', type='debbugs',
-                                             exinfo='123456')
+                                             exinfo=bug)
         self.assertIn('Followup-For: Bug #123456', report)
 
         with self.assertRaises(TypeError):
