@@ -73,7 +73,16 @@ import ui.text_ui as ui
 
 from reportbug.ui import AVAILABLE_UIS
 
-NEWBIELINE = 'Dear Maintainer,\n*** Please type your report below this line ***'
+NEWBIELINE = """Dear Maintainer,
+*** Please consider answering these questions, where appropiate ***
+
+   * What led up to the situation?
+   * What exactly did you do (or not do) that was effective (or
+     ineffective)?
+   * What was the outcome of this action?
+   * What outcome did you expect instead?
+
+*** End of the template - remove these lines ***"""
 
 fhs_directories = ['/', '/usr', '/usr/share', '/var', '/usr/X11R6',
                    '/usr/man', '/usr/doc', '/usr/bin']
