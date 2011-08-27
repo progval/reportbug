@@ -67,15 +67,17 @@ class BuilddParser(sgmllib.SGMLParser):
             self.found_succeeded=True
 
 def check_built(src_package, timeout, arch=None, http_proxy=None):
+    """Return True if built in the past, False otherwise (even error)"""
     if not arch:
         arch = utils.get_arch()
 
     try:
         page = open_url(BUILDD_URL % (arch, src_package), http_proxy, timeout)
     except NoNetwork:
-        return {}
+        return False
+
     if not page:
-        return {}
+        return False
 
     parser = BuilddParser()
     parser.feed(page.read())
