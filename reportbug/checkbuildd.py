@@ -24,6 +24,7 @@
 import sgmllib
 import commands
 
+import utils
 from urlutils import open_url
 from reportbug.exceptions import (
     NoNetwork,
@@ -65,12 +66,9 @@ class BuilddParser(sgmllib.SGMLParser):
         if data and 'successful' in data:
             self.found_succeeded=True
 
-def archname():
-    return commands.getoutput('dpkg --print-architecture')
-
 def check_built(src_package, timeout, arch=None, http_proxy=None):
     if not arch:
-        arch = archname()
+        arch = utils.get_arch()
 
     try:
         page = open_url(BUILDD_URL % (arch, src_package), http_proxy, timeout)
