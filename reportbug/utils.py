@@ -630,15 +630,30 @@ def get_dependency_info(package, depends, rel="depends on"):
 
     deplist = packs.values()
     deplist.sort()
-    maxlen = max([len(x[2]) for x in deplist] + [10])
 
+    deplist2 = []
+    # extract the info we need, also add provides where it fits
     for (pack, status, vers, desc, provides) in deplist:
         if provides:
             pack += ' [' + provides + ']'
+        deplist2.append((pack, vers))
+    deplist = deplist2
 
-        packstuff = '%-*.*s %s' % (39-maxlen, 39-maxlen, pack, vers)
+    # now we can compute the max possible value for each column, that can be the
+    # max of all its values, or the space left from the other column; this way,
+    # the sum of the 2 fields is never > 73 (hence the resulting line is <80
+    # columns)
+    maxp = max([len(x[0]) for x in deplist])
+    maxv = max([len(x[1]) for x in deplist])
+    widthp = min(maxp, 73-maxv)
+    widthv = min(maxv, 73-maxp)
 
-        info = '%-3.3s %-40.40s %-.34s\n' % (status, packstuff, desc)
+    for (pack, vers) in deplist:
+        # we format the string specifying to align it in a field of a given
+        # dimension (the first {width*}) but also limit its size (the second
+        # {width*}
+        info = '{0:3.3} {1:{widthp}.{widthp}}  {2:{widthv}.{widthv}}\n'.format(
+            status, pack, vers, widthp=widthp, widthv=widthv)
         depinfo += info
 
     return depinfo
