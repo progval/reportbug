@@ -327,6 +327,8 @@ class BugPage (gtk.EventBox, threading.Thread):
         self.timeout = timeout
         self.archived = archived
 
+        self.bug_status = None
+
         vbox = gtk.VBox (spacing=12)
         vbox.pack_start (gtk.Label ("Retrieving bug information."), expand=False)
 
@@ -346,6 +348,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         if not info:
             self.application.run_once_in_main_thread (self.not_found)
         else:
+            self.bug_status = info[0]
             self.application.run_once_in_main_thread (self.found, info)
 
     def drop_progressbar (self):
@@ -406,7 +409,7 @@ class BugPage (gtk.EventBox, threading.Thread):
 
     def on_reply (self, button):
         # Return the bug number to reportbug
-        self.application.set_next_value (self.number)
+        self.application.set_next_value (self.bug_status)
         # Forward the assistant to the progress bar
         self.assistant.forward_page ()
         # Though we're only a page, we are authorized to destroy our parent :)
