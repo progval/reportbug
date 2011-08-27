@@ -90,6 +90,8 @@ def main():
                       help='Use a web browser instead of the internal interface.')
     parser.add_option('--mbox-reader-cmd', dest='mbox_reader_cmd',
                       help="Specify the program to open the reports mbox.")
+    parser.add_option('--latest-first', action='store_true', dest='latest_first', default=False,
+                      help='Order bugs to show the latest first')
 
 
     # parse cli options
@@ -160,7 +162,7 @@ def main():
                 mboxbuglist = []
                 mboxbuglist = ui.handle_bts_query(package, options.system, options.timeout, options.mirrors, options.http_proxy,
                                     queryonly=True, title=VERSION, archived=options.archived,
-                                    source=options.source, mbox=options.mbox)
+                                    source=options.source, mbox=options.mbox, latest_first=options.latest_first)
                 for num in mboxbuglist:
                     url = debbugs.get_report_url(options.system, num, options.archived, mbox=True)
                     try:
@@ -215,7 +217,7 @@ def main():
             ui.handle_bts_query(package, options.system, options.timeout, options.mirrors, options.http_proxy,
                                 queryonly=True, title=VERSION, archived=options.archived,
                                 source=options.source, buglist=options.buglist,
-                                mbox_reader_cmd=options.mbox_reader_cmd)
+                                mbox_reader_cmd=options.mbox_reader_cmd, latest_first=options.latest_first)
             ui.long_message('This option is not available while using querybts alone.\n')
             x = ui.select_options('What do you want to do now?', 'Qb',
                                   {'q': 'Exit querybts.',

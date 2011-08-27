@@ -844,7 +844,7 @@ class HandleBTSQueryPage (TreePage):
 
     def sync_pre_operation (self, package, bts, timeout, mirrors=None, http_proxy="", queryonly=False, screen=None,
                             archived='no', source=False, title=None,
-                            version=None, buglist=None, mbox_reader_cmd=None):
+                            version=None, buglist=None, mbox_reader_cmd=None, latest_first=False):
         self.bts = bts
         self.mirrors = mirrors
         self.http_proxy = http_proxy
@@ -893,8 +893,11 @@ class HandleBTSQueryPage (TreePage):
                 for category, bugs in hierarchy:
                     buglist = []
                     for bug in bugs:
-                        buglist.append (Bug (bug))
-                    report.append ((category, buglist))
+                        buglist.append (bug)
+                    # XXX: this needs to be fixed in debianbts; Bugreport are
+                    # not sortable (on bug_num) - see #639458
+                    sorted(buglist, reverse=latest_first)
+                    report.append ((category, map(Bug, buglist)))
 
                 return (report, sectitle), {}
 

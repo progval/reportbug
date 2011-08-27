@@ -33,8 +33,11 @@ reportbug (6.2) UNRELEASED; urgency=low
       information; now the UI does the visualization part, and we just pass
       objects around storing the info the UI will extract and display;
       implicitly Closes: #571983
+  * introduce the new --latest-first cli options to sort the bug reports lists
+    to show the latest bugs first; thanks to Marcelo Magallon for the bug report
+    and the idea; Closes: #66917
 
- -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 01:42:04 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 13:56:19 +0200
 
 reportbug (6.1) unstable; urgency=low
 

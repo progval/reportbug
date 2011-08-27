@@ -491,7 +491,7 @@ def show_report(number, system, mirrors,
 def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
                      source=False, version=None, mbox=False, buglist=None,
-                     mbox_reader_cmd=None):
+                     mbox_reader_cmd=None, latest_first=False):
     root = debbugs.SYSTEMS[bts].get('btsroot')
     if not root:
         ewrite('%s bug tracking system has no web URL; bypassing query\n',
@@ -551,7 +551,7 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                 bugs_new.append("#%d  %s" %(bug.bug_num, bug.subject))
                 # and at the same time create a list of bug number
                 bugs.append(bug.bug_num)
-            hierarchy_new.append((entry_new, sorted(bugs_new)))
+            hierarchy_new.append((entry_new, sorted(bugs_new, reverse=latest_first)))
 
         # replace old hierarchy with hierarchy_new
         hierarchy = hierarchy_new

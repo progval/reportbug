@@ -968,6 +968,9 @@ def main():
     parser.add_option('--mbox-reader-cmd', dest='mbox_reader_cmd',
                       help="Specify the program to open the reports mbox.")
     parser.add_option('--max-attachment-size', type="int", dest='max_attachment_size', help="Specify the maximum size in byte for an attachment [default: 10485760].")
+    parser.add_option('--latest-first', action='store_true', dest='latest_first', default=False,
+                      help='Order bugs to show the latest first')
+
 
     (options, args) = parser.parse_args()
 
@@ -1680,7 +1683,8 @@ class UI(object):
                                              queryonly=self.options.queryonly,
                                              version=pkgversion,
                                              mbox_reader_cmd=
-                                                 self.options.mbox_reader_cmd)
+                                                 self.options.mbox_reader_cmd,
+                                             latest_first=self.options.latest_first)
             except UINotImplemented:
                 exinfo = None
             except NoNetwork:

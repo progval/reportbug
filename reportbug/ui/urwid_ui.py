@@ -531,7 +531,7 @@ def show_report(number, system, mirrors,
 def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, screen=None, title="", archived='no',
                      source=False, version=None, mbox=False, buglist=None,
-                     mbox_reader_cmd=None):
+                     mbox_reader_cmd=None, latest_first=False):
     from reportbug import debbugs
 
     sysinfo = debbugs.SYSTEMS[bts]
@@ -584,7 +584,7 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                 for bug in bugs:
                     buglist_tmp.append( (str(bug.bug_num), bug.subject) )
                 # append the sorted list of bugs for this severity
-                map(buglist.append, sorted(buglist_tmp))
+                map(buglist.append, sorted(buglist_tmp, reverse=latest_first))
 
             p = buglist[1][0]
             #scr.popWindow()
