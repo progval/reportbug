@@ -9,6 +9,8 @@ reportbug (6.2) UNRELEASED; urgency=low
     - remove the description from the dependencies list, leaving more space for
       the useful information (package name and version); thanks to Andreas
       Beckmann for the report; Closes: #582218
+    - insert a greeting note in the bug report body template; thanks to martin f
+      krafft for the report; Closes: #275660
   * debian/desktop
     - remove deprecated 'Application' category + add GenericName; thanks to Pino
       Toscano for the report and patch; Closes: #638964
@@ -44,7 +46,7 @@ reportbug (6.2) UNRELEASED; urgency=low
   * reportbug/checkbuildd.py
     - fix buildd.d.o checks after the service changes layout; Closes: #612520
 
- -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 20:53:13 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 23:39:59 +0200
 
 reportbug (6.1) unstable; urgency=low
 

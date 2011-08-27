@@ -73,7 +73,7 @@ import ui.text_ui as ui
 
 from reportbug.ui import AVAILABLE_UIS
 
-NEWBIELINE = '*** Please type your report below this line ***'
+NEWBIELINE = 'Dear Maintainer,\n*** Please type your report below this line ***'
 
 fhs_directories = ['/', '/usr', '/usr/share', '/var', '/usr/X11R6',
                    '/usr/man', '/usr/doc', '/usr/bin']

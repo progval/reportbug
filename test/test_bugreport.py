@@ -1,5 +1,6 @@
 import unittest2
 
+from reportbug import utils
 from reportbug.bugreport import bugreport
 from nose.plugins.attrib import attr
 import debianbts
@@ -16,6 +17,7 @@ class TestBugreport(unittest2.TestCase):
 
         self.assertIn(self.body, self.text)
         self.assertIn(self.package, self.text)
+        self.assertIn(utils.NEWBIELINE, self.text)
 
     @attr('network') #marking the test as using network
     def test_followup(self):
