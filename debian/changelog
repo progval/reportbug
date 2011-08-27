@@ -12,6 +12,8 @@ reportbug (6.2) UNRELEASED; urgency=low
   * reportbug/checkversions.py
     - ignore if we can't compare the version of a currently installed package;
       thanks to Josh Triplett for the report; Closes: #638575
+    - fix p.d.o parsing, it wasn't able to get new versions (due to changed
+      format); thanks to Vincent Lefevre for the report; Closes: #630586
   * bin/reportbug
     - when using --src don't present the menu with possible binary packages (and
       also try to be smart and infer the version from the bin pkgs list); thanks
@@ -37,7 +39,7 @@ reportbug (6.2) UNRELEASED; urgency=low
     to show the latest bugs first; thanks to Marcelo Magallon for the bug report
     and the idea; Closes: #66917
 
- -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 13:56:19 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 16:59:21 +0200
 
 reportbug (6.1) unstable; urgency=low
 

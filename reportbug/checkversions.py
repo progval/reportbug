@@ -169,8 +169,9 @@ def get_versions_available(package, timeout, dists=None, http_proxy=None, arch='
 
     versions = {}
     for dist in dists:
-        if dist in parser.versions:
-            versions[dist] = parser.versions[dist]
+        for version in parser.versions.keys():
+            if dist in version:
+                versions[dist] = parser.versions[version]
     del parser
     del page
 
