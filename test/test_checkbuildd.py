@@ -1,9 +1,11 @@
 import unittest2
 
 from reportbug import checkbuildd
+from nose.plugins.attrib import attr
 
 class TestCheckbuildd(unittest2.TestCase):
 
-    def test_archname(self):
-        archname = checkbuildd.archname()
-        self.assertNotEqual(archname, '')
+    @attr('network') #marking the test as using network
+    def test_check_built(self):
+        built = checkbuildd.check_built('gkrellm', 60)
+        self.assertTrue(built)

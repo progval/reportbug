@@ -38,8 +38,10 @@ reportbug (6.2) UNRELEASED; urgency=low
   * introduce the new --latest-first cli options to sort the bug reports lists
     to show the latest bugs first; thanks to Marcelo Magallon for the bug report
     and the idea; Closes: #66917
+  * reportbug/checkbuildd.py
+    - fix buildd.d.o checks after the service changes layout; Closes: #612520
 
- -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 16:59:21 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 27 Aug 2011 18:58:39 +0200
 
 reportbug (6.1) unstable; urgency=low
 

@@ -30,9 +30,9 @@ from reportbug.exceptions import (
     NoNetwork,
     )
 
-BUILDD_URL = 'http://buildd.debian.org/build.php?arch=%s&pkg=%s'
+BUILDD_URL = 'https://buildd.debian.org/build.php?arch=%s&pkg=%s'
 
-# This is easy; just look for succeeded in an em block...
+# Check for successful in a 'td' block
 
 class BuilddParser(sgmllib.SGMLParser):
     def __init__(self):
@@ -58,12 +58,12 @@ class BuilddParser(sgmllib.SGMLParser):
         if not mode and data is not None: data = ' '.join(data.split())
         return data
 
-    def start_em(self, attrs):
+    def start_td(self, attrs):
         self.save_bgn()
 
-    def end_em(self):
+    def end_td(self):
         data = self.save_end()
-        if data and 'successful' in data:
+        if data and 'successful' in data.lower():
             self.found_succeeded=True
 
 def check_built(src_package, timeout, arch=None, http_proxy=None):
