@@ -383,19 +383,59 @@ Shell: /bin/sh linked to /bin/bash"""
 
 class TestConfig(unittest2.TestCase):
 
-# Find a way to specify an "internal" file for testing
-#    def setUp(self):
-#        self._FILES = utils.FILES
-#        utils.FILES = os.path.dirname(__file__) + '/data/reportbugrc'
-#
-#    def tearDown(self):
-#        utils.FILES = self._FILES
-#
-# --> check the code in utils.parse_config_files to get all the checked params
+    # Use an "internal" file for testing
+    def setUp(self):
+        self._FILES = utils.FILES
+        utils.FILES = [os.path.dirname(__file__) + '/data/reportbug.conf']
+
+    def tearDown(self):
+        utils.FILES = self._FILES
 
     def test_parse_config_files(self):
+
+        desired_conf = {
+            'bts': 'debian',
+            'check_available': True,
+            'check_uid': False,
+            'debconf': False,
+            'dontquery': False,
+            'editor': u'emacs -nw',
+            'email': u'reportbug-maint@lists.alioth.debian.org',
+            'headers': ['X-Reportbug-Testsuite: this is the test suite'],
+            'http_proxy': u'http://proxy.example.com:3128/',
+            'interface': 'gtk2',
+            'keyid': u'deadbeef',
+            'max_attachment_size': 1024000,
+            'mbox_reader_cmd': u'mutt -f %s',
+            'mirrors': ['this_is_a_bts_mirror'],
+            'mode': 'novice',
+            'mta': u'/usr/sbin/sendmail',
+            'nocc': False,
+            'nocompress': False,
+            'noconf': False,
+            'offline': True,
+            'paranoid': True,
+            'query_src': False,
+            'realname': u'Reportbug Maintainers',
+            'replyto': u'We dont care <dev@null.org>',
+            'sendto': 'submit',
+            'severity': 'normal',
+            'sign': 'gpg',
+            'smtphost': u'reportbug.debian.org:587',
+            'smtppasswd': u'James Bond',
+            'smtptls': True,
+            'smtpuser': u'Bond',
+            'template': True,
+            'verify': True}
+
         args = utils.parse_config_files()
-        self.assertIsNot(args, {})
+        for conf in desired_conf:
+            self.assertIn(conf, args)
+            self.assertEqual(desired_conf[conf], args[conf])
+
+        # mua returns an instance of utils.Mua, need to check differently
+        self.assertIn('mua', args)
+        self.assertIsInstance(args['mua'], utils.Mua)
 
     def test_bts579891(self):
         lex = utils.our_lex('realname "Paul \\"TBBle\\" Hampson"', posix=True)
