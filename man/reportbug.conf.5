@@ -117,6 +117,12 @@ variables, see \fBreportbug(1)\fP). Example:
 \fBhttp_proxy\fP \fIhttp://proxy.example.com:3128/\fP
 
 .TP
+.B justification
+The justification in case of a Release Critical bug (severity either 'critical', 'serious' or 'grave'). Example:
+
+\fBjustification\fP \fI"text here"\fP
+
+.TP
 .B keyid
 The GPG key to use, if different from the default one on the system.
 Example:
@@ -135,6 +141,12 @@ The max size any attachment can have. Example:
 .TP
 .B mh
 Use the \fBmh\fP mailer.
+.TP
+.B mirror
+The address of a BTS mirror. Example:
+
+\fBmirror\fP \fIhttp://mirror.address/\fP
+
 .TP
 .B mode [\fInovice\fP|\fIstandard\fP|\fIadvanced\fP|\fIexpert\fP]
 The default operating mode for \fBreportbug(1)\fP.
@@ -172,6 +184,12 @@ Disables querying the source packages for bugs.
 .B offline
 Disables all external queries.
 .TP
+.B paranoid
+Paranoid mode: print the whole email envelope before sending it
+.TP
+.B printonly
+Print the report on screen, don't sent it.
+.TP
 .B query-bts (\fIboolean\fP)
 Whether the BTS should be queried for existing bug reports.
 .TP
@@ -197,8 +215,8 @@ The default severity level of the bug reported.  Setting this in the
 configuration file will disable prompting while running
 \fBreportbug\fP.
 .TP
-.B sign [\fIgpg\fP|\fIpgp\fP]
-Program used to digitally sign bug reports automatically.
+.B sign [\fIgpg\fP|\fIpgp\fP|\fIgnupg\fP|\fInone\fP]
+Program used to digitally sign bug reports automatically ('none' to disable it).
 .TP
 .B smtphost
 Use an MTA different from \fB/usr/sbin/sendmail\fP.  A port number

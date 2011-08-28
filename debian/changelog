@@ -52,8 +52,10 @@ reportbug (6.2) UNRELEASED; urgency=low
     - use a POSIX lexer to parse configuration files so that escaping double
       quotes for 'realname' can be parsed correctly; thanks to Paul "TBBle"
       Hampson for the report; Closes: #579891
+  * conf/reportbug.conf, man/reportbug.conf.5
+    - complete manpage and example config file with all the accepted options
 
- -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 12:11:38 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 15:35:16 +0200
 
 reportbug (6.1) unstable; urgency=low
 
