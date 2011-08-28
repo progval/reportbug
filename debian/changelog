@@ -35,6 +35,9 @@ reportbug (6.2) UNRELEASED; urgency=low
     - if can't write to the selected output file, then don't crash but just
       select a temporary file instead; thanks to David A. Parker for the report;
       Closes: #617636
+    - we don't need to create an empty file under /var/tmp in case a smarthost
+      is used; thanks to Torquil Macdonald Sørensen for the report and support
+      in debugging; Closes: #570385
   * reportbug/ui/text_ui.py
     - don't try to decode a unicode string; thanks to Vincent Bernat for the
       report; Closes: #638429
@@ -59,7 +62,7 @@ reportbug (6.2) UNRELEASED; urgency=low
   * conf/reportbug.conf, man/reportbug.conf.5
     - complete manpage and example config file with all the accepted options
 
- -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 16:16:48 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 22:32:26 +0200
 
 reportbug (6.1) unstable; urgency=low
 
