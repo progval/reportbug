@@ -38,6 +38,10 @@ reportbug (6.2) UNRELEASED; urgency=low
   * reportbug/ui/text_ui.py
     - don't try to decode a unicode string; thanks to Vincent Bernat for the
       report; Closes: #638429
+    - we need to sort also the (partial) bugs list of each section, else the
+      hierarchy and the global bugs list are misaligned, hence selecting an item
+      number will get the wrong bug report; thanks to Edward J. Shornock for the
+      report; Closes: #639577
   * reportbug/debbugs.py + dependeciens
     - make get_report() return the Bugreport instance, containing all the bug
       information; now the UI does the visualization part, and we just pass
@@ -55,7 +59,7 @@ reportbug (6.2) UNRELEASED; urgency=low
   * conf/reportbug.conf, man/reportbug.conf.5
     - complete manpage and example config file with all the accepted options
 
- -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 15:35:16 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 16:16:48 +0200
 
 reportbug (6.1) unstable; urgency=low
 

@@ -545,13 +545,18 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             # first item is the title of the section
             entry_new = entry[0]
             bugs_new = []
+            bugs_numbers = []
+            # XXX: we can probably simplify this code, with some lists
+            # generations and map()
             # second item is a list of bugs report
             for bug in entry[1]:
                 # we take the info we need (bug number and subject)
                 bugs_new.append("#%d  %s" %(bug.bug_num, bug.subject))
-                # and at the same time create a list of bug number
-                bugs.append(bug.bug_num)
+                # and at the same time create a list of bugs numbers
+                bugs_numbers.append(bug.bug_num)
+            # then we sort both the lists
             hierarchy_new.append((entry_new, sorted(bugs_new, reverse=latest_first)))
+            bugs.extend(sorted(bugs_numbers, reverse=latest_first))
 
         # replace old hierarchy with hierarchy_new
         hierarchy = hierarchy_new
