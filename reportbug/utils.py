@@ -796,7 +796,7 @@ def get_cpu_cores():
 class our_lex(shlex.shlex):
     def get_token(self):
         token = shlex.shlex.get_token(self)
-        if not len(token): return token
+        if token is None or not len(token): return token
         if (token[0] == token[-1]) and token[0] in self.quotes:
             token = token[1:-1]
         return token
@@ -916,14 +916,15 @@ def parse_config_files():
     for filename in FILES:
         if os.path.exists(filename):
             try:
-                lex = our_lex(file(filename))
+                lex = our_lex(file(filename), posix=True)
             except IOError, msg:
                 continue
 
             lex.wordchars = lex.wordchars + '-.@/:<>'
 
-            token = lex.get_token().lower()
+            token = lex.get_token()
             while token:
+                token = token.lower()
                 if token in ('quiet', 'maintonly', 'submit'):
                     args['sendto'] = token
                 elif token == 'severity':
@@ -998,7 +999,7 @@ def parse_config_files():
                 else:
                     sys.stderr.write('Unrecognized token: %s\n' % token)
 
-                token = lex.get_token().lower()
+                token = lex.get_token()
 
     return args
 

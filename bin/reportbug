@@ -569,8 +569,9 @@ def offer_configuration(options):
 
     realname = ui.get_string('What real name should be used for sending bug '
                              'reports?', default=realname, force_prompt=True)
-    if isinstance(realname, str):
+    if isinstance(realname, basestring):
         realname = realname.decode(charset, 'replace')
+        realname = realname.replace('"', '\\"')
 
     is_addr_ok = False
     while is_addr_ok != True:

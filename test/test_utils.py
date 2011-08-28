@@ -397,6 +397,13 @@ class TestConfig(unittest2.TestCase):
         args = utils.parse_config_files()
         self.assertIsNot(args, {})
 
+    def test_bts579891(self):
+        lex = utils.our_lex('realname "Paul \\"TBBle\\" Hampson"', posix=True)
+        option = lex.get_token()
+        self.assertEqual(option, 'realname')
+        realname = lex.get_token()
+        self.assertEqual(realname, 'Paul "TBBle" Hampson')
+
 
 class TestControl(unittest2.TestCase):
 

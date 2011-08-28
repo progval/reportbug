@@ -48,8 +48,12 @@ reportbug (6.2) UNRELEASED; urgency=low
     and the idea; Closes: #66917
   * reportbug/checkbuildd.py
     - fix buildd.d.o checks after the service changes layout; Closes: #612520
+  * bin/reportbug, reportbug/utils.py
+    - use a POSIX lexer to parse configuration files so that escaping double
+      quotes for 'realname' can be parsed correctly; thanks to Paul "TBBle"
+      Hampson for the report; Closes: #579891
 
- -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 00:25:48 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 12:11:38 +0200
 
 reportbug (6.1) unstable; urgency=low
 
