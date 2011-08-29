@@ -1,4 +1,4 @@
-reportbug (6.2) UNRELEASED; urgency=low
+reportbug (6.2) unstable; urgency=low
 
   * reportbug/debbugs.py
     - remove release tags; thanks to Kurt Roeckx for the report and to Julien
@@ -62,7 +62,7 @@ reportbug (6.2) UNRELEASED; urgency=low
   * conf/reportbug.conf, man/reportbug.conf.5
     - complete manpage and example config file with all the accepted options
 
- -- Sandro Tosi <morph@debian.org>  Sun, 28 Aug 2011 22:32:26 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 30 Aug 2011 00:15:34 +0200
 
 reportbug (6.1) unstable; urgency=low
 
