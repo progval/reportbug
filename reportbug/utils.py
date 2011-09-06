@@ -655,7 +655,7 @@ def get_dependency_info(package, depends, rel="depends on"):
     maxp = max([len(x[0]) for x in deplist])
     maxv = max([len(x[1]) for x in deplist])
     widthp = min(maxp, 73-maxv)
-    widthv = min(maxv, 73-maxp)
+    widthv = min(maxv, 73-widthp)
 
     for (pack, vers) in deplist:
         # we format the string specifying to align it in a field of a given

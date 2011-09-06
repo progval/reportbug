@@ -3,8 +3,11 @@ reportbug (6.3) UNRELEASED; urgency=low
   * bin/reportbug
     - be more explicit that Ctrl+c on subject menu exit reportbug without
       sending any report; thanks to simon for the report; Closes: #640213
+  * reportbug/utils.py
+    - fix a crash when generating dependencies tables for long package name;
+      thanks to Wouter Van Hemel for the report; Closes: #640512
 
- -- Sandro Tosi <morph@debian.org>  Tue, 06 Sep 2011 20:10:58 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 06 Sep 2011 22:09:58 +0200
 
 reportbug (6.2) unstable; urgency=low
 
