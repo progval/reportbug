@@ -2069,17 +2069,17 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             else:
                 if exinfo:
                     if sendto != 'submit':
-                        sendto = '%d-%s' % (exinfo, sendto)
+                        sendto = '%d-%s' % (exinfo.bug_num, sendto)
                     else:
-                        sendto = str(exinfo)
+                        sendto = str(exinfo.bug_num)
 
                 sendto = sendto+'@'+submitto
         elif '@' not in sendto:
             if exinfo:
                 if sendto != 'submit':
-                    sendto = '%d-%s' % (exinfo, sendto)
+                    sendto = '%d-%s' % (exinfo.bug_num, sendto)
                 else:
-                    sendto = str(exinfo)
+                    sendto = str(exinfo.bug_num)
 
             try:
                 sendto = sysinfo['email'] % sendto
