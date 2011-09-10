@@ -704,7 +704,8 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
 			retval = search_bugs(hierarchy,bts, queryonly, mirrors,
                                              http_proxy, timeout, screen, title,
                                              package, mbox_reader_cmd)
-			if retval in ["FilterEnd", "Top"]:
+			if isinstance(retval, basestring) and \
+                                retval in ["FilterEnd", "Top"]:
 			    continue
 			else:
 			    return retval

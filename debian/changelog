@@ -11,8 +11,11 @@ reportbug (6.3) UNRELEASED; urgency=low
   * reportbug/ui/text_ui.py
     - fix a crash after the bugs list, when selecting 'y' and then entering the
       item number; thanks to Jakub Wilki for the report; Closes: #640196
+    - fix a crash after the bugs list, when filtering the result set, viewing a
+      report and then wanting to follow it up; thanks to Michal Suchanek for the
+      report; Closes: #640518
 
- -- Sandro Tosi <morph@debian.org>  Sat, 10 Sep 2011 22:49:51 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 10 Sep 2011 22:54:04 +0200
 
 reportbug (6.2) unstable; urgency=low
 
