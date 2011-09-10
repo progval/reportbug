@@ -8,8 +8,11 @@ reportbug (6.3) UNRELEASED; urgency=low
   * reportbug/utils.py
     - fix a crash when generating dependencies tables for long package name;
       thanks to Wouter Van Hemel for the report; Closes: #640512
+  * reportbug/ui/text_ui.py
+    - fix a crash after the bugs list, when selecting 'y' and then entering the
+      item number; thanks to Jakub Wilki for the report; Closes: #640196
 
- -- Sandro Tosi <morph@debian.org>  Thu, 08 Sep 2011 20:16:06 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 10 Sep 2011 22:49:51 +0200
 
 reportbug (6.2) unstable; urgency=low
 

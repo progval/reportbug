@@ -693,7 +693,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                                 number = int(number)
                                 if number not in bugs and 1 <= number <= len(bugs):
                                     number = bugs[number-1]
-                                return number
+                                return debbugs.get_report(number, timeout)[0]
                             except ValueError:
                                 ewrite('Invalid report number: %s\n',
                                        number)
