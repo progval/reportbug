@@ -1,4 +1,4 @@
-reportbug (6.3) UNRELEASED; urgency=low
+reportbug (6.2.1) unstable; urgency=low
 
   * bin/reportbug
     - be more explicit that Ctrl+c on subject menu exit reportbug without
@@ -15,7 +15,7 @@ reportbug (6.3) UNRELEASED; urgency=low
       report and then wanting to follow it up; thanks to Michal Suchanek for the
       report; Closes: #640518
 
- -- Sandro Tosi <morph@debian.org>  Sat, 10 Sep 2011 22:54:04 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 10 Sep 2011 23:07:33 +0200
 
 reportbug (6.2) unstable; urgency=low
 
