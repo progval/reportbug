@@ -848,6 +848,7 @@ MUA = {
     'mutt' : Mua('mutt -H'),
     'mh' : Mua('/usr/bin/mh/comp -use -file'),
     'gnus' : Gnus(),
+    'claws-mail' : Mua('claws-mail --compose-read'),
     }
 MUA['nmh'] = MUA['mh']
 
@@ -856,6 +857,7 @@ MUAVERSION = {
     MUA['mutt'] : 'mutt -v',
     MUA['mh'] : '/usr/bin/mh/comp -use -file',
     MUA['gnus'] : 'emacs --version',
+    MUA['claws-mail'] : 'claws-mail --version',
     }
 
 def mua_is_supported(mua):

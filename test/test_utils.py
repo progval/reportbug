@@ -268,20 +268,20 @@ class TestMua(unittest2.TestCase):
 
     def test_mua_is_supported(self):
 
-        for mua in ('mh', 'nmh', 'gnus', 'mutt'):
+        for mua in ('mh', 'nmh', 'gnus', 'mutt', 'claws-mail'):
             self.assertTrue(utils.mua_is_supported(mua))
 
         self.assertFalse(utils.mua_is_supported('mua-of-my-dreams'))
 
     def test_mua_exists(self):
 
-        for mua in ('mh', 'nmh', 'gnus', 'mutt'):
+        for mua in ('mh', 'nmh', 'gnus', 'mutt', 'claws-mail'):
             if not utils.mua_exists(mua):
                 self.fail("%s MUA program not available" % mua)
 
     def test_mua_name(self):
 
-        for mua in ('mh', 'nmh', 'gnus', 'mutt'):
+        for mua in ('mh', 'nmh', 'gnus', 'mutt', 'claws-mail'):
             self.assertIsInstance(utils.mua_name(mua), utils.Mua)
 
         self.assertEqual(utils.mua_name('mua-of-my-dreams'), 'mua-of-my-dreams')
