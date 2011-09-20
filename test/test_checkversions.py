@@ -1,6 +1,7 @@
 import unittest2
 
 from reportbug import checkversions
+from nose.plugins.attrib import attr
 
 class TestCheckversions(unittest2.TestCase):
 
@@ -29,3 +30,12 @@ class TestCheckversions(unittest2.TestCase):
         self.assertEqual(checkversions.later_version('', '1.2.3'), '')
 
         self.assertEqual(checkversions.later_version('1.2.4', '1.2.3'), '1.2.4')
+
+class TestVersionAvailable(unittest2.TestCase):
+
+    @attr('network') #marking the test as using network
+    def test_bts642032(self):
+        vers = checkversions.get_versions_available('reportbug', 60)
+        # check stable version is lower than unstable
+        chk = checkversions.compare_versions(vers['stable'], vers['unstable'])
+        self.assertEqual(chk, 1)

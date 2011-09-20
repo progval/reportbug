@@ -170,7 +170,7 @@ def get_versions_available(package, timeout, dists=None, http_proxy=None, arch='
     versions = {}
     for dist in dists:
         for version in parser.versions.keys():
-            if dist in version:
+            if re.search(r'\b%s\b' % dist, version):
                 versions[dist] = parser.versions[version]
     del parser
     del page
