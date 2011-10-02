@@ -8,8 +8,11 @@ reportbug (6.2.2) UNRELEASED; urgency=low
   * reportbug/checkversions.py
     - do a word match when parsing the suite name to get the available versions;
       thanks to Yann Dirson for the report; Closes: #642032
+  * debian/docs
+    - don't install TODO file, it's internal only; thanks to Tshepang
+      Lekhonkhobe for the report; Closes: #643320
 
- -- Sandro Tosi <morph@debian.org>  Sun, 02 Oct 2011 17:14:22 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 02 Oct 2011 22:17:24 +0200
 
 reportbug (6.2.1) unstable; urgency=low
 
