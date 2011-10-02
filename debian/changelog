@@ -3,11 +3,13 @@ reportbug (6.2.2) UNRELEASED; urgency=low
   * reportbug/utils.py
     - support claws-mail MUA; thanks to David Paleino for the report and patch;
       Closes: #532082
+    - fix spelling error in email template; thanks to basile for the report;
+      Closes: #643986
   * reportbug/checkversions.py
     - do a word match when parsing the suite name to get the available versions;
       thanks to Yann Dirson for the report; Closes: #642032
 
- -- Sandro Tosi <morph@debian.org>  Tue, 20 Sep 2011 18:32:20 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 02 Oct 2011 17:14:22 +0200
 
 reportbug (6.2.1) unstable; urgency=low
 
