@@ -110,7 +110,12 @@ class bugreport(object):
 
         body = getattr(self, 'body', u'')
         body = body.decode('utf8')
-        if self.mode < utils.MODE_ADVANCED:
+
+        # add NEWBIELINE only if it's less than advanced and the package is not
+        # one of the specials (f.e. those with a dedicated function) also
+        # thinking about those systems that don't have 'specials' dict
+        if self.mode < utils.MODE_ADVANCED and self.package not in \
+                debbugs.SYSTEMS[self.system].get('specials', {}).keys():
             body = utils.NEWBIELINE+u'\n\n'+body
         elif not body:
             body = u'\n'

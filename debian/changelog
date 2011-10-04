@@ -15,8 +15,12 @@ reportbug (6.2.2) UNRELEASED; urgency=low
     - fix a crash when using -N nnnnnn and at the last menu answer 'Show other
       bug reports (return to bug listing).'; thanks to Ritesh Raj Sarraf for the
       report; Closes: #642939
+  * reportbug/bugreport.py
+    - don't add the bug report guidance template if the package is a special one
+      (like wnpp, ftp.d.o and release.d.o); thanks to Arno Töll for the report;
+      Closes: #643785
 
- -- Sandro Tosi <morph@debian.org>  Tue, 04 Oct 2011 21:01:19 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 04 Oct 2011 21:16:18 +0200
 
 reportbug (6.2.1) unstable; urgency=low
 
