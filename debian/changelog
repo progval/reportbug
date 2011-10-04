@@ -23,8 +23,11 @@ reportbug (6.2.2) UNRELEASED; urgency=low
     - when searching thru the bugs list, return a Bugreport instance instead of
       the bug number; thanks to Olivier Berger for reopening the bug; hopefully
       completely Closes: #640196
+  * bin/reportbug, man/reportbug.conf.5
+    - clarify TLS question in --configure and the manpage entry for conf file;
+      thanks to Jakob Bohm for the report; Closes: #642554
 
- -- Sandro Tosi <morph@debian.org>  Tue, 04 Oct 2011 21:47:32 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 04 Oct 2011 22:05:04 +0200
 
 reportbug (6.2.1) unstable; urgency=low
 

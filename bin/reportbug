@@ -621,7 +621,9 @@ def offer_configuration(options):
 
     if smtphost:
         smtptls = ui.yes_no(
-            'Does your SMTP host require TLS authentication?', 'Yes', 'No', default=False)
+            'Do you want to encrypt the SMTP connection with TLS (only '
+            'available if the SMTP host supports it)?', 'Yes', 'No',
+            default=False)
 
     http_proxy = ui.get_string(
        'Please enter the name of your proxy server.  It should only '
