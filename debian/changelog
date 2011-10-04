@@ -19,8 +19,12 @@ reportbug (6.2.2) UNRELEASED; urgency=low
     - don't add the bug report guidance template if the package is a special one
       (like wnpp, ftp.d.o and release.d.o); thanks to Arno Töll for the report;
       Closes: #643785
+  * reportbug/ui/text_ui.py
+    - when searching thru the bugs list, return a Bugreport instance instead of
+      the bug number; thanks to Olivier Berger for reopening the bug; hopefully
+      completely Closes: #640196
 
- -- Sandro Tosi <morph@debian.org>  Tue, 04 Oct 2011 21:16:18 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 04 Oct 2011 21:47:32 +0200
 
 reportbug (6.2.1) unstable; urgency=low
 

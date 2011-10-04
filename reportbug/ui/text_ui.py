@@ -817,6 +817,8 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
     lastpage = []
     digits = len(str(len(bugs)))
     linefmt = '  %'+str(digits)+'d) %s\n'
+    # XXX: it's kinda non-sense to replicate all this code here!!! it's the same
+    # as of browse_report!
     while category:
         scount = scount + 1
         catname, reports = category[0:2]
@@ -913,7 +915,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                                 number = int(number)
                                 if number not in bugs and 1 <= number <= len(bugs):
                                     number = bugs[number-1]
-                                return number
+                                return debbugs.get_report(number, timeout)[0]
                             except ValueError:
                                 ewrite('Invalid report number: %s\n',
                                        number)
