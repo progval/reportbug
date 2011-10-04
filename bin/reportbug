@@ -1351,11 +1351,13 @@ class UI(object):
                                           title=VERSION,
                                           archived=False,
                                           mbox_reader_cmd=self.options.mbox_reader_cmd)
-                    package = exinfo.package or exinfo.source
-                    # XXX: can this ever happen?
-                    if not exinfo:
-                        dontquery = False
-                        bugnumber = False
+                    # When asking to re-display the bugs list, None is returned
+                    # given we're in the part of code that's executed when the
+                    # user pass a bug number on the cli, so we'll exit
+                    if exinfo is None:
+                        raise NoReport
+                    else:
+                        package = exinfo.package or exinfo.source
                 else:
                     efail("The report bug number provided seems to not exist.\n")
         except NoBugs:
