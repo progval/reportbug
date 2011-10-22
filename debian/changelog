@@ -3,8 +3,11 @@ reportbug (6.2.3) UNRELEASED; urgency=low
   * reportbug/utils.py
     - add 'oldstable' to the list of distributions, so not to confuse 'APT
       prefers' line; thanks to Jan Huijsmans for the report; Closes: #645870
+  * share/control, setup.py
+    - report python-reportbug dependencies information when filing a bug against
+      reportbug
 
- -- Sandro Tosi <morph@debian.org>  Sat, 22 Oct 2011 14:16:49 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 22 Oct 2011 16:11:22 +0200
 
 reportbug (6.2.2) unstable; urgency=low
 
