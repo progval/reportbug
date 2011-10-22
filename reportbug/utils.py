@@ -694,7 +694,7 @@ def get_changed_config_files(conffiles, nocompress=False):
 
     return confinfo, changed
 
-DISTORDER = ['stable', 'testing', 'unstable', 'experimental']
+DISTORDER = ['oldstable', 'stable', 'testing', 'unstable', 'experimental']
 
 def get_debian_release_info():
     debvers = debinfo = verfile = warn = ''
