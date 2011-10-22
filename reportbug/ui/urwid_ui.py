@@ -154,7 +154,7 @@ class dialog(object):
                 while not keys:
                     keys = self.ui.get_input()
                 for k in keys:
-                    if urwid.is_mouse_event(k):
+                    if urwid.util.is_mouse_event(k):
                         event, button, col, row = k
                         self.view.mouse_event( size,
                                                event, button, col, row,
