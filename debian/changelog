@@ -6,8 +6,11 @@ reportbug (6.2.3) UNRELEASED; urgency=low
   * share/control, setup.py
     - report python-reportbug dependencies information when filing a bug against
       reportbug
+  * reportbug/ui/urwid_ui.py
+    - is_mouse_event() is in urwid.util in urwid 1.0.0; thanks to Andrew O.
+      Shadura for the report; Closes: #646943
 
- -- Sandro Tosi <morph@debian.org>  Sat, 22 Oct 2011 16:11:22 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 30 Oct 2011 23:25:55 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 
