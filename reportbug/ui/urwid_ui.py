@@ -606,7 +606,8 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                     if info == -1:
                         result = None
                     else:
-                        result = info
+                        # uniform to return Bugreport instance
+                        result = debbugs.get_report(info, timeout)[0]
                     break
                 else:
                     p = info
@@ -625,7 +626,9 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
         long_message('No record of this package found.', title=title)
         raise NoPackage
 
-    if result and result < 0:
+    # we didn't find a report; we access Bugreport thru debbugs,
+    # so to avoid and import of debianbts
+    if result and not isinstance(result, debbugs.debianbts.Bugreport):
         raise NoReport
 
     return result
