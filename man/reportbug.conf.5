@@ -91,6 +91,12 @@ variables, see \fBreportbug(1)\fP). Example:
 \fBemail\fP \fI"humberto@example.com"\fP
 
 .TP
+.B envelopefrom
+Specify the Envelope From mail header (also known as Return-path); by default
+it's the From address but it can be selected a different one in case the MTA
+doesn't canonicalize local users to public addresses.
+
+.TP
 .B mbox_reader_cmd
 Specify a command to open the bug reports mbox file. You can use
 \fB%s\fP to substitute the mbox file to be used, and \fB%%\fP to insert

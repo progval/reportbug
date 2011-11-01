@@ -131,6 +131,12 @@ name or comment part, like \fBfoo@example.com\fP).  This setting will
 override the \fBEMAIL\fP and \fBDEBEMAIL\fP environment variables, but
 not \fBREPORTBUGEMAIL\fP.
 .TP
+.B \-\-envelope\-from
+Specify the Envelope From mail header (also known as Return-path); by default
+it's the From address but it can be selected a different one in case the MTA
+doesn't canonicalize local users to public addresses.
+
+.TP
 .B \-\-mbox\-reader\-cmd=MBOX_READER_CMD
 Specify a command to open the bug reports mbox file. You can use
 \fB%s\fP to substitute the mbox file to be used, and \fB%%\fP to insert

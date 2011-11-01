@@ -973,6 +973,8 @@ def main():
     parser.add_option('--max-attachment-size', type="int", dest='max_attachment_size', help="Specify the maximum size in byte for an attachment [default: 10485760].")
     parser.add_option('--latest-first', action='store_true', dest='latest_first', default=False,
                       help='Order bugs to show the latest first')
+    parser.add_option('--envelope-from', dest='envelopefrom',
+                      help='Specify the Envelope From (Return-path) address used to send the bug report')
 
 
     (options, args) = parser.parse_args()
@@ -2179,7 +2181,8 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                 self.options.template, self.options.outfile, self.options.mta,
                 self.options.kudos, self.options.smtptls, smtphost,
                 self.options.smtpuser, self.options.smtppasswd,
-                self.options.paranoid, self.options.draftpath)
+                self.options.paranoid, self.options.draftpath,
+                self.options.envelopefrom)
 
         if self.options.exitprompt:
             ui.get_string('Please press ENTER to exit reportbug: ')

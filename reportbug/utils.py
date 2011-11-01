@@ -998,6 +998,9 @@ def parse_config_files():
                 elif token == 'max_attachment_size':
                     arg = lex.get_token()
                     args['max_attachment_size'] = int(arg)
+                elif token == 'envelopefrom':
+                    token = lex.get_token().lower()
+                    args['envelopefrom'] = token
                 else:
                     sys.stderr.write('Unrecognized token: %s\n' % token)
 

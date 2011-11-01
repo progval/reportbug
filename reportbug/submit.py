@@ -221,7 +221,8 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 rtype='debbugs', exinfo=None, replyto=None, printonly=False,
                 template=False, outfile=None, mta='', kudos=False,
                 smtptls=False, smtphost='localhost',
-                smtpuser=None, smtppasswd=None, paranoid=False, draftpath=None):
+                smtpuser=None, smtppasswd=None, paranoid=False, draftpath=None,
+                envelopefrom=None):
     '''Send a report.'''
 
     failed = using_sendmail = False
@@ -340,8 +341,13 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         jalist = ' '.join(malist)
 
         faddr = rfc822.parseaddr(fromaddr)[1]
+        if envelopefrom:
+            envfrom = rfc822.parseaddr(envelopefrom)[1]
+        else:
+            envfrom = faddr
         ewrite("Sending message via %s...\n", mta)
-        pipe = os.popen('%s -oi -oem %s' % (mta, jalist), 'w')
+        pipe = os.popen('%s -f %s -oi -oem %s' % (
+                mta, commands.mkarg(envfrom), jalist), 'w')
         using_sendmail = True
 
     if smtphost:

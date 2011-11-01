@@ -406,6 +406,7 @@ class TestConfig(unittest2.TestCase):
             'dontquery': False,
             'editor': u'emacs -nw',
             'email': u'reportbug-maint@lists.alioth.debian.org',
+            'envelopefrom': u'reportbug-maint@lists.alioth.debian.org',
             'headers': ['X-Reportbug-Testsuite: this is the test suite'],
             'http_proxy': u'http://proxy.example.com:3128/',
             'interface': 'gtk2',
