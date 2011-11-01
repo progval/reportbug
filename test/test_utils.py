@@ -363,6 +363,11 @@ Shell: /bin/sh linked to /bin/bash"""
         self.assertIn('Version: 1.2.3', report)
         self.assertIn('Severity: normal', report)
 
+        report = utils.generate_blank_report('reportbug', '1.2.3', 'normal',
+                                             '', '', '', type='debbugs',
+                                             issource=True)
+        self.assertIn('Source: reportbug', report)
+
         # test with exinfo (represents the bug number if this is a followup):
         # int, string, unconvertible (to int) datatype
         report = utils.generate_blank_report('reportbug', '1.2.3', 'normal',

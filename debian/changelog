@@ -11,8 +11,13 @@ reportbug (6.2.3) UNRELEASED; urgency=low
       Shadura for the report; Closes: #646943
     - fix a crash when willing to submit more information after having seen a
       report; thanks to Viet Nguyen for the report; Closes: #644815
+  * bin/reportbug
+    - report bug using the "Source" pseudo-header, if we've detected it's a
+      source package (either by using --src cli option or by selecting the
+      source pkg in the menu); thanks to Julian Andres Klode for the report;
+      Closes: #644194
 
- -- Sandro Tosi <morph@debian.org>  Mon, 31 Oct 2011 03:45:41 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 01 Nov 2011 12:26:01 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 
