@@ -38,7 +38,7 @@ from reportbug.exceptions import (
 # needed to parse new.822
 from debian.deb822 import Deb822
 
-PACKAGES_URL = 'http://packages.debian.org/%s'
+RMADISON_URL = 'http://qa.debian.org/madison.php?package=%s&text=on'
 INCOMING_URL = 'http://incoming.debian.org/'
 NEWQUEUE_URL = 'http://ftp-master.debian.org/new.822'
 
@@ -65,44 +65,6 @@ class BaseParser(sgmllib.SGMLParser):
         self.savedata = None
         if not mode and data is not None: data = ' '.join(data.split())
         return data
-
-class PackagesParser(BaseParser):
-    def __init__(self, arch='i386'):
-        BaseParser.__init__(self)
-        self.versions = {}
-        self.row = None
-        arch = r'\s(all|'+re.escape(arch)+r')\b'
-        self.arch = re.compile(arch)
-        self.dist = None
-
-    def start_li(self, attrs):
-        if self.row is not None:
-            self.end_li()
-        self.row = []
-
-    def start_a(self, attrs):
-        if self.row is not None:
-            self.save_bgn()
-
-    def end_a(self):
-        if self.row is not None and self.savedata:
-            self.dist = self.save_end()
-
-    def lineend(self):
-        line = self.save_end().strip()
-        if self.arch.search(line):
-            version = line.split(': ', 1)
-            self.versions[self.dist] = version[0]
-
-    def start_br(self, attrs):
-        if self.savedata:
-            self.lineend()
-        self.save_bgn()
-
-    def end_li(self):
-        if self.savedata:
-            self.lineend()
-        self.row = None
 
 class IncomingParser(sgmllib.SGMLParser):
     def __init__(self, package, arch='i386'):
@@ -143,7 +105,7 @@ def get_versions_available(package, timeout, dists=None, http_proxy=None, arch='
         dists = ('stable', 'testing', 'unstable')
 
     try:
-        page = open_url(PACKAGES_URL % package, http_proxy, timeout)
+        page = open_url(RMADISON_URL % package)
     except NoNetwork:
         return {}
     except urllib2.HTTPError, x:
@@ -152,28 +114,21 @@ def get_versions_available(package, timeout, dists=None, http_proxy=None, arch='
     if not page:
         return {}
 
-    parser = PackagesParser(arch)
-    for line in page:
-        parser.feed(line)
-    parser.close()
-    try:
-        page.fp._sock.recv = None
-    except:
-        pass
+    # read the content of the page, remove spaces, empty lines
+    content = page.read().replace(' ', '').strip()
     page.close()
 
-##     content = page.read()
-##     parser.feed(content)
-##     parser.close()
-##     page.close()
-
+    arch = utils.get_arch()
     versions = {}
-    for dist in dists:
-        for version in parser.versions.keys():
-            if re.search(r'\b%s\b' % dist, version):
-                versions[dist] = parser.versions[version]
-    del parser
-    del page
+    for line in content.split('\n'):
+        l = line.split('|')
+        # map suites name (returned by madison) to dist name
+        dist = utils.SUITES2DISTS.get(l[2], '')
+        if dist in dists:
+            # select only those lines that refers to source pkg
+            # or to binary packages available on the current arch
+            if 'source' in l[3] or arch in l[3]:
+                versions[dist] = l[1]
 
     return versions
 

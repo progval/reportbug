@@ -21,8 +21,10 @@ reportbug (6.3) UNRELEASED; urgency=low
     mail header different than the default, the From address. It reverts the
     change in #614879; thanks to Kevin Locke for the report and discussion;
     Closes: #640249
+  * Use madison.cgi (from QA) to check for newer versions available; thanks to
+    Bernd Zeimetz for the report; Closes: #601679
 
- -- Sandro Tosi <morph@debian.org>  Tue, 01 Nov 2011 13:46:10 +0100
+ -- Sandro Tosi <morph@debian.org>  Fri, 04 Nov 2011 23:12:37 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 

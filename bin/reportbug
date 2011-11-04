@@ -921,7 +921,7 @@ def main():
     parser.add_option('--configure', action='store_true',
                       help='reconfigure reportbug for this user')
     parser.add_option('--check-available', action='store_true',
-                      help='check for new releases at packages.debian.org')
+                      help='check for new releases on various sites')
     parser.add_option('--no-check-available', action='store_false',
                       dest='check_available', help='do not check for new '
                       'releases')
@@ -1587,10 +1587,10 @@ class UI(object):
             arch = utils.get_arch()
             check_more = (mode > MODE_STANDARD)
             if check_more:
-                ewrite('Checking for newer versions at packages.debian.org,'+
+                ewrite('Checking for newer versions at madison,'+
                   ' incoming.debian.org and http://ftp-master.debian.org/new.html\n')
             else:
-                ewrite('Checking for newer versions at packages.debian.org...\n')
+                ewrite('Checking for newer versions at madison...\n')
             (avail, toonew) = checkversions.check_available(
                 package, pkgversion, timeout=self.options.timeout,
                 check_incoming=check_more, check_newqueue=check_more,
