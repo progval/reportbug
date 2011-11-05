@@ -23,8 +23,12 @@ reportbug (6.3) UNRELEASED; urgency=low
     Closes: #640249
   * Use madison.cgi (from QA) to check for newer versions available; thanks to
     Bernd Zeimetz for the report; Closes: #601679
+  * reportbug/ui/*_ui.py
+    - show if the bug is already closed (it usually happens when the bug was
+      closed recently and it's not archived yet); thanks to Elora HRanma for the
+      report; Closes: #586155
 
- -- Sandro Tosi <morph@debian.org>  Fri, 04 Nov 2011 23:12:37 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 05 Nov 2011 13:17:21 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 

@@ -213,6 +213,7 @@ class Bug (object):
         self.id = bug.bug_num
         self.tag = u', '.join(bug.tags)
         self.package = bug.package
+        self.status = bug.pending
         self.reporter = bug.originator
         self.date = bug.date
         self.severity = bug.severity
@@ -226,6 +227,7 @@ class Bug (object):
         yield self.tag
         yield self.package
         yield self.info
+        yield self.status
         yield self.reporter
         yield self.date
         yield self.severity
@@ -935,7 +937,7 @@ class HandleBTSQueryPage (TreePage):
         self.view = gtk.TreeView ()
         self.view.set_rules_hint (True)
         scrolled = create_scrollable (self.view)
-        self.columns = ['ID', 'Tag', 'Package', 'Description', 'Reporter', 'Date', 'Severity', 'Version',
+        self.columns = ['ID', 'Tag', 'Package', 'Description', 'Status', 'Reporter', 'Date', 'Severity', 'Version',
                         'Filed date', 'Modified date']
         for col in zip (self.columns, range (len (self.columns))):
             column = gtk.TreeViewColumn (col[0], gtk.CellRendererText (), text=col[1])

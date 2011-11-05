@@ -582,7 +582,11 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                 buglist.append( ('---', t) )
                 buglist_tmp = []
                 for bug in bugs:
-                    buglist_tmp.append( (str(bug.bug_num), bug.subject) )
+                    # show if the bugs is already resolved
+                    done = ''
+                    if bug.pending == 'done':
+                        done = '  [RESOLVED]'
+                    buglist_tmp.append( (str(bug.bug_num), bug.subject+done) )
                 # append the sorted list of bugs for this severity
                 map(buglist.append, sorted(buglist_tmp, reverse=latest_first))
 

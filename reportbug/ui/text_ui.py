@@ -550,8 +550,12 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             # generations and map()
             # second item is a list of bugs report
             for bug in entry[1]:
+                # show if the bugs is already resolved
+                done = ''
+                if bug.pending == 'done':
+                    done = '  [RESOLVED]'
                 # we take the info we need (bug number and subject)
-                bugs_new.append("#%d  %s" %(bug.bug_num, bug.subject))
+                bugs_new.append("#%d  %s%s" %(bug.bug_num, bug.subject, done))
                 # and at the same time create a list of bugs numbers
                 bugs_numbers.append(bug.bug_num)
             # then we sort both the lists
