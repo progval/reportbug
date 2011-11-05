@@ -31,8 +31,10 @@ reportbug (6.3) UNRELEASED; urgency=low
     - rename the 'Cancel' button to 'Quit', so that it's clear it will close
       reportbug, also Alt+<code> will select the right button; thanks to Nathan
       A. Stine and Éric Araujo for the reports; Closes: #586475, #614160
+  * debian/control
+    - set 2.6 as minimum python version
 
- -- Sandro Tosi <morph@debian.org>  Sat, 05 Nov 2011 16:41:25 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 05 Nov 2011 17:14:36 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 
