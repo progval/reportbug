@@ -937,7 +937,7 @@ class HandleBTSQueryPage (TreePage):
         self.view = gtk.TreeView ()
         self.view.set_rules_hint (True)
         scrolled = create_scrollable (self.view)
-        self.columns = ['ID', 'Tag', 'Package', 'Description', 'Status', 'Reporter', 'Date', 'Severity', 'Version',
+        self.columns = ['ID', 'Tag', 'Package', 'Description', 'Status', 'Submitter', 'Date', 'Severity', 'Version',
                         'Filed date', 'Modified date']
         for col in zip (self.columns, range (len (self.columns))):
             column = gtk.TreeViewColumn (col[0], gtk.CellRendererText (), text=col[1])
