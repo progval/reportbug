@@ -16,6 +16,9 @@ reportbug (6.3) UNRELEASED; urgency=low
       source package (either by using --src cli option or by selecting the
       source pkg in the menu); thanks to Julian Andres Klode for the report;
       Closes: #644194
+    - improved check for package name in the subject, now checking if the
+      it's at the beginning of the subject, and even if provided via '--subject'
+      cli option; thanks to Cyril Brulebois for noticing it; Closes: #579596
   * Implement a new --envelope-from cli option (and the corresponding one in the
     configuration file), to allow to select the Envelope From (aka Return-path)
     mail header different than the default, the From address. It reverts the
@@ -34,7 +37,7 @@ reportbug (6.3) UNRELEASED; urgency=low
   * debian/control
     - set 2.6 as minimum python version
 
- -- Sandro Tosi <morph@debian.org>  Sat, 05 Nov 2011 17:14:36 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 05 Nov 2011 17:29:31 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 

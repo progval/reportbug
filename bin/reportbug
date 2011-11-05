@@ -1884,11 +1884,12 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                 'Your description is a bit long; please enter a shorter subject. '
                 '(An empty response will retain the existing subject.)',
                 empty_ok=True, force_prompt=True) or subject
-        if package != 'wnpp' and prompted and mode < MODE_EXPERT:
+        if package != 'wnpp' and mode < MODE_EXPERT:
             if foundfile:
                 subject = foundfile + ": " + subject
                 ewrite("Rewriting subject to '%s'\n", subject)
-            elif (not re.match(r"\S+:\s", subject) and package not in subject):
+            elif (not re.match(r"\S+:\s", subject) and
+                  not subject.startswith(package)):
                 subject = package + ": " + subject
                 ewrite("Rewriting subject to '%s'\n", subject)
 
