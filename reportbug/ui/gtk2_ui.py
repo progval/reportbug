@@ -1411,7 +1411,7 @@ class YesNoDialog (ReportbugConnector, gtk.MessageDialog):
         self.destroy ()
 
     def execute_operation (self, msg, yeshelp=None, nohelp=None, default=True, nowrap=False):
-        self.set_markup (msg+"?")
+        self.set_markup (msg)
         if default:
             self.set_default_response (gtk.RESPONSE_YES)
         else:
