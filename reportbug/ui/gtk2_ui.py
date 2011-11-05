@@ -1321,6 +1321,12 @@ class ReportbugAssistant (gtk.Assistant):
             if widget.get_label() == 'gtk-go-back':
                 widget.connect ('show', self.on_back_show)
                 return
+            if widget.get_label() == 'gtk-cancel':
+                image = gtk.image_new_from_stock(gtk.STOCK_QUIT,
+                                                 gtk.ICON_SIZE_BUTTON)
+                widget.set_label("_Quit")
+                widget.set_image(image)
+                return
             if widget.get_label() == 'gtk-go-forward':
                 image = gtk.image_new_from_stock (gtk.STOCK_GO_FORWARD, gtk.ICON_SIZE_BUTTON)
                 widget.set_label ("_Continue")
