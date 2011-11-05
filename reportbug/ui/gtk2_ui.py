@@ -1544,18 +1544,3 @@ Falling back to 'text' interface."""
 
 def can_input ():
     return True
-
-def test ():
-    # Write some tests here
-    print get_password ("test")
-    print select_options ('test', 'A', {'a': 'A test'})
-    print get_multiline ('ENTER', empty_ok=True)
-    print get_string ("test")
-    print system ("yes")
-    page = HandleBTSQueryPage (assistant)
-    application.run_once_in_main_thread (page.execute_operation, [('test', (Bug ('#123 [test] [we] we we Reported by: test;' ), Bug ('#123 [test] [we] we we Reported by: test;')))], 'test')
-    return application.get_last_value ()
-
-if __name__ == '__main__':
-    initialize ()
-    test ()
