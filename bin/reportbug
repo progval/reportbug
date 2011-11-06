@@ -2022,10 +2022,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         if self.options.bugscript and bugexec and not self.options.kudos:
             # add a warning, since it can take a while, 587952
             ewrite("Gathering additional data, this may take a while...\n")
-            if os.path.exists('handle_bugscript'):
-                handler = './handle_bugscript'
-            else:
-                handler = '/usr/share/reportbug/handle_bugscript'
+            handler = '/usr/share/reportbug/handle_bugscript'
 
             fh, filename = TempFile(prefix=tfprefix, dir=self.options.draftpath)
             fh.close()
