@@ -36,8 +36,12 @@ reportbug (6.3) UNRELEASED; urgency=low
       A. Stine and Éric Araujo for the reports; Closes: #586475, #614160
   * debian/control
     - set 2.6 as minimum python version
+  * reportbug/debbugs.py, bin/reportbug
+    - reports for release.debian.org about 'pu'/'opu' now tries to get the
+      correct version querying madison (but only if querying is enabled); thanks
+      to Jakub Wilk for the report; Closes: #563804
 
- -- Sandro Tosi <morph@debian.org>  Sat, 05 Nov 2011 17:29:31 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 06 Nov 2011 01:11:13 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 

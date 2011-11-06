@@ -450,6 +450,11 @@ def handle_debian_release(package, bts, ui, fromaddr, timeout, online=True, http
     if tag in ('binnmu', 'unblock', 'freeze-exception', 'opu', 'pu', 'rm'):
         # FIXME: opu/pu/rm should lookup the version elsewhere
         version = info and info[0]
+        if online:
+            if tag == 'pu':
+                version = checkversions.get_versions_available(package, timeout).get('stable', '')
+            elif tag == 'opu':
+                version = checkversions.get_versions_available(package, timeout).get('oldstable', '')
         if version:
             cont = ui.select_options(
                 "Latest version seems to be %s, is this the proper one ?" % (version),

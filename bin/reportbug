@@ -505,12 +505,12 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
 
     return package
 
-def special_prompts(package, bts, ui, fromaddr, timeout):
+def special_prompts(package, bts, ui, fromaddr, timeout, online, http_proxy):
     prompts = debbugs.SYSTEMS[bts].get('specials')
     if prompts:
         pkgprompts = prompts.get(package)
         if pkgprompts:
-            return pkgprompts(package, bts, ui, fromaddr, timeout)
+            return pkgprompts(package, bts, ui, fromaddr, timeout, online, http_proxy)
     return
 
 def offer_configuration(options):
@@ -1665,7 +1665,11 @@ class UI(object):
 
         special = False
         if not body and not subject and not notatty:
-            res = special_prompts(package, bts, ui, fromaddr, self.options.timeout)
+            res = special_prompts(package, bts, ui, fromaddr,
+                                  self.options.timeout,
+                                  not self.options.offline and
+                                      (check_available or not dontquery),
+                                  self.options.http_proxy)
             if res:
                 (subject, severity, h, ph, body, query) = res
                 headers += h
