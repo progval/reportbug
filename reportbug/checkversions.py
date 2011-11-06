@@ -102,7 +102,7 @@ def later_version(a, b):
 
 def get_versions_available(package, timeout, dists=None, http_proxy=None, arch='i386'):
     if not dists:
-        dists = ('stable', 'testing', 'unstable')
+        dists = ('oldstable', 'stable', 'testing', 'unstable', 'experimental')
 
     try:
         page = open_url(RMADISON_URL % package)
