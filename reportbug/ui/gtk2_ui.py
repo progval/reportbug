@@ -615,7 +615,8 @@ class GetStringPage (Page):
         return self.entry.get_text ()
 
     def execute (self, prompt, options=None, force_prompt=False, default=''):
-        self.label.set_text (prompt)
+        # Hackish: remove the text needed for textual UIs...
+        self.label.set_text (prompt.replace(' (enter Ctrl+c to exit reportbug without reporting a bug)', ''))
         self.entry.set_text (default)
 
         if options:

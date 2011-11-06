@@ -34,6 +34,8 @@ reportbug (6.3) UNRELEASED; urgency=low
     - rename the 'Cancel' button to 'Quit', so that it's clear it will close
       reportbug, also Alt+<code> will select the right button; thanks to Nathan
       A. Stine and Éric Araujo for the reports; Closes: #586475, #614160
+    - remove reference to Ctrl+c when asking for subject: it won't work in GTK+
+      UI; thanks to Mark Brown for the report; Closes: #562876
   * debian/control
     - set 2.6 as minimum python version
   * reportbug/debbugs.py, bin/reportbug
@@ -44,7 +46,7 @@ reportbug (6.3) UNRELEASED; urgency=low
     the bug report, refer to README.developers for additional details; thanks to
     Niels Thykier for the report; Closes: #611341
 
- -- Sandro Tosi <morph@debian.org>  Sun, 06 Nov 2011 11:22:29 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 06 Nov 2011 15:02:09 +0100
 
 reportbug (6.2.2) unstable; urgency=low
 
