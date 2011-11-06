@@ -1,0 +1,19 @@
+#!/bin/sh
+
+exec >&3
+
+echo "-- BEGIN HEADERS --"
+echo "From: morph@dummy.int"
+echo "-- END HEADERS --"
+echo "blabla"
+echo "blabla"
+echo "-- BEGIN PSEUDOHEADERS --"
+echo "User: morph@debian.org"
+echo "Usertags: dd"
+echo "-- END PSEUDOHEADERS --"
+echo "debian"
+echo "python"
+echo "-- BEGIN HEADERS --"
+echo "X-Test: this is a test"
+echo "X-Dummy-Reportbug-Header: dummy"
+echo "-- END HEADERS --"

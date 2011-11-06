@@ -2024,10 +2024,10 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             ewrite("Gathering additional data, this may take a while...\n")
             handler = '/usr/share/reportbug/handle_bugscript'
 
-            fh, filename = TempFile(prefix=tfprefix, dir=self.options.draftpath)
-            fh.close()
-            rc = ui.system('LC_ALL=C %s %s %s' % (handler, commands.mkarg(bugexec),
-                                             commands.mkarg(filename)))
+            # we get the return code of the script, headers and pseudo- set
+            # by the script, and last the text output of the script
+            (rc, bugscript_hdrs, bugscript_pseudo, text) = \
+                 utils.exec_and_parse_bugscript(handler, bugexec)
 
             if rc and not notatty:
                 if not ui.yes_no(
@@ -2037,13 +2037,12 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                     'Exit without filing a report.', False, nowrap=True):
                     efail("Package bug script failed; stopping.\n")
 
+            headers.extend(bugscript_hdrs.split('\n'))
+            pseudos.append(bugscript_pseudo.strip())
             addinfo = None
             if not self.options.noconf:
-                fp = open(filename)
-                addinfo = u"\n-- Package-specific info:\n"+fp.read().decode('utf-8', 'replace')
-                fp.close()
+                addinfo = u"\n-- Package-specific info:\n"+text
 
-            cleanup_temp_file(filename)
             if addinfo and incfiles:
                 incfiles = addinfo + u"\n" + incfiles
             elif addinfo:

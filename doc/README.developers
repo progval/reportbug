@@ -107,6 +107,41 @@ Note that the getkey and yesno functions are only available in scripts
 written using /bin/bash as their interpreter; for other shells or
 languages, you will need to write your own input parsing functions.
 
+Add Headers and Pseudo-Headers from the bugscript
+=================================================
+
+From the bugscript it's possible to extend the bug report with additional (mail)
+headers and (bug) pseudo-headers. They need to be enclosed in a begin/end block:
+
+    -- BEGIN HEADERS --
+    ...
+    -- END HEADERS --
+
+for mail headers, and:
+
+    -- BEGIN PSEUDOHEADERS --
+    ...
+    -- END PSEUDOHEADERS --
+
+for bug pseudo-headers.
+
+They can be emitted in any place of the output (they will be removed during
+parsing), can be repeated several times, and support several headers in the same
+block:
+
+    -- BEGIN PSEUDOHEADERS --
+    User: morph@debian.org
+    Usertags: dd
+    -- END PSEUDOHEADERS --
+
+will correctly identify the two pseudo-headers (as needed for usertagging a
+report).
+
+Please pay attention to not interleave blocks with each other and to always
+close blocks, else the parser could produce undesired results. Also note that
+those headers are added to the ones already presente so a header with the same
+name will appear twice, since it won't replace the existing one.
+
 Source layout
 =============
 

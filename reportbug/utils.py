@@ -26,7 +26,7 @@ import re
 import platform
 try:
     import pwd
-    from tempfiles import TempFile, tempfile_prefix
+    from tempfiles import TempFile, tempfile_prefix, cleanup_temp_file
 except ImportError, e:
     if platform.system() == 'Windows':
         pass
@@ -1161,3 +1161,39 @@ def get_running_kernel_pkg():
         return 'kfreebsd-image-' + release
     else:
         return None
+
+def exec_and_parse_bugscript(handler, bugscript):
+    """Execute and parse the output of the package bugscript, in particular
+    identifying the headers and pseudo-headers blocks, if present"""
+
+    fh, filename = TempFile()
+    fh.close()
+    rc = os.system('LC_ALL=C %s %s %s' % (handler, commands.mkarg(bugscript),
+                                          commands.mkarg(filename)))
+
+    isheaders = False
+    ispseudoheaders = False
+    headers = pseudoheaders = text = ''
+    fp = open(filename)
+    for line in fp.readlines():
+        # we identify the blocks for headers and pseudo-h
+        if line == '-- BEGIN HEADERS --\n':
+            isheaders = True
+        elif line == '-- END HEADERS --\n':
+            isheaders = False
+        elif line == '-- BEGIN PSEUDOHEADERS --\n':
+            ispseudoheaders = True
+        elif line == '-- END PSEUDOHEADERS --\n':
+            ispseudoheaders = False
+        else:
+            if isheaders:
+                headers += line
+            elif ispseudoheaders:
+                pseudoheaders += line
+            else:
+                text += line
+    fp.close()
+    cleanup_temp_file(filename)
+
+    text = text.decode('utf-8', 'replace')
+    return (rc, headers, pseudoheaders, text)
