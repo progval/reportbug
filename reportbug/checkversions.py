@@ -122,6 +122,9 @@ def get_versions_available(package, timeout, dists=None, http_proxy=None, arch='
     versions = {}
     for line in content.split('\n'):
         l = line.split('|')
+        # skip lines not having the right number of fields
+        if len(l) != 4:
+            continue
         # map suites name (returned by madison) to dist name
         dist = utils.SUITES2DISTS.get(l[2], '')
         if dist in dists:

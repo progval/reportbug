@@ -39,3 +39,9 @@ class TestVersionAvailable(unittest2.TestCase):
         # check stable version is lower than unstable
         chk = checkversions.compare_versions(vers['stable'], vers['unstable'])
         self.assertEqual(chk, 1)
+
+    @attr('network') #marking the test as using network
+    def test_bts649649(self):
+        # checking for non-existing package should not generate a traceback
+        vers = checkversions.get_versions_available('blablabla', 60)
+        self.assertEqual(vers, {})
