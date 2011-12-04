@@ -1243,7 +1243,6 @@ class UI(object):
             # if not done as of below, it will ask for version when the package
             # is not available on the local system (try a dummy one, like foo_12-3)
             pkgversion = self.options.pkgversion
-            print package, self.options.pkgversion
         elif len(self.args) > 1:
             ewrite("Please report one bug at a time.\n")
             ewrite("[Did you forget to put all switches before the "
