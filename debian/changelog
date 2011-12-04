@@ -1,3 +1,13 @@
+reportbug (6.3.1) UNRELEASED; urgency=low
+
+  * bin/reportbug
+    - don't blindly set (even empty) bugscript headers/pseudos, that will
+      prevent spurious blank lines in bug pseudoheaders section; thanks to
+      Andreas Beckmann and Jonathan Nieder for the report; Closes: #649956
+      #650723
+
+ -- Sandro Tosi <morph@debian.org>  Sun, 04 Dec 2011 14:18:01 +0100
+
 reportbug (6.3) unstable; urgency=low
 
   * reportbug/utils.py

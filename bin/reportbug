@@ -2037,8 +2037,11 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                     'Exit without filing a report.', False, nowrap=True):
                     efail("Package bug script failed; stopping.\n")
 
-            headers.extend(bugscript_hdrs.split('\n'))
-            pseudos.append(bugscript_pseudo.strip())
+            # add bugscript headers only if present
+            if bugscript_hdrs:
+                headers.extend(bugscript_hdrs.split('\n'))
+            if bugscript_pseudo:
+                pseudos.append(bugscript_pseudo.strip())
             addinfo = None
             if not self.options.noconf:
                 addinfo = u"\n-- Package-specific info:\n"+text
