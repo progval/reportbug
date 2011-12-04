@@ -668,9 +668,10 @@ def get_dependency_info(package, depends, rel="depends on"):
         # we format the string specifying to align it in a field of a given
         # dimension (the first {width*}) but also limit its size (the second
         # {width*}
-        info = '{0:3.3} {1:{widthp}.{widthp}}  {2:{widthv}.{widthv}}\n'.format(
+        info = '{0:3.3} {1:{widthp}.{widthp}}  {2:{widthv}.{widthv}}'.format(
             status, pack, vers, widthp=widthp, widthv=widthv)
-        depinfo += info
+        # remove tailing white spaces
+        depinfo += info.rstrip() + '\n'
 
     return depinfo
 

@@ -303,6 +303,19 @@ class TestBugreportBody(unittest2.TestCase):
         result = utils.get_dependency_info('reportbug', [['awk']])
         self.assertIn('awk', result)
 
+    def test_bts650659(self):
+        # verify that the dependency list doesn't have tailing white spaces
+
+        status = utils.get_package_status('reportbug')
+        (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
+         installed, origin, vendor, reportinfo, priority, desc, src_name,
+         fulldesc, state, suggests, section) = status
+
+        for l in [depends, recommends, suggests]:
+            result = utils.get_dependency_info('reportbug', l)
+            for line in result.split('\n'):
+                self.assertEqual(line.rstrip(), line)
+
     def test_cleanup_msg(self):
 
         message = """Subject: unblock: reportbug/4.12.6
