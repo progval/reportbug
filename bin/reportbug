@@ -1342,6 +1342,9 @@ class UI(object):
         issource = installed = usedavail = False
         status = None
 
+        if self.options.source:
+            issource = True
+
         exinfo = None
         # If user specified a bug number on the command line
         try:
