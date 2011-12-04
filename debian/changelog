@@ -8,8 +8,11 @@ reportbug (6.3.1) UNRELEASED; urgency=low
   * reportbug/utils.py
     - remove tailing white spaces from dependencies list; thanks to Nelson A. de
       Oliveira for the report and patch; Closes: #650659
+  * reportbug/debbugs.py
+    - added new ftp archive sections: 'education', 'introspection' and
+      'metapackages' as per msgid:<87iplw8px9.fsf@lennier.ganneff.de>
 
- -- Sandro Tosi <morph@debian.org>  Sun, 04 Dec 2011 16:01:55 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 04 Dec 2011 16:48:58 +0100
 
 reportbug (6.3) unstable; urgency=low
 

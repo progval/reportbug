@@ -273,17 +273,18 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
         new_section = ui.menu('Select the new section', {
                 'admin': "", 'cli-mono': "", 'comm': "", 'database': "",
                 'debian-installer': "", 'debug': "", 'devel': "", 'doc': "",
-                'editors': "", 'electronics': "", 'embedded': "", 'fonts': "",
-                'games': "", 'gnome': "", 'gnu-r': "", 'gnustep': "",
-                'graphics': "", 'hamradio': "", 'haskell': "", 'httpd': "",
-                'interpreters': "", 'java': "", 'kde': "", 'kernel': "",
+                'editors': "", 'education': "", 'electronics': "",
+                'embedded': "", 'fonts': "", 'games': "", 'gnome': "",
+                'gnu-r': "", 'gnustep': "", 'graphics': "", 'hamradio': "",
+                'haskell': "", 'httpd': "", 'interpreters': "",
+                'introspection': "", 'java': "", 'kde': "", 'kernel': "",
                 'libdevel': "", 'libs': "", 'lisp': "", 'localization': "",
-                'mail': "", 'math': "", 'misc': "", 'net': "",
-                'news': "", 'ocaml': "", 'oldlibs': "", 'otherosfs': "",
-                'perl': "", 'php': "", 'python': "", 'ruby': "",
-                'science': "", 'shells': "", 'sound': "", 'tex': "",
-                'text': "", 'utils': "", 'vcs': "", 'video': "",
-                'web': "", 'x11': "", 'xfce': "", 'zope': "",
+                'mail': "", 'math': "", 'metapackages': "", 'misc': "",
+                'net': "", 'news': "", 'ocaml': "", 'oldlibs': "",
+                'otherosfs': "", 'perl': "", 'php': "", 'python': "",
+                'ruby': "", 'science': "", 'shells': "", 'sound': "", 'tex': "",
+                'text': "", 'utils': "", 'vcs': "", 'video': "", 'web': "",
+                'x11': "", 'xfce': "", 'zope': "",
         }, 'Choose the section: ', default=section, empty_ok=True)
         if not new_section:
             new_section = section
