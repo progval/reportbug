@@ -3,8 +3,11 @@ reportbug (6.3.2) UNRELEASED; urgency=low
   * reportbug/checkversions.py
     - match version on the precise architecture, not just check string
       inclusiong; thanks to Nelson de Oliveira for the report; Closes: #650651
+  * bin/reportbug
+    - clarify the menu title when presenting more packages; thanks to Alois
+      Mahdal for the report; Closes: #654165
 
- -- Sandro Tosi <morph@debian.org>  Sun, 25 Dec 2011 15:47:33 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 10 Jan 2012 21:26:34 +0100
 
 reportbug (6.3.1) unstable; urgency=low
 
