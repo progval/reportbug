@@ -14,8 +14,12 @@ reportbug (6.3.2) UNRELEASED; urgency=low
       requests, so reportbug won't crash if proper values (for section and
       priority) is not found; thanks to James McCoy for the report;
       Closes: #658748
+  * reportbug/utils.py
+    - correctly report the installation status for each dependency packages, not
+      just the last status applied to each pkgs; thanks to Piotr Engelking for
+      the report; Closes: #657753
 
- -- Sandro Tosi <morph@debian.org>  Sun, 19 Feb 2012 18:45:30 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 19 Feb 2012 19:28:59 +0100
 
 reportbug (6.3.1) unstable; urgency=low
 

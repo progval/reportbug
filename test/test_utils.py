@@ -303,6 +303,16 @@ class TestBugreportBody(unittest2.TestCase):
         result = utils.get_dependency_info('reportbug', [['awk']])
         self.assertIn('awk', result)
 
+
+    def test_bts657753(self):
+        # check that non-existing deps gets a correct installation info
+        # and not just the last one applied to anyone
+        result = utils.get_dependency_info('reportbug',
+                                           (('reportbug',), ('nonexisting',)))
+        for line in result.split('\n'):
+            if 'nonexisting' in line:
+                self.assertFalse(line.startswith('ii'))
+
     def test_bts650659(self):
         # verify that the dependency list doesn't have tailing white spaces
 
