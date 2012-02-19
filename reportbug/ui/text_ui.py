@@ -544,7 +544,7 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
         for entry in hierarchy:
             # first item is the title of the section
             entry_new = entry[0]
-            bugs_new = []
+            bugs_new = {}
             bugs_numbers = []
             # XXX: we can probably simplify this code, with some lists
             # generations and map()
@@ -555,11 +555,12 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                 if bug.pending == 'done':
                     done = '  [RESOLVED]'
                 # we take the info we need (bug number and subject)
-                bugs_new.append("#%d  %s%s" %(bug.bug_num, bug.subject, done))
+                # we use a dict so it's easy to sort the keys and then values
+                bugs_new[bug.bug_num] = "%s%s" % (bug.subject, done)
                 # and at the same time create a list of bugs numbers
                 bugs_numbers.append(bug.bug_num)
             # then we sort both the lists
-            hierarchy_new.append((entry_new, sorted(bugs_new, reverse=latest_first)))
+            hierarchy_new.append((entry_new, ["#%d  %s" % (k, bugs_new[k]) for k in sorted(bugs_new.keys(), reverse=latest_first)]))
             bugs.extend(sorted(bugs_numbers, reverse=latest_first))
 
         # replace old hierarchy with hierarchy_new

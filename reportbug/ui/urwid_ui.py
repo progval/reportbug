@@ -580,15 +580,15 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
             for (t, bugs) in hierarchy:
                 bcount = len(bugs)
                 buglist.append( ('---', t) )
-                buglist_tmp = []
+                buglist_tmp = {}
                 for bug in bugs:
                     # show if the bugs is already resolved
                     done = ''
                     if bug.pending == 'done':
                         done = '  [RESOLVED]'
-                    buglist_tmp.append( (str(bug.bug_num), bug.subject+done) )
+                    buglist_tmp[bug.bug_num] = bug.subject+done
                 # append the sorted list of bugs for this severity
-                map(buglist.append, sorted(buglist_tmp, reverse=latest_first))
+                map(buglist.append, [(str(k), buglist_tmp[k]) for k in sorted(buglist_tmp, reverse=latest_first)])
 
             p = buglist[1][0]
             #scr.popWindow()
