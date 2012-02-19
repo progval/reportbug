@@ -197,7 +197,7 @@ progenyother = {
     }
 
 def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_proxy=None):
-    body = reason = archs = ''
+    body = reason = archs = section = priority = ''
     suite = 'unstable'
     headers = []
     pseudos = []

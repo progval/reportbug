@@ -9,8 +9,13 @@ reportbug (6.3.2) UNRELEASED; urgency=low
   * reportbug/ui/{text, urwid}_ui.py
     - sort bug numerically; thanks to Matthias Urlichs for the report;
       Closes: #657616
+  * reportbug/debbugs.py
+    - initialize varibles needed to handle ftp.debian.org section change
+      requests, so reportbug won't crash if proper values (for section and
+      priority) is not found; thanks to James McCoy for the report;
+      Closes: #658748
 
- -- Sandro Tosi <morph@debian.org>  Sun, 19 Feb 2012 18:35:52 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 19 Feb 2012 18:45:30 +0100
 
 reportbug (6.3.1) unstable; urgency=low
 
