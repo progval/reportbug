@@ -856,7 +856,7 @@ MUA = {
     'mutt' : Mua('mutt -H'),
     'mh' : Mua('/usr/bin/mh/comp -use -file'),
     'gnus' : Gnus(),
-    'claws-mail' : Mua('claws-mail --compose-read'),
+    'claws-mail' : Mua('claws-mail --compose-from-file'),
     }
 MUA['nmh'] = MUA['mh']
 

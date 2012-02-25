@@ -18,8 +18,12 @@ reportbug (6.3.2) UNRELEASED; urgency=low
     - correctly report the installation status for each dependency packages, not
       just the last status applied to each pkgs; thanks to Piotr Engelking for
       the report; Closes: #657753
+  * reportbug/utils.py, debian/control
+    - updated claws-mail command to use the new cli switch to compose a mail
+      from a file (adding a versioned depends); thanks to David Paleino for the
+      report; Closes: #661221
 
- -- Sandro Tosi <morph@debian.org>  Sun, 19 Feb 2012 19:28:59 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 25 Feb 2012 11:14:28 +0100
 
 reportbug (6.3.1) unstable; urgency=low
 
