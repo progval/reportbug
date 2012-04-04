@@ -22,8 +22,10 @@ reportbug (6.3.2) UNRELEASED; urgency=low
     - updated claws-mail command to use the new cli switch to compose a mail
       from a file (adding a versioned depends); thanks to David Paleino for the
       report; Closes: #661221
+  * debian/control
+    - added python-mock to b-d-i, needed for the test suite
 
- -- Sandro Tosi <morph@debian.org>  Sat, 25 Feb 2012 11:14:28 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 04 Apr 2012 20:30:22 +0200
 
 reportbug (6.3.1) unstable; urgency=low
 
