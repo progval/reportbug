@@ -650,8 +650,8 @@ def handle_wnpp(package, bts, ui, fromaddr, timeout, online=True, http_proxy=Non
 
 def dpkg_infofunc():
     debarch = utils.get_arch()
+    utsmachine = os.uname()[4]
     if debarch:
-        utsmachine = os.uname()[4]
         if utsmachine == debarch:
             debinfo = u'Architecture: %s\n\n' % debarch
         else:

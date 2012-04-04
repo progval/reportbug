@@ -1,6 +1,7 @@
 import unittest2
 
 from nose.plugins.attrib import attr
+import mock
 
 from reportbug import utils
 from reportbug import debbugs
@@ -59,6 +60,18 @@ class TestInfofunc(unittest2.TestCase):
     def test_dpkg_infofunc(self):
         info = debbugs.dpkg_infofunc()
         self.assertIn('Architecture:', info)
+        self.assertTrue(info.endswith('\n\n'))
+
+        utils.get_arch = mock.MagicMock(return_value = 'non-existing-arch')
+        info = debbugs.dpkg_infofunc()
+        self.assertIn('non-existing-arch', info)
+        self.assertTrue(info.endswith('\n\n'))
+
+        # test with get_arch() returning None
+        utils.get_arch = mock.MagicMock(return_value = None)
+        info = debbugs.dpkg_infofunc()
+        self.assertIn('Architecture: ?', info)
+        self.assertTrue(info.endswith('\n\n'))
 
     def test_debian_infofunc(self):
         info = debbugs.debian_infofunc()
