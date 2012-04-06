@@ -59,7 +59,10 @@ class TestInfofunc(unittest2.TestCase):
 
     def test_dpkg_infofunc(self):
         info = debbugs.dpkg_infofunc()
+        arch = utils.get_arch()
         self.assertIn('Architecture:', info)
+        self.assertIn(arch, info)
+        self.assertIn('Architecture: ' + arch, info)
         self.assertTrue(info.endswith('\n\n'))
 
         utils.get_arch = mock.MagicMock(return_value = 'non-existing-arch')
@@ -72,6 +75,13 @@ class TestInfofunc(unittest2.TestCase):
         info = debbugs.dpkg_infofunc()
         self.assertIn('Architecture: ?', info)
         self.assertTrue(info.endswith('\n\n'))
+
+        # test with a dummy m-a setup
+        utils.get_multiarch = mock.MagicMock(return_value = 'multi-arch-ified')
+        info = debbugs.dpkg_infofunc()
+        self.assertIn('Foreign Architectures:', info)
+        self.assertIn('multi-arch-ified', info)
+        self.assertIn('Foreign Architectures: multi-arch-ified', info)
 
     def test_debian_infofunc(self):
         info = debbugs.debian_infofunc()

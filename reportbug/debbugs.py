@@ -651,13 +651,17 @@ def handle_wnpp(package, bts, ui, fromaddr, timeout, online=True, http_proxy=Non
 def dpkg_infofunc():
     debarch = utils.get_arch()
     utsmachine = os.uname()[4]
+    multiarch = utils.get_multiarch()
     if debarch:
         if utsmachine == debarch:
-            debinfo = u'Architecture: %s\n\n' % debarch
+            debinfo = u'Architecture: %s\n' % debarch
         else:
-            debinfo = u'Architecture: %s (%s)\n\n' % (debarch, utsmachine)
+            debinfo = u'Architecture: %s (%s)\n' % (debarch, utsmachine)
     else:
-        debinfo = u'Architecture: ? (%s)\n\n' % utsmachine
+        debinfo = u'Architecture: ? (%s)\n' % utsmachine
+    if multiarch:
+        debinfo += u'Foreign Architectures: %s\n' % multiarch
+    debinfo += '\n'
     return debinfo
 
 def debian_infofunc():

@@ -24,8 +24,11 @@ reportbug (6.3.2) UNRELEASED; urgency=low
       report; Closes: #661221
   * debian/control
     - added python-mock to b-d-i, needed for the test suite
+  * reportbug/{debbugs, utils}.py
+    - report foreign architectures information (if m-a); thanks to Cyril
+      Brulebois for the report; Closes: #658795
 
- -- Sandro Tosi <morph@debian.org>  Wed, 04 Apr 2012 20:30:22 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 07 Apr 2012 01:37:58 +0200
 
 reportbug (6.3.1) unstable; urgency=low
 

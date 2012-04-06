@@ -762,6 +762,9 @@ def get_arch():
         arch = re.sub(r'ppc', 'powerpc', arch)
     return arch
 
+def get_multiarch():
+    return commands.getoutput('COLUMNS=79 dpkg --print-foreign-architectures 2>/dev/null')
+
 def generate_blank_report(package, pkgversion, severity, justification,
                           depinfo, confinfo, foundfile='', incfiles='',
                           system='debian', exinfo=None, type=None, klass='',
