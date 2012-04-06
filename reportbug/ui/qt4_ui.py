@@ -170,7 +170,7 @@ class Menu(Dialog):
     def show(self):
         self._question.show()
         self._groupbox.show()
-        super(Dialog, self).show()
+        super(Menu, self).show()
 
     def _on_confirm(self):
         if len(self.response) == 0 and not self._empty_ok:
@@ -187,6 +187,19 @@ class Menu(Dialog):
     def response(self):
         return [x for x,y in self._buttons.items() if y.isChecked()]
 
+class YesNo(QtGui.QMessageBox):
+    def __init__(self, message, yeshelp, nohelp, default):
+        super(YesNo, self).__init__(self.Question, 'reportbug', message)
+        self.setInformativeText('Yes: %s\nNo: %s' % (yeshelp, nohelp))
+        self.addButton(self.Yes)
+        self.addButton(self.No)
+        self.setDefaultButton(self.Yes if default else self.No)
+
+    def show(self):
+        super(YesNo, self).show()
+
+    def _on_click(self):
+        pass
 
 def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=False,
                default='', completer=None):
@@ -210,6 +223,14 @@ def menu(question, options, prompt, default=None, title=None, any_ok=False,
     assert not multiple or len(response) <= 1
     assert empty_ok or len(response) >= 1
     return response if multiple else response[0]
+
+def yes_no(message, yeshelp, nohelp, default=True, nowrap=False):
+    yesno = YesNo(message=message, yeshelp=yeshelp, nohelp=nohelp,
+            default=default)
+    yesno.show()
+    response = yesno.exec_()
+    assert response in (yesno.Yes, yesno.No)
+    return response == yesno.Yes
 
 
 def initialize():
