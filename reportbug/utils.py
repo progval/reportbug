@@ -881,6 +881,8 @@ def mua_is_supported(mua):
         mua_tmp = 'gnus'
     elif mua == 'mutt' or mua == MUA['mutt']:
         mua_tmp = 'mutt'
+    elif mua == 'claws-mail' or mua == MUA['claws-mail']:
+        mua_tmp = 'claws-mail'
     else:
         mua_tmp = mua
     if mua_tmp not in MUA:
@@ -898,6 +900,8 @@ def mua_exists(mua):
         mua_tmp = MUA['gnus']
     elif mua == 'mutt' or mua == MUA['mutt']:
         mua_tmp = MUA['mutt']
+    elif mua == 'claws-mail' or mua == MUA['claws-mail']:
+        mua_tmp = MUA['claws-mail']
     else:
         mua_tmp = MUA[mua]
     output = '/dev/null'

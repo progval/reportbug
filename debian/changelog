@@ -18,6 +18,8 @@ reportbug (6.3.2) UNRELEASED; urgency=low
     - correctly report the installation status for each dependency packages, not
       just the last status applied to each pkgs; thanks to Piotr Engelking for
       the report; Closes: #657753
+    - Fix crash when using claws-mail as a mailer; thanks to Valentin Lorentz
+      for the report and (partial) patch: Closes: #667543
   * reportbug/utils.py, debian/control
     - updated claws-mail command to use the new cli switch to compose a mail
       from a file (adding a versioned depends); thanks to David Paleino for the
@@ -28,7 +30,7 @@ reportbug (6.3.2) UNRELEASED; urgency=low
     - report foreign architectures information (if m-a); thanks to Cyril
       Brulebois for the report; Closes: #658795
 
- -- Sandro Tosi <morph@debian.org>  Sat, 07 Apr 2012 01:37:58 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 08 Apr 2012 00:55:40 +0200
 
 reportbug (6.3.1) unstable; urgency=low
 
