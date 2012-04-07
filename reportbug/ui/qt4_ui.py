@@ -68,6 +68,7 @@ class YesNo(QtGui.QMessageBox):
 def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=False,
                default='', completer=None):
     ok = False
+    prompt = prompt.replace(' (enter Ctrl+c to exit reportbug without reporting a bug)', '')
     # If you don't like the following line, ask Qt to give us access to
     # QInputDialog.label.setWordWrap()
     prompt = textwrap.fill(prompt)
@@ -86,18 +87,109 @@ def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=Fa
             exit_dialog()
     return str(response)
 
+"""
+class Menu(QtGui.QDialog):
+    def __init__(self, parent, title, question, options, prompt, multiple):
+        super(Menu, self).__init__(parent)
+        self.setWindowTitle(title or '')
+        self._multiple = multiple
+
+        self._question = QtGui.QLabel(question, self)
+        self._options = options
+        self._table = QtGui.QTableWidget(self)
+        self._table.setColumnCount(2)
+        self._table.setRowCount(len(options))
+        self._table.setHorizontalHeaderLabels(['Option', 'Description'])
+        self._table.horizontalHeader().setResizeMode(QtGui.QHeaderView.ResizeToContents)
+        self._table.verticalHeader().setVisible(False)
+        for row, option in zip(range(0, len(options)), options):
+            (key, description) = option
+            item_key = QtGui.QTableWidgetItem(key)
+            item_description = QtGui.QTableWidgetItem(description)
+            for widget in (item_key, item_description):
+                widget.setFlags(QtCore.Qt.ItemIsSelectable |
+                        QtCore.Qt.ItemIsEnabled |
+                        QtCore.Qt.ItemIsUserCheckable)
+            self._table.setItem(row, 0, item_key)
+            self._table.setItem(row, 1, item_description)
+        self._table.show()
+        self._question.show()
+
+    def resizeEvent(self, event):
+        super(Menu, self).resizeEvent(event)
+        self._table.resize(self.width(),
+                self.height() - self._question.height())
+
+    def exec_(self):
+        status = super(Menu, self).exec_()
+        return self._options[response][0] if status else None
+"""
+class Menu(QtGui.QDialog):
+    def __init__(self, parent, title, question, options, prompt, multiple):
+        super(Menu, self).__init__(parent)
+        self.resize(500, 600)
+        self.setWindowTitle(title or '')
+        self._multiple = multiple
+        self._selection = []
+        self._abort = True
+
+        self._question = QtGui.QLabel(question, self)
+        self._options = options
+        self._groupbox = QtGui.QGroupBox(self)
+        self._groupbox.setLayout(QtGui.QVBoxLayout())
+        Widget = QtGui.QCheckBox if multiple else QtGui.QRadioButton
+        def on_toggle_generator(key):
+            def on_toggle(checked):
+                if checked and key not in self._selection:
+                    self._selection.append(key)
+                elif not checked and key in self._selection:
+                    self._selection.remove(key)
+            return on_toggle
+        print repr(options)
+        for key, description in options.items():
+            widget = Widget('%s: %s' % (key, description))
+            widget.toggled.connect(on_toggle_generator(key))
+            self._groupbox.layout().addWidget(widget)
+
+        self._buttonbox = QtGui.QDialogButtonBox(self)
+        self._buttonbox.addButton(self._buttonbox.Yes)
+        self._buttonbox.addButton(self._buttonbox.No)
+        self._buttonbox.clicked.connect(self._on_button_click)
+        self._buttonbox.show()
+
+    def resizeEvent(self, event):
+        self._groupbox.move(0, self._question.height())
+        self._buttonbox.move(self.width() - self._buttonbox.width(),
+                self.height() - self._buttonbox.height())
+
+    def exec_(self):
+        super(Menu, self).exec_()
+        return None if self._abort else self._selection
+
+    def _on_button_click(self, button):
+        button = self._buttonbox.standardButton(button)
+        if button == self._buttonbox.No:
+            exit_dialog()
+        else:
+            self._abort = False
+            self.close()
+
+
+
 def menu(question, options, prompt, default=None, title=None, any_ok=False,
          order=None, extras=None, multiple=False, empty_ok=False):
-    if multiple:
-        raise NotImplemented('Multiple choice menu has not been implemented')
-    response = []
-    while len(response) == 0:
-        response, status = QtGui.QInputDialog.getItem(win, title or '',
-                question, [y for x,y in options], 0, False)
-        if not status:
+    response = None
+    while response is None or (len(response) == 0 and not empty_ok):
+        dialog = Menu(win, title, question, options, prompt, multiple)
+        response = dialog.exec_()
+        if response is None:
             exit_dialog()
             continue
-    return str(response)
+    return response if multiple else response[0]
+
+def select_multiple(par, options, prompt, title=None, order=None, extras=None):
+    return menu(par, options, prompt, title=title, order=order, extras=extras,
+                multiple=True, empty_ok=False)
 
 
 def yes_no(message, yeshelp, nohelp, default=True, nowrap=False):
