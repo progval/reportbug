@@ -37,13 +37,26 @@ win = None
 def log_message(message, *args):
     if args:
         message %= args
-    print message
+    if win is None:
+        print message
+    else:
+        win.log_message(message)
 
 def display_failure(message, *args):
     if args:
         message %= args
     sys.stderr.write(message)
     sys.stderr.flush()
+
+def disable_progressbar(func):
+    # FIXME: The progressbar is not shown while Python is computing, because
+    # Python threads are not compatible with Qt threads.
+    def newf(*args, **kwargs):
+        win.progressbar(False)
+        response = func(*args, **kwargs)
+        win.progressbar(True)
+        return response
+    return newf
 
 def exit_dialog():
     response = QtGui.QMessageBox(QtGui.QMessageBox.Critical, 'reportbug',
@@ -55,16 +68,42 @@ def exit_dialog():
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.resize(700, 550)
         self.setWindowIcon(QtGui.QIcon(DEBIAN_LOGO))
+        self._status = QtGui.QPlainTextEdit(self)
+        self._status.setReadOnly(True)
+        self._progressbar = QtGui.QProgressBar(self)
+        self._progressbar.setRange(0, 0)
+        self.progressbar(True)
+        self.progressbar(False)
+    def log_message(self, message):
+        self._status.appendPlainText('\n' + message)
+
+    def resizeEvent(self, event):
+        self._status.move(0, self._progressbar.height())
+        self._status.resize(self.width(),
+                self.height() - self._progressbar.height())
+        self._progressbar.resize(self.width(),
+                self._progressbar.height())
+
+    def progressbar(self, enable):
+        if enable:
+            self._progressbar.show()
+            self.resizeEvent(None)
+        else:
+            self._progressbar.hide()
+            self.resizeEvent(None)
 
 class YesNo(QtGui.QMessageBox):
     def __init__(self, message, yeshelp, nohelp, default):
         super(YesNo, self).__init__(self.Question, 'reportbug', message)
+        self.setModal(True)
         self.setInformativeText('Yes: %s\nNo: %s' % (yeshelp, nohelp))
         self.addButton(self.Yes)
         self.addButton(self.No)
         self.setDefaultButton(self.Yes if default else self.No)
 
+@disable_progressbar
 def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=False,
                default='', completer=None):
     ok = False
@@ -90,7 +129,8 @@ def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=Fa
 class Menu(QtGui.QDialog):
     def __init__(self, parent, title, question, options, prompt, multiple):
         super(Menu, self).__init__(parent)
-        self.resize(500, 600)
+        self.setModal(True)
+        self.resize(600, 500)
         self.setWindowTitle(title or '')
         self._multiple = multiple
         self._selection = []
@@ -125,6 +165,7 @@ class Menu(QtGui.QDialog):
 
     def resizeEvent(self, event):
         self._groupbox.move(0, self._question.height())
+        self._groupbox.resize(self.width(), self.height() - self._buttonbox.height())
         self._buttonbox.move(self.width() - self._buttonbox.width(),
                 self.height() - self._buttonbox.height())
 
@@ -142,6 +183,7 @@ class Menu(QtGui.QDialog):
 
 
 
+@disable_progressbar
 def menu(question, options, prompt, default=None, title=None, any_ok=False,
          order=None, extras=None, multiple=False, empty_ok=False):
     response = None
@@ -158,6 +200,7 @@ def select_multiple(par, options, prompt, title=None, order=None, extras=None):
                 multiple=True, empty_ok=False)
 
 
+@disable_progressbar
 def yes_no(message, yeshelp, nohelp, default=True, nowrap=False):
     yesno = YesNo(message=message, yeshelp=yeshelp, nohelp=nohelp,
             default=default)
@@ -169,6 +212,7 @@ def yes_no(message, yeshelp, nohelp, default=True, nowrap=False):
 class Bug(QtGui.QDialog):
     def __init__(self, bug, parent=None):
         super(Bug, self).__init__(parent)
+        self.setModal(True)
         self._bug = bug
         self._label = QtGui.QLabel(repr(bug), self)
         # TODO: implement this
@@ -196,6 +240,7 @@ class BugList(QtGui.QDialog):
 
     def __init__(self, parent, reports):
         super(BugList, self).__init__(parent)
+        self.setModal(True)
         self._abort = True
         self._selected_bug = None
         self.resize(600, 500)
@@ -261,6 +306,7 @@ class BugList(QtGui.QDialog):
             return self._bugs[self._selected_bug]
 
 
+@disable_progressbar
 def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, screen=None, title="", archived='no',
                      source=False, version=None, mbox=False, buglist=None,
@@ -322,9 +368,10 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
 class Editor(QtGui.QDialog):
     def __init__(self, parent, message, filename):
         super(Editor, self).__init__(parent)
+        self.setModal(True)
         self._abort = True
 
-        self.resize(500, 600)
+        self.resize(600, 500)
         self._textedit = QtGui.QPlainTextEdit(self)
         self._textedit.setDocumentTitle(filename)
         self._textedit.setPlainText(message)
@@ -360,6 +407,7 @@ class Editor(QtGui.QDialog):
         assert not self._abort
         return self._textedit.toPlainText()
 
+@disable_progressbar
 def spawn_editor(message, filename, editor, charset='utf-8'):
     editor = Editor(win, message, filename)
     new_message = str(editor.exec_())
@@ -369,6 +417,7 @@ class ButtonList(QtGui.QDialog):
     def __init__(self, parent, msg, ok, help_, title):
         super(ButtonList, self).__init__(parent)
         self.setLayout(QtGui.QVBoxLayout())
+        self.setModal(True)
         self._buttons = {}
         self._clicked = None
 
@@ -394,16 +443,19 @@ class ButtonList(QtGui.QDialog):
         super(ButtonList, self).exec_()
         return self._clicked
 
+@disable_progressbar
 def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
                    ui=None, title=None):
     response = None
     while response is None:
-        print '-'*50
         response = ButtonList(win, msg, ok, help or {}, title or 'reportbug').exec_()
-        print repr(response)
     return response
 
 def long_message(message, *args, **kwargs):
+    # TODO: implement this
+    pass
+
+def get_filename(prompt, title=None, force_prompt=False, default=''):
     # TODO: implement this
     pass
 
@@ -412,6 +464,8 @@ def initialize():
     global app, win
     app = QtGui.QApplication(sys.argv)
     win = MainWindow()
+    win.show()
+    win.progressbar(True)
     return True
 
 def can_input():
