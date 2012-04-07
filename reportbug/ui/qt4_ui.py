@@ -87,43 +87,6 @@ def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=Fa
             exit_dialog()
     return str(response)
 
-"""
-class Menu(QtGui.QDialog):
-    def __init__(self, parent, title, question, options, prompt, multiple):
-        super(Menu, self).__init__(parent)
-        self.setWindowTitle(title or '')
-        self._multiple = multiple
-
-        self._question = QtGui.QLabel(question, self)
-        self._options = options
-        self._table = QtGui.QTableWidget(self)
-        self._table.setColumnCount(2)
-        self._table.setRowCount(len(options))
-        self._table.setHorizontalHeaderLabels(['Option', 'Description'])
-        self._table.horizontalHeader().setResizeMode(QtGui.QHeaderView.ResizeToContents)
-        self._table.verticalHeader().setVisible(False)
-        for row, option in zip(range(0, len(options)), options):
-            (key, description) = option
-            item_key = QtGui.QTableWidgetItem(key)
-            item_description = QtGui.QTableWidgetItem(description)
-            for widget in (item_key, item_description):
-                widget.setFlags(QtCore.Qt.ItemIsSelectable |
-                        QtCore.Qt.ItemIsEnabled |
-                        QtCore.Qt.ItemIsUserCheckable)
-            self._table.setItem(row, 0, item_key)
-            self._table.setItem(row, 1, item_description)
-        self._table.show()
-        self._question.show()
-
-    def resizeEvent(self, event):
-        super(Menu, self).resizeEvent(event)
-        self._table.resize(self.width(),
-                self.height() - self._question.height())
-
-    def exec_(self):
-        status = super(Menu, self).exec_()
-        return self._options[response][0] if status else None
-"""
 class Menu(QtGui.QDialog):
     def __init__(self, parent, title, question, options, prompt, multiple):
         super(Menu, self).__init__(parent)
@@ -145,15 +108,18 @@ class Menu(QtGui.QDialog):
                 elif not checked and key in self._selection:
                     self._selection.remove(key)
             return on_toggle
-        print repr(options)
+        if isinstance(options, tuple):
+            options = dict(options)
+        elif isinstance(options, list):
+            options = dict(options)
         for key, description in options.items():
             widget = Widget('%s: %s' % (key, description))
             widget.toggled.connect(on_toggle_generator(key))
             self._groupbox.layout().addWidget(widget)
 
         self._buttonbox = QtGui.QDialogButtonBox(self)
-        self._buttonbox.addButton(self._buttonbox.Yes)
-        self._buttonbox.addButton(self._buttonbox.No)
+        self._buttonbox.addButton(self._buttonbox.Ok)
+        self._buttonbox.addButton(self._buttonbox.Cancel)
         self._buttonbox.clicked.connect(self._on_button_click)
         self._buttonbox.show()
 
@@ -168,7 +134,7 @@ class Menu(QtGui.QDialog):
 
     def _on_button_click(self, button):
         button = self._buttonbox.standardButton(button)
-        if button == self._buttonbox.No:
+        if button == self._buttonbox.Cancel:
             exit_dialog()
         else:
             self._abort = False
@@ -352,6 +318,90 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
     bug = BugList(win, report).exec_()
     assert bug is None or isinstance(bug, debbugs.debianbts.Bugreport)
     return bug
+
+class Editor(QtGui.QDialog):
+    def __init__(self, parent, message, filename):
+        super(Editor, self).__init__(parent)
+        self._abort = True
+
+        self.resize(500, 600)
+        self._textedit = QtGui.QPlainTextEdit(self)
+        self._textedit.setDocumentTitle(filename)
+        self._textedit.setPlainText(message)
+        self._buttonbox = QtGui.QDialogButtonBox(self)
+        self._buttonbox.addButton(self._buttonbox.Ok)
+        self._buttonbox.addButton(self._buttonbox.Cancel)
+        self._buttonbox.clicked.connect(self._on_button_click)
+        self._buttonbox.show()
+
+    def resizeEvent(self, event):
+        super(Editor, self).resizeEvent(event)
+        self._buttonbox.move(self.width() - self._buttonbox.width(),
+                self.height() - self._buttonbox.height())
+        self._textedit.resize(self.width(),
+                self.height() - self._buttonbox.height())
+
+    def _on_button_click(self, button):
+        button = self._buttonbox.standardButton(button)
+        if button == self._buttonbox.Cancel:
+            exit_dialog()
+        else:
+            self._abort = False
+            self.close()
+
+    def closeEvent(self, event):
+        if self._abort: # User closed the window
+            exit_dialog()
+        else: # Programmatically closing the window
+            pass
+
+    def exec_(self):
+        super(Editor, self).exec_()
+        assert not self._abort
+        return self._textedit.toPlainText()
+
+def spawn_editor(message, filename, editor, charset='utf-8'):
+    editor = Editor(win, message, filename)
+    new_message = str(editor.exec_())
+    return (new_message, message == new_message)
+
+class ButtonList(QtGui.QDialog):
+    def __init__(self, parent, msg, ok, help_, title):
+        super(ButtonList, self).__init__(parent)
+        self.setLayout(QtGui.QVBoxLayout())
+        self._buttons = {}
+        self._clicked = None
+
+        def on_click_generator(key):
+            def on_click(checked):
+                self._clicked = key
+                self.close()
+            return on_click
+        for key in ok:
+            button = QtGui.QPushButton(help_[key.lower()])
+            self.layout().addWidget(button)
+            button.clicked.connect(on_click_generator(key))
+            if key != key.lower(): # It is upper-cased
+                button.setFocus()
+            button.show()
+            self._buttons.update({key: button})
+
+    def closeEvent(self, event):
+        if self._clicked is None:
+            exit_dialog()
+
+    def exec_(self):
+        super(ButtonList, self).exec_()
+        return self._clicked
+
+def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
+                   ui=None, title=None):
+    response = None
+    while response is None:
+        print '-'*50
+        response = ButtonList(win, msg, ok, help or {}, title or 'reportbug').exec_()
+        print repr(response)
+    return response
 
 def long_message(message, *args, **kwargs):
     # TODO: implement this
