@@ -452,13 +452,10 @@ def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
     return response
 
 def long_message(message, *args, **kwargs):
-    # TODO: implement this
-    pass
+    log_message(message, *args)
 
 def get_filename(prompt, title=None, force_prompt=False, default=''):
-    # TODO: implement this
-    pass
-
+    return str(QtGui.QFileDialog.getOpenFileName(win, title or '', default))
 
 def initialize():
     global app, win
