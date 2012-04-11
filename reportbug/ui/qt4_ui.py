@@ -222,20 +222,28 @@ class Bug(QtGui.QDialog):
 
 class BugList(QtGui.QDialog):
     class Bug(QtGui.QTreeWidgetItem):
-        columns = {
-                'bug_num': 'ID',
-                'package': 'Package',
-                'pending': 'Status',
-                'date': 'Date',
-                }
+        columns = (
+                ('bug_num', 'ID'),
+                ('tags', 'Tag'),
+                ('package', 'Package'),
+                ('subject', 'Description'),
+                ('pending', 'Status'),
+                ('originator', 'Submitter'),
+                ('date', 'Date'),
+                ('severity', 'Severity'),
+                ('found_versions', 'Versions'),
+                ('log_modified', 'Modified date'),
+                )
         @classmethod
         def header(cls):
-            return cls.columns.values()
+            return [y for x,y in cls.columns]
 
         def __init__(self, bug):
             list_ = QtCore.QStringList()
-            for attr in self.columns:
-                list_.append(str(getattr(bug, attr)))
+            for attr, verbose_name in self.columns:
+                value = getattr(bug, attr)
+                formatter = ', '.join if isinstance(value, list) else str
+                list_.append(formatter(value))
             super(BugList.Bug, self).__init__(list_)
 
     def __init__(self, parent, reports):
