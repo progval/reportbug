@@ -210,15 +210,78 @@ def yes_no(message, yeshelp, nohelp, default=True, nowrap=False):
     return response == yesno.Yes
 
 class Bug(QtGui.QDialog):
-    def __init__(self, bug, parent=None):
+    class MessageList(QtGui.QWidget):
+        def __init__(self, messages, parent=None):
+            super(Bug.MessageList, self).__init__(parent)
+            self._height = 0
+            self._resizing = False
+            self._textedits = []
+            #self.setLayout(QtGui.QVBoxLayout())
+            self.setSizePolicy(QtGui.QSizePolicy(
+                    QtGui.QSizePolicy.Expanding,
+                    QtGui.QSizePolicy.Expanding))
+            for message in messages:
+                textedit = QtGui.QPlainTextEdit(self)
+                textedit.setPlainText(message)
+                textedit.setReadOnly(True)
+                #textedit.setSizePolicy(QtGui.QSizePolicy(
+                #        QtGui.QSizePolicy.Expanding,
+                #        QtGui.QSizePolicy.Expanding))
+                self._textedits.append(textedit)
+                self.resize(self.width(), self._height + 100000)
+                textedit.adjustSize()
+                metrics = QtGui.QFontMetrics(textedit.font())
+                textedit.resize(textedit.width(),
+                        # Number of lines of the document:
+                        (textedit.document().documentLayout().documentSize().toSize().height()+3)*
+                        # Height of a line:
+                        metrics.height())
+                textedit.move(0, self._height)
+                self._height += textedit.height()
+            self.setMinimumHeight(self._height)
+            self.resize(self.width(), self._height + 100000)
+        def resizeEvent(self, event):
+            super(Bug.MessageList, self).resizeEvent(event)
+            for textedit in self._textedits:
+                textedit.resize(self.width(), textedit.height())
+    def __init__(self, bug, parent=None, **kwargs):
         super(Bug, self).__init__(parent)
         self.setModal(True)
+        self.resize(600, 500)
         self._bug = bug
-        self._label = QtGui.QLabel(repr(bug), self)
-        # TODO: implement this
+        info = debbugs.get_report(int(bug.bug_num), None, **kwargs)
+
+        self._description = QtGui.QLabel('Description:'+info[0].subject, self)
+        self._description.show()
+
+        self._scrollarea = QtGui.QScrollArea(self)
+        self._scrollarea.setWidget(Bug.MessageList(info[1], self._scrollarea))
+        self._scrollarea.setWidgetResizable(True)
+        self._scrollarea.show()
+
+        self._buttonbox = QtGui.QDialogButtonBox(self)
+        self._buttonbox.addButton(self._buttonbox.Close)
+        self._buttonbox.clicked.connect(self._on_button_click)
+        self._buttonbox.show()
 
     def closeEvent(self, event):
         self.parent()._selected_bug = None
+
+    def resizeEvent(self, event):
+        (x, y) = (self.width(), self.height()) # shortcuts
+        self._description.resize(x, self._description.height())
+        self._buttonbox.move(self.width() - self._buttonbox.width(),
+                self.height() - self._buttonbox.height())
+        self._scrollarea.move(0, self._description.height())
+        self._scrollarea.resize(x,
+                y - (self._buttonbox.height()+self._description.height()))
+        #self._scrollarea.widget().resize(self._scrollarea.size())
+
+    def _on_button_click(self, button):
+        button = self._buttonbox.standardButton(button)
+        if button == self._buttonbox.Close:
+            self.close()
+
 
 class BugList(QtGui.QDialog):
     class Bug(QtGui.QTreeWidgetItem):
@@ -246,11 +309,12 @@ class BugList(QtGui.QDialog):
                 list_.append(formatter(value))
             super(BugList.Bug, self).__init__(list_)
 
-    def __init__(self, parent, reports):
+    def __init__(self, parent, reports, bug_kwargs):
         super(BugList, self).__init__(parent)
         self.setModal(True)
         self._abort = True
         self._selected_bug = None
+        self._bug_kwargs = bug_kwargs
         self.resize(600, 500)
         self._tree = QtGui.QTreeWidget(self)
         self._tree.setColumnCount(len(self.Bug.header()))
@@ -288,7 +352,7 @@ class BugList(QtGui.QDialog):
         except ValueError: # Clicked a root item
             return
         self._selected_bug = bug_num
-        Bug(self._bugs[bug_num], self).show()
+        Bug(self._bugs[bug_num], self, **self._bug_kwargs).show()
 
     def _on_button_click(self, button):
         button = self._buttonbox.standardButton(button)
@@ -369,7 +433,8 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
 
     # We don't do "return str(BugList(report).exec_())" because it fails
     # with: "RuntimeError: underlying C/C++ object has been deleted"
-    bug = BugList(win, report).exec_()
+    bug = BugList(win, report, {'mirrors': mirrors, 'http_proxy': http_proxy,
+            'archived': archived, 'system': bts}).exec_()
     assert bug is None or isinstance(bug, debbugs.debianbts.Bugreport)
     return bug
 
