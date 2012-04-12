@@ -26,6 +26,7 @@ import textwrap
 from PyQt4 import QtCore, QtGui
 
 from reportbug import debbugs
+from reportbug.urlutils import launch_browser
 from reportbug.exceptions import NoPackage, NoBugs, NoNetwork, NoReport
 
 DEBIAN_LOGO = "/usr/share/pixmaps/debian-logo.png"
@@ -216,7 +217,6 @@ class Bug(QtGui.QDialog):
             self._height = 0
             self._resizing = False
             self._textedits = []
-            #self.setLayout(QtGui.QVBoxLayout())
             self.setSizePolicy(QtGui.QSizePolicy(
                     QtGui.QSizePolicy.Expanding,
                     QtGui.QSizePolicy.Expanding))
@@ -224,9 +224,6 @@ class Bug(QtGui.QDialog):
                 textedit = QtGui.QPlainTextEdit(self)
                 textedit.setPlainText(message)
                 textedit.setReadOnly(True)
-                #textedit.setSizePolicy(QtGui.QSizePolicy(
-                #        QtGui.QSizePolicy.Expanding,
-                #        QtGui.QSizePolicy.Expanding))
                 self._textedits.append(textedit)
                 self.resize(self.width(), self._height + 100000)
                 textedit.adjustSize()
@@ -249,6 +246,8 @@ class Bug(QtGui.QDialog):
         self.setModal(True)
         self.resize(600, 500)
         self._bug = bug
+        self._kwargs = kwargs
+        self._abort = True
         info = debbugs.get_report(int(bug.bug_num), None, **kwargs)
 
         self._description = QtGui.QLabel('Description:'+info[0].subject, self)
@@ -260,12 +259,26 @@ class Bug(QtGui.QDialog):
         self._scrollarea.show()
 
         self._buttonbox = QtGui.QDialogButtonBox(self)
+        self._button_openbrowser = QtGui.QPushButton('Open in browser',
+                self._buttonbox)
+        self._buttonbox.addButton(self._button_openbrowser,
+                self._buttonbox.ActionRole)
+        self._button_reply = QtGui.QPushButton('Reply', self._buttonbox)
+        self._buttonbox.addButton(self._button_reply,
+                self._buttonbox.ActionRole)
         self._buttonbox.addButton(self._buttonbox.Close)
         self._buttonbox.clicked.connect(self._on_button_click)
         self._buttonbox.show()
 
     def closeEvent(self, event):
-        self.parent()._selected_bug = None
+        if self._abort:
+            # User closed the window or pressed 'Cancel'
+            self.parent()._selected_bug = None
+        else:
+            # User clicked the 'reply' button
+            self._abort = False
+            self.parent()._abort = False
+            self.parent().close()
 
     def resizeEvent(self, event):
         (x, y) = (self.width(), self.height()) # shortcuts
@@ -275,11 +288,17 @@ class Bug(QtGui.QDialog):
         self._scrollarea.move(0, self._description.height())
         self._scrollarea.resize(x,
                 y - (self._buttonbox.height()+self._description.height()))
-        #self._scrollarea.widget().resize(self._scrollarea.size())
 
     def _on_button_click(self, button):
-        button = self._buttonbox.standardButton(button)
-        if button == self._buttonbox.Close:
+        standardbutton = self._buttonbox.standardButton(button)
+        if standardbutton == self._buttonbox.Close:
+            self.close()
+        elif button == self._button_openbrowser:
+            launch_browser(debbugs.get_report_url(self._kwargs['system'],
+                int(self._bug.bug_num), self._kwargs['mirrors'] or None,
+                self._kwargs['archived'] or None))
+        elif button == self._button_reply:
+            self._abort = False
             self.close()
 
 
@@ -370,6 +389,8 @@ class BugList(QtGui.QDialog):
 
     def exec_(self):
         super(BugList, self).exec_()
+        print repr(self._abort)
+        print repr(self._selected_bug)
         if self._abort: # Should not happen
             exit_dialog()
         elif self._selected_bug is None:
@@ -435,6 +456,7 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
     # with: "RuntimeError: underlying C/C++ object has been deleted"
     bug = BugList(win, report, {'mirrors': mirrors, 'http_proxy': http_proxy,
             'archived': archived, 'system': bts}).exec_()
+    print repr(bug)
     assert bug is None or isinstance(bug, debbugs.debianbts.Bugreport)
     return bug
 
