@@ -42,6 +42,8 @@ def log_message(message, *args):
         print message
     else:
         win.log_message(message)
+display_report = log_message
+final_message = log_message
 
 def display_failure(message, *args):
     if args:
@@ -114,6 +116,7 @@ def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=Fa
     prompt = textwrap.fill(prompt)
     while not ok:
         dialog = QtGui.QInputDialog(win)
+        dialog.setTextValue(default)
         dialog.setWindowTitle(title or '')
         dialog.setLabelText(prompt)
         if dialog.exec_():
