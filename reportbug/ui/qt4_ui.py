@@ -1,8 +1,7 @@
-# a graphical (GTK+) user interface
-#   Written by Luca Bruno <lethalman88@gmail.com>
-#   Based on gnome-reportbug work done by Philipp Kern <pkern@debian.org>
-#   Copyright (C) 2006 Philipp Kern
-#   Copyright (C) 2008-2009 Luca Bruno
+# a graphical (Qt4) user interface
+#   Written by Valentin Lorentz <progval@progval.net>
+#   Based on the GTK+ interface by Luca Bruno <lethalman88@gmail.com>
+#   Copyright (C) 2012 Valentin Lorentz
 #
 # This program is freely distributable per the following license:
 #
